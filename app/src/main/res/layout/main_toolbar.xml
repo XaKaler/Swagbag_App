@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/mainToolbar"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/imgToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:padding="@dimen/screen_horizontal_padding"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/fragment_search"
+        app:srcCompat="@drawable/ic_hameburger_big_small_big"
+        app:tint="@color/day_Nickel_night_Dark_white" />
+
+
+    <ImageView
+        android:id="@+id/fragment_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/screen_padding_15"
+        android:paddingVertical="@dimen/screen_horizontal_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_notificaiton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search"
+         />
+
+        <ImageView
+            android:id="@+id/fragment_notificaiton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/screen_padding_15"
+            android:paddingVertical="@dimen/screen_horizontal_padding"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_wishtlist_without_product"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_notification_bell"
+             />
+
+    <ImageView
+        android:id="@+id/fragment_wishtlist_without_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/white"
+        android:padding="@dimen/screen_horizontal_padding"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_shopping_beg_with_product"
+        app:layout_constraintTop_toTopOf="@+id/fragment_shopping_beg_with_product"
+        app:srcCompat="@drawable/ic_heart" />
+
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/fragment_shopping_beg_with_product"
+        android:layout_width="wrap_content"
+        app:tint="@color/white"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="@dimen/screen_horizontal_padding"
+        app:srcCompat="@drawable/ic_shopping_bag" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/fragment_wishtlist_without_product"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            style="@style/roboto_medium_24_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_between_view_and_subview"
+            android:fontFamily="@font/rasa_bold"
+            android:text="@string/app_name"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/toobarIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/toobarIcon"
+            android:layout_width="@dimen/home_page_logo_size"
+            android:layout_height="@dimen/home_page_logo_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/home_nav_icon_foreground" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/singlePrdouct"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/screen_margin_5"
+    android:background="@drawable/rec_outline_0"
+    android:paddingBottom="@dimen/screen_padding_5">
+
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/product_image_height"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dimen_1"
+        android:src="@mipmap/navigation_header_user_img_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBrandName"
+        style="@style/autowide_normal_10_state_green"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_margin_10"
+        android:layout_marginTop="@dimen/space_between_view_and_subview_5"
+        android:maxLines="1"
+        android:text="@string/verganan"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgProduct" />
+
+    <TextView
+        android:id="@+id/tvProductName"
+        style="@style/snigiet_normal_10_sonic_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_margin_10"
+        android:layout_marginTop="@dimen/space_between_view_and_subview_5"
+        android:maxLines="1"
+        android:text="Hello world"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBrandName" />
+
+    <TextView
+        android:id="@+id/tvProductPrice"
+        style="@style/roboto_normal_12_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/screen_margin_10"
+        android:layout_marginTop="@dimen/space_between_view_and_subview"
+        android:fontFamily="@font/roboto_medium"
+        android:text="5,999"
+        android:textAlignment="center"
+        android:textColor="@color/davys_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductName" />
+
+    <ImageView
+        android:id="@+id/imgWishlist"
+        android:layout_width="@dimen/wishlist_icon_size"
+        android:layout_height="@dimen/wishlist_icon_size"
+        android:layout_margin="@dimen/screen_margin_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/product_not_in_wishlist" />
+</androidx.constraintlayout.widget.ConstraintLayout>

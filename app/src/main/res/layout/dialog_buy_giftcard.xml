@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingBottom="@dimen/screen_horizontal_padding"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textView21"
+        style="@style/roboto_medium_14_davys_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/screen_padding_15"
+        android:text="Gift Card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:padding="@dimen/dialog_padding_15"
+        app:layout_constraintBottom_toBottomOf="@+id/textView21"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView21"
+        app:srcCompat="@drawable/ic_cross_sign_without_outline" />
+
+    <View
+        android:id="@+id/view10"
+        style="@style/line_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <ImageView
+        android:id="@+id/imgCoupon"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="@dimen/space_between_view_and_subview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view10"
+        app:srcCompat="@drawable/carpet" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout26"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_between_view_and_subview"
+        android:layout_marginStart="@dimen/screen_margin_15"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout271"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgCoupon">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="First Name"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout271"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/screen_margin_15"
+        app:layout_constraintBottom_toBottomOf="@+id/textInputLayout26"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textInputLayout26"
+        app:layout_constraintTop_toTopOf="@+id/textInputLayout26">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Last Name"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout27"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_between_view_and_subview"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout271"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout26"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout26">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout28"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_between_view_and_subview"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout27"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout27"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout27">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:id="@+id/edtPhone"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:hint="Phone Number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout29"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_between_view_and_subview"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout28"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout28"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout28">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Message (Optional)"
+            android:inputType="textMultiLine" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/btnProceedToPay"
+        style="@style/roboto_medium_18_davys_grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rec_light_red_background_5"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/space_between_view_and_subview_15"
+        android:paddingVertical="@dimen/screen_padding_10"
+        android:text="proceed to pay"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_14"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout29"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout29"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout29" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

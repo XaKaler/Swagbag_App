@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_5"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/dimen_5">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:padding="@dimen/dimen_10"
+        android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:background="@drawable/rec_cultured_white_5"
+        android:padding="@dimen/dimen_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderId">
+
+
+        <TextView
+            android:id="@+id/cancel"
+            style="@style/roboto_medium_12_davys_grey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dimen_5"
+            android:layout_marginTop="@dimen/space_between_view_and_subview_15"
+            android:paddingVertical="@dimen/dimen_7"
+            android:text=""
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtDeliveryDate" />
+
+        <TextView
+            android:id="@+id/view"
+            style="@style/roboto_medium_12_davys_grey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:background="@drawable/rec_white_5"
+            android:paddingVertical="@dimen/dimen_7"
+            android:text="View"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="@+id/cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cancel"
+            app:layout_constraintTop_toTopOf="@+id/cancel" />
+
+        <TextView
+            android:id="@+id/textView7"
+            style="@style/roboto_normal_12_sonic_silver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Date"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/textView146"
+            style="@style/roboto_normal_12_sonic_silver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="Amount"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/rupeeSign"
+            style="@style/roboto_medium_12_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Rs"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintBottom_toBottomOf="@+id/textView146"
+            app:layout_constraintStart_toStartOf="@+id/deliveryDate"
+            app:layout_constraintTop_toTopOf="@+id/textView146" />
+
+        <TextView
+            android:id="@+id/totalPrice"
+            style="@style/roboto_medium_12_davys_grey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="7555"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintBottom_toBottomOf="@+id/textView146"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rupeeSign"
+            app:layout_constraintTop_toTopOf="@+id/textView146" />
+
+        <TextView
+            android:id="@+id/orderDate"
+            style="@style/roboto_medium_12_davys_grey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="27 Dec 2022"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintBottom_toBottomOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/rupeeSign"
+            app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/txtDeliveryDate"
+            style="@style/roboto_normal_12_sonic_silver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="Delivery Date"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintStart_toStartOf="@+id/textView146"
+            app:layout_constraintTop_toBottomOf="@+id/textView146" />
+
+        <TextView
+            android:id="@+id/deliveryDate"
+            style="@style/roboto_medium_12_davys_grey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_between_view_and_subview_15"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="@+id/txtDeliveryDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtDeliveryDate"
+            app:layout_constraintTop_toTopOf="@+id/txtDeliveryDate" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/imageView60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/orderStatus"
+            app:srcCompat="@drawable/ic_cube_blue" />
+
+    <TextView
+        android:id="@+id/orderStatus"
+        style="@style/roboto_medium_14_davys_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_between_view_and_subview"
+        android:text="Order Confirmed"
+        android:textColor="@color/Paolo_Veronese_Green"
+        app:layout_constraintStart_toEndOf="@+id/imageView60"
+        app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/orderId"
+            style="@style/roboto_normal_12_sonic_silver"
+            android:textColor="@color/day_dark_liver_night_Spanish_Gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SB-1648780863"
+            app:layout_constraintStart_toStartOf="@+id/orderStatus"
+            app:layout_constraintTop_toBottomOf="@+id/orderStatus" />
+
+        <ImageView
+            android:id="@+id/cancelImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cross_sign" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/singleCategory"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/catIcon"
+            android:layout_marginHorizontal="@dimen/screen_horizontal_padding"
+            android:layout_marginVertical="@dimen/screen_padding_15"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_24"
+            android:src="@mipmap/ic_logo_main"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvCatName"
+            android:layout_marginStart="@dimen/screen_horizontal_padding"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/screen_padding_15"
+            android:text="@string/clothing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/catIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgCatArrow"
+            android:paddingHorizontal="@dimen/screen_horizontal_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/day_dim_grey_night_Dark_gray_x11"
+            android:src="@drawable/ic_bottom_arrow"
+            app:layout_constraintBottom_toBottomOf="@+id/tvCatName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvCatName" />
+
+        <!-- <View
+        android:id="@+id/view"
+        app:layout_constraintEnd_toEndOf="@+id/imgCatArrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCatName"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/horizontal_line_width"
+        android:layout_marginVertical="@dimen/dimen_10"
+        android:background="@color/horizontal_line_color" />-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCatSubMenu"
+        android:visibility="gone"
+        android:paddingHorizontal="@dimen/screen_horizontal_padding"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout15"
+        tools:listitem="@layout/single_category_drop_down_menu" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

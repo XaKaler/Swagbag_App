@@ -1,0 +1,900 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/home2">
+
+
+    <fragment
+        android:id="@+id/home2"
+        android:name="com.shopping.swagbag.home.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home"  >
+      <!--  <action
+            android:id="@+id/action_home2_to_searchFragment"
+            app:destination="@id/searchFragment" />-->
+        <action
+            android:id="@+id/action_home2_to_savedCardsWithCards"
+            app:destination="@id/savedCardsWithCards" />
+        <action
+            android:id="@+id/action_home2_to_productsFragment"
+            app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_home2_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menFragment"
+        android:name="com.shopping.swagbag.category.men.MenFragment"
+        android:label="fragment_men"
+        tools:layout="@layout/fragment_men" >
+        <action
+            android:id="@+id/action_menFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_menFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_menFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_menFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.shopping.swagbag.user.auth.signin.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_resetPassword"
+            app:destination="@id/resetPassword" />
+        <action
+            android:id="@+id/action_signInFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.shopping.swagbag.user.auth.signup.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_resetPassword"
+            app:destination="@id/resetPassword" />
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPassword"
+        android:name="com.shopping.swagbag.user.auth.resetpassword.ResetPassword"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" >
+        <action
+            android:id="@+id/action_resetPassword_to_verificationCodeFragment"
+            app:destination="@id/verificationCodeFragment">
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/verificationCodeFragment"
+        android:name="com.shopping.swagbag.user.auth.resetpassword.VerificationCodeFragment"
+        android:label="fragment_verification_code"
+        tools:layout="@layout/fragment_verification_code">
+        <action
+            android:id="@+id/action_verificationCodeFragment_to_createPasswordFragment"
+            app:destination="@id/createPasswordFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/createPasswordFragment"
+        android:name="com.shopping.swagbag.user.auth.resetpassword.CreatePasswordFragment"
+        android:label="fragment_create_password"
+        tools:layout="@layout/fragment_create_password" >
+        <action
+            android:id="@+id/action_createPasswordFragment_to_home2"
+            app:destination="@id/home2" />
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="otp"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.shopping.swagbag.notification.NotificationFragment"
+        android:label="fragment_notificaiton"
+        tools:layout="@layout/fragment_notificaiton" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.shopping.swagbag.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_media_and_storage_permission_dialog"
+            app:destination="@id/media_and_storage_permission_dialog" />
+        <action
+            android:id="@+id/action_searchFragment_to_dialogSearchCameraPermission"
+            app:destination="@id/dialogSearchCameraPermission" />
+        <action
+            android:id="@+id/action_searchFragment_to_dialogSearchUsing"
+            app:destination="@id/dialogSearchUsing" />
+        <action
+            android:id="@+id/action_searchFragment_to_search_using_microphone"
+            app:destination="@id/search_using_microphone" />
+        <action
+            android:id="@+id/action_searchFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
+
+    <dialog android:id="@+id/media_and_storage_permission_dialog"
+        tools:layout="@layout/dialog_search_media_permission">
+        <action
+            android:id="@+id/action_media_and_storage_permission_dialog_to_search_using_microphone"
+            app:destination="@id/search_using_microphone" />
+    </dialog>
+
+
+    <dialog android:id="@+id/search_using_microphone"
+        android:name="com.shopping.swagbag.search.DialogSearchUsingMicrophone"
+        tools:layout="@layout/dialog_search_using_microphone"/>
+
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.shopping.swagbag.category.CategoryFragment"
+        android:label="CategoryFragment"
+        tools:layout="@layout/fragment_category" >
+
+        <action
+            android:id="@+id/action_categoryFragment_to_womenFragment"
+            app:destination="@id/womenFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_kidsFragment"
+            app:destination="@id/kidsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_petsFragment"
+            app:destination="@id/petsFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_travelFragment"
+            app:destination="@id/travelFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_menFragment"
+            app:destination="@id/menFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shoppingBegWithoutProductFragment"
+        android:name="com.shopping.swagbag.user.shoppingbeg.withoutproduct.ShoppingBegWithoutProductFragment"
+        android:label="fragment_shopping_beg_without_product"
+        tools:layout="@layout/fragment_shopping_beg_without_product" >
+        <action
+            android:id="@+id/action_shoppingBegWithoutProductFragment_to_wishlistWithoutProductFragment"
+            app:destination="@id/wishlistWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishlistWithoutProductFragment"
+        android:name="com.shopping.swagbag.user.wishlist.withoutproduct.WishlistWithoutProductFragment"
+        android:label="fragment_wishtlist_without_product"
+        tools:layout="@layout/fragment_wishtlist_without_product" >
+        <action
+            android:id="@+id/action_wishlistWithoutProductFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_wishlistWithoutProductFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+        <action
+            android:id="@+id/action_wishlistWithoutProductFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedCardsWithoutCards"
+        android:name="com.shopping.swagbag.cards.savedcards.without_cards.SavedCardsWithoutCards"
+        android:label="fragment_saved_cards_without_cards"
+        tools:layout="@layout/fragment_saved_cards_without_cards" >
+        <action
+            android:id="@+id/action_savedCardsWithoutCards_to_addCardFragment"
+            app:destination="@id/addCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedCardsWithCards"
+        android:name="com.shopping.swagbag.cards.savedcards.with_cards.SavedCardsWithCards"
+        android:label="fragment_saved_cards_with_cards"
+        tools:layout="@layout/fragment_saved_cards_with_cards" >
+        <action
+            android:id="@+id/action_savedCardsWithCards_to_addCardFragment"
+            app:destination="@id/addCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCardFragment"
+        android:name="com.shopping.swagbag.cards.add_cards.AddCardFragment"
+        android:label="fragment_add_card"
+        tools:layout="@layout/fragment_add_card" >
+        <action
+            android:id="@+id/action_addCardFragment_to_savedCardsWithCards"
+            app:destination="@id/savedCardsWithCards" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shoppingBegWithProductFragment"
+        android:name="com.shopping.swagbag.user.shoppingbeg.withproduct.ShoppingBegWithProductFragment"
+        android:label="fragment_shopping_beg_with_product"
+        tools:layout="@layout/fragment_shopping_beg_with_product" >
+        <action
+            android:id="@+id/action_shoppingBegWithProductFragment_to_shoppingBegSelectAddressFragment"
+            app:destination="@id/shoppingBegSelectAddressFragment" />
+        <action
+            android:id="@+id/action_shoppingBegWithProductFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_shoppingBegWithProductFragment_self"
+            app:destination="@id/shoppingBegWithProductFragment" />
+        <action
+            android:id="@+id/action_shoppingBegWithProductFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wishlistWithProductFragment"
+        android:name="com.shopping.swagbag.user.wishlist.withproduct.WishlistWithProductFragment"
+        android:label="fragment_wishlist_with_product"
+        tools:layout="@layout/fragment_wishlist_with_product">
+        <action
+            android:id="@+id/action_wishlistWithProductFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+        <action
+            android:id="@+id/action_wishlistWithProductFragment_to_shoppingBegWithProductFragment"
+            app:destination="@id/shoppingBegWithProductFragment" />
+        <action
+            android:id="@+id/action_wishlistWithProductFragment_to_wishlistWithoutProductFragment"
+            app:destination="@id/wishlistWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.shopping.swagbag.products.ProductsFragment"
+        android:label="fragment_products"
+        tools:layout="@layout/fragment_products" >
+        <action
+            android:id="@+id/action_productsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+        <argument
+            android:name="productSearchParameters"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="com.shopping.swagbag.products.product_details.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+<!--
+        <argument
+            android:name="product"
+            app:argType="com.shopping.swagbag.products.product_details.ProductDetailModel" />-->
+
+        <action
+            android:id="@+id/action_productDetailsFragment_to_wishlistWithoutProductFragment"
+            app:destination="@id/wishlistWithoutProductFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+
+        <action
+            android:id="@+id/action_productDetailsFragment_to_productDetailsEMIPlansFragment"
+            app:destination="@id/productDetailsEMIPlansFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_shoppingBegWithProductFragment"
+            app:destination="@id/shoppingBegWithProductFragment" />
+        <argument
+            android:name="product_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_productDetailsSizeChart"
+            app:destination="@id/productDetailsSizeChart" />
+        <action
+            android:id="@+id/action_open_productDetails"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_self"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_productRatingFragment"
+            app:destination="@id/productRatingFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/shoppingBegSelectAddressFragment"
+        android:name="com.shopping.swagbag.user.shoppingbeg.withproduct.select_address.ShoppingBegSelectAddressFragment"
+        android:label="fragment_shopping_beg_select_address"
+        tools:layout="@layout/fragment_shopping_beg_select_address" >
+        <action
+            android:id="@+id/action_shoppingBegSelectAddressFragment_to_paymentModeFragment"
+            app:destination="@id/paymentModeFragment" />
+        <action
+            android:id="@+id/action_shoppingBegSelectAddressFragment_to_termsOfUsesFragment"
+            app:destination="@id/termsOfUsesFragment" />
+        <action
+            android:id="@+id/action_shoppingBegSelectAddressFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment" />
+        <action
+            android:id="@+id/action_shoppingBegSelectAddressFragment_to_addUserDetailsFragment"
+            app:destination="@id/addUserDetailsFragment" />
+        <action
+            android:id="@+id/action_shoppingBegSelectAddressFragment_to_editUserDetailFragment"
+            app:destination="@id/editUserDetailFragment" />
+
+        <action
+            android:id="@+id/action_shoppingBegSelectAddressFragment_to_addUserDetailFragment"
+            app:destination="@id/addUserDetailsFragment" />
+
+
+        <argument
+            android:name="CartData"
+            app:argType="com.shopping.swagbag.user.shoppingbeg.withproduct.GetCartModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewUserDetailsFragment"
+        android:name="com.shopping.swagbag.user.address.address_list.AllAddressFragment"
+        android:label="fragment_view_user_details"
+        tools:layout="@layout/fragment_all_address" >
+        <action
+            android:id="@+id/action_viewUserDetailsFragment_to_addUserDetailsFragment"
+            app:destination="@id/addUserDetailsFragment" />
+        <action
+            android:id="@+id/action_viewUserDetailsFragment_to_home2"
+            app:destination="@id/home2" />
+        <action
+            android:id="@+id/action_viewUserDetailsFragment_to_editUserDetailFragment"
+            app:destination="@id/editUserDetailFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/couponsFragment"
+        android:name="com.shopping.swagbag.coupons.CouponsFragment"
+        android:label="fragment_coupons"
+        tools:layout="@layout/fragment_coupons" >
+        <action
+            android:id="@+id/action_couponsFragment_to_dialogBuyCoupon"
+            app:destination="@id/dialogBuyGiftCard" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/returnOrderFragment"
+        android:name="com.shopping.swagbag.user.order.return_order.ReturnOrderFragment"
+        android:label="fragment_return_order"
+        tools:layout="@layout/fragment_return_order" >
+        <argument
+            android:name="order_products"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.shopping.swagbag.user.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+
+        <action
+            android:id="@+id/action_profileFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpCenterWithoutOrder"
+        android:name="com.shopping.swagbag.helpcenter.without_order.HelpCenterWithoutOrder"
+        android:label="fragment_help_center_without_order"
+        tools:layout="@layout/fragment_help_center_without_order" />
+    <fragment
+        android:id="@+id/contactUsFragment"
+        android:name="com.shopping.swagbag.contactus.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
+    <fragment
+        android:id="@+id/FAQsFragment"
+        android:name="com.shopping.swagbag.faq.FAQsFragment"
+        android:label="fragment_f_a_qs"
+        tools:layout="@layout/fragment_f_a_qs" />
+    <fragment
+        android:id="@+id/aboutUs"
+        android:name="com.shopping.swagbag.aboutus.AboutUs"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/termsOfUsesFragment"
+        android:name="com.shopping.swagbag.termsofuses.TermsOfUsesFragment"
+        android:label="fragment_terms_of_uses"
+        tools:layout="@layout/fragment_terms_of_uses" />
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.shopping.swagbag.privacypolicy.PrivacyPolicyFragment"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
+    <fragment
+        android:id="@+id/helpCenterPaymentRefundQueries"
+        android:name="com.shopping.swagbag.helpcenter.payment_refund.HelpCenterPaymentRefundQueries"
+        android:label="fragment_help_center_payment_refund_queries"
+        tools:layout="@layout/fragment_help_center_payment_refund_queries" />
+    <fragment
+        android:id="@+id/womenFragment"
+        android:name="com.shopping.swagbag.category.women.WomenFragment"
+        android:label="fragment_women"
+        tools:layout="@layout/fragment_women" >
+        <action
+            android:id="@+id/action_womenFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_womenFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_womenFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+        <action
+            android:id="@+id/action_womenFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/kidsFragment"
+        android:name="com.shopping.swagbag.category.kids.KidsFragment"
+        android:label="fragment_kids"
+        tools:layout="@layout/fragment_kids" >
+        <action
+            android:id="@+id/action_kidsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_kidsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_kidsFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+       <action
+            android:id="@+id/action_kidsFragment_to_shoppingBegWithoutProductFragment2"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/petsFragment"
+        android:name="com.shopping.swagbag.category.pets.PetsFragment"
+        android:label="fragment_pets"
+        tools:layout="@layout/fragment_pets" >
+        <action
+            android:id="@+id/action_petsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_petsFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_petsFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_petsFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/travelFragment"
+        android:name="com.shopping.swagbag.category.travel.TravelFragment"
+        android:label="fragment_travel"
+        tools:layout="@layout/fragment_travel" >
+        <action
+            android:id="@+id/action_travelFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_travelFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_travelFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_travelFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.shopping.swagbag.category.home.HomeFragment"
+        android:label="fragment_home_category"
+        tools:layout="@layout/fragment_home_category" >
+        <action
+            android:id="@+id/action_homeFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_wishlistWithProductFragment"
+            app:destination="@id/wishlistWithProductFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shoppingBegWithoutProductFragment"
+            app:destination="@id/shoppingBegWithoutProductFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialogSearchCameraPermission"
+        android:name="com.shopping.swagbag.search.DialogSearchCameraPermission"
+        android:label="dialog_search_camera_permission"
+        tools:layout="@layout/dialog_search_camera_permission" />
+    <dialog
+        android:id="@+id/dialogSearchUsing"
+        android:name="com.shopping.swagbag.search.DialogSearchUsingImage"
+        android:label="DialogSearchUsing"
+        tools:layout="@layout/dialog_search_using_image"/>
+    <fragment
+        android:id="@+id/paymentModeFragment"
+        android:name="com.shopping.swagbag.user.shipping.checkout.CheckoutFragment"
+        android:label="fragment_payment_mode"
+        tools:layout="@layout/fragment_payment_mode" >
+        <action
+            android:id="@+id/action_paymentModeFragment_to_orderConfirmedFragment"
+            app:destination="@id/orderConfirmedFragment" />
+        <action
+            android:id="@+id/action_paymentModeFragment_to_viewOrderDetails"
+            app:destination="@id/viewOrderDetails" />
+        <argument
+            android:name="CartData"
+            app:argType="com.shopping.swagbag.user.shoppingbeg.withproduct.GetCartModel" />
+        <argument
+            android:name="Address"
+            app:argType="com.shopping.swagbag.user.address.address_list.AllAddressModel$Result" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderConfirmedFragment"
+        android:name="com.shopping.swagbag.user.shipping.order.OrderConfirmedFragment"
+        android:label="fragment_order_confirmed"
+        tools:layout="@layout/fragment_order_confirmed" >
+        <action
+            android:id="@+id/action_orderConfirmedFragment_to_orderWithItemsFragment"
+            app:destination="@id/orderWithItemsFragment" />
+        <action
+            android:id="@+id/action_orderConfirmedFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderWithItemsFragment"
+        android:name="com.shopping.swagbag.user.order.with_items.OrderFragment"
+        android:label="fragment_order_with_items"
+        tools:layout="@layout/fragment_order_with_items" >
+        <action
+            android:id="@+id/action_orderWithItemsFragment_to_viewItemDetailsFragment"
+            app:destination="@id/viewItemDetailsFragment" />
+        <action
+            android:id="@+id/action_orderWithItemsFragment_to_cancellationOrderFragment"
+            app:destination="@id/cancellationOrderFragment" />
+        <action
+            android:id="@+id/action_orderWithItemsFragment_to_viewOrderDetails"
+            app:destination="@id/viewOrderDetails" />
+        <action
+            android:id="@+id/action_orderWithItemsFragment_to_returnOrderFragment"
+            app:destination="@id/returnOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewOrderDetails"
+        android:name="com.shopping.swagbag.user.shipping.order.ViewOrderDetails"
+        android:label="fragment_view_order_details"
+        tools:layout="@layout/fragment_view_order_details" >
+        <action
+            android:id="@+id/action_viewOrderDetails_to_getInvoiceFragment"
+            app:destination="@id/getInvoiceFragment" />
+        <action
+            android:id="@+id/action_viewOrderDetails_to_viewItemDetailsFragment"
+            app:destination="@id/viewItemDetailsFragment" />
+       <!-- <argument
+            android:name="orderItems"
+            app:argType="com.shopping.swagbag.user.order.with_items.OrderModel$OrderModelItem" />
+        --><argument
+            android:name="stringProducts"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/getInvoiceFragment"
+        android:name="com.shopping.swagbag.user.shipping.GetInvoiceFragment"
+        android:label="fragment_get_invoice"
+        tools:layout="@layout/fragment_get_invoice" >
+         <action
+            android:id="@+id/action_getInvoiceFragment_to_helpCenterWithoutOrder"
+            app:destination="@id/helpCenterWithoutOrder" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewItemDetailsFragment"
+        android:name="com.shopping.swagbag.user.shipping.order.ViewItemDetailsFragment"
+        android:label="fragment_view_item_details"
+        tools:layout="@layout/fragment_view_item_details" >
+        <action
+            android:id="@+id/action_viewItemDetailsFragment_to_helpCenterWithOrderFragment"
+            app:destination="@id/helpCenterWithOrderFragment" />
+        <argument
+            android:name="product"
+            app:argType="com.shopping.swagbag.user.order.with_items.OrderModel$OrderModelItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpCenterWithOrderFragment"
+        android:name="com.shopping.swagbag.helpcenter.with_order.HelpCenterWithOrderFragment"
+        android:label="fragment_help_center_with_order"
+        tools:layout="@layout/fragment_help_center_with_order" >
+        <argument
+            android:name="product"
+            app:argType="com.shopping.swagbag.user.order.with_items.OrderModel$OrderModelItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderWithoutItemsFragment"
+        android:name="com.shopping.swagbag.user.order.without_items.OrderWithoutItemsFragment"
+        android:label="fragment_order_without_items"
+        tools:layout="@layout/fragment_order_without_items" >
+        <action
+            android:id="@+id/action_orderWithoutItemsFragment_to_wishlistWithoutProductFragment"
+            app:destination="@id/wishlistWithoutProductFragment" />
+        <action
+            android:id="@+id/action_orderWithoutItemsFragment_to_cancellationOrderFragment"
+            app:destination="@id/cancellationOrderFragment" />
+        <action
+            android:id="@+id/action_orderWithoutItemsFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addUserDetailsFragment"
+        android:name="com.shopping.swagbag.user.address.add_address.AddAddressFragment"
+        android:label="fragment_add_user_details"
+        tools:layout="@layout/fragment_add_address" >
+        <action
+            android:id="@+id/action_addUserDetailsFragment_to_viewUserDetailsFragment"
+            app:destination="@id/viewUserDetailsFragment" />
+        <argument
+            android:name="address"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/cancellationOrderFragment"
+        android:name="com.shopping.swagbag.user.order.cancel_order.CancellationOrderFragment"
+        android:label="fragment_cancellation_order"
+        tools:layout="@layout/fragment_cancellation_order" >
+        <action
+            android:id="@+id/action_cancellationOrderFragment_to_cancellationOrderCancelledFragment"
+            app:destination="@id/cancellationOrderCancelledFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cancellationOrderCancelRequestFragment"
+        android:name="com.shopping.swagbag.user.order.cancel_order.CancellationOrderCancelRequestFragment"
+        android:label="CancellationOrderCancelRequestFragment"
+        tools:layout="@layout/fragment_cancellation_order_cancel_request"/>
+    <fragment
+        android:id="@+id/cancellationOrderCancelledFragment"
+        android:name="com.shopping.swagbag.user.order.cancel_order.CancellationOrderCancelledFragment"
+        android:label="fragment_cancellation_order_cancelled"
+        tools:layout="@layout/fragment_cancellation_order_cancelled" >
+        <action
+            android:id="@+id/action_cancellationOrderCancelledFragment_to_home2"
+            app:destination="@id/home2" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsSizeChart"
+        android:name="com.shopping.swagbag.products.product_details.ProductDetailsSizeChart"
+        android:label="fragment_product_details_size_chart"
+        tools:layout="@layout/fragment_product_details_size_chart" >
+        <argument
+            android:name="product"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsEMIPlansFragment"
+        android:name="com.shopping.swagbag.products.product_details.emi_plans.ProductDetailsEMIPlansFragment"
+        android:label="fragment_product_details_e_m_i_plans"
+        tools:layout="@layout/fragment_product_details_e_m_i_plans" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.shopping.swagbag.products.filter.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+
+    <action android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment" />
+
+    <action android:id="@+id/action_global_notificationFragment"
+        app:destination="@id/notificationFragment"/>
+
+    <action android:id="@+id/action_global_home2"
+        app:destination="@id/home2" />
+
+    <action android:id="@+id/action_global_orderWithoutItemsFragment"
+        app:destination="@id/orderWithoutItemsFragment" />
+
+    <action android:id="@+id/action_global_categoryFragment"
+        app:destination="@id/categoryFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    <action android:id="@+id/action_global_wishlistWithoutProductFragment" app:destination="@id/wishlistWithoutProductFragment" />
+
+    <action android:id="@+id/action_global_viewUserDetailsFragment" app:destination="@id/viewUserDetailsFragment" />
+
+    <action android:id="@+id/action_global_couponsFragment" app:destination="@id/couponsFragment" />
+
+    <action android:id="@+id/action_global_signInFragment" app:destination="@id/signInFragment" />
+
+    <action android:id="@+id/action_global_helpCenterWithoutOrder" app:destination="@id/helpCenterWithoutOrder" />
+
+    <action android:id="@+id/action_global_FAQsFragment" app:destination="@id/FAQsFragment" />
+
+    <action android:id="@+id/action_global_aboutUs" app:destination="@id/aboutUs" />
+
+    <action android:id="@+id/action_global_contactUsFragment" app:destination="@id/contactUsFragment" />
+
+    <action android:id="@+id/action_global_termsOfUsesFragment" app:destination="@id/termsOfUsesFragment" />
+
+    <action android:id="@+id/action_global_privacyPolicyFragment" app:destination="@id/privacyPolicyFragment" />
+
+    <action android:id="@+id/action_global_shoppingBegWithProductFragment" app:destination="@id/shoppingBegWithProductFragment"/>
+
+    <action
+        android:id="@+id/action_global_menFragment"
+        app:destination="@id/menFragment" />
+
+    <action
+        android:id="@+id/action_global_womenFragment"
+        app:destination="@id/womenFragment" />
+
+    <action
+        android:id="@+id/action_global_kidsFragment"
+        app:destination="@id/kidsFragment" />
+    <action
+        android:id="@+id/action_global_petsFragment"
+        app:destination="@id/petsFragment" />
+
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment" />
+
+    <action
+        android:id="@+id/action_global_travelFragment"
+        app:destination="@id/travelFragment" />
+    <action
+        android:id="@+id/action_global_profileFragment"
+        app:destination="@id/profileFragment" />
+    <fragment
+        android:id="@+id/brandFragment"
+        android:name="com.shopping.swagbag.brand.BrandFragment"
+        android:label="fragment_brand"
+        tools:layout="@layout/fragment_brand" >
+        <action
+            android:id="@+id/action_brandFragment_to_brandDetailFragment"
+            app:destination="@id/brandDetailFragment" />
+    </fragment>
+
+    <action android:id="@+id/action_global_brandFragment"
+        app:destination="@id/brandFragment"/>
+    <fragment
+        android:id="@+id/editUserDetailFragment"
+        android:name="com.shopping.swagbag.user.address.edit_address.EditAddressFragment"
+        android:label="fragment_edit_user_detail"
+        tools:layout="@layout/fragment_edit_address">
+
+        <argument
+            android:name="address"
+            app:argType="string"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/particularCategoryFragment"
+        android:name="com.shopping.swagbag.category.ParticularCategoryFragment"
+        android:label="fragment_particular_category"
+        tools:layout="@layout/fragment_particular_category">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_particularCategoryFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_particularCategoryFragment"
+        app:destination="@id/particularCategoryFragment" />
+    <action
+        android:id="@+id/action_global_productDetailsFragment"
+        app:destination="@id/productDetailsFragment" />
+    <action
+        android:id="@+id/action_global_wishlistWithProductFragment"
+        app:destination="@id/wishlistWithProductFragment" /><action
+
+    android:id="@+id/action_global_orderWithItemsFragment"
+    app:destination="@id/orderWithItemsFragment" />
+    <action
+        android:id="@+id/action_global_productsFragment"
+        app:destination="@id/productsFragment" />
+    <fragment
+        android:id="@+id/productRatingFragment"
+        android:name="com.shopping.swagbag.products.product_details.ProductRatingFragment"
+        android:label="fragment_product_rating"
+        tools:layout="@layout/fragment_product_rating">
+        <argument
+            android:name="product"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.shopping.swagbag.account.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_myAccountFragment"
+            app:destination="@id/myAccountFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_accountFragment"
+        app:destination="@id/accountFragment" />
+    <fragment
+        android:id="@+id/myAccountFragment"
+        android:name="com.shopping.swagbag.account.myaccount.MyAccountFragment"
+        android:label="fragment_my_account"
+        tools:layout="@layout/fragment_my_account" >
+        <action
+            android:id="@+id/action_myAccountFragment_to_communicationPreferencesFragment"
+            app:destination="@id/communicationPreferencesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/communicationPreferencesFragment"
+        android:name="com.shopping.swagbag.account.communication.CommunicationPreferencesFragment"
+        android:label="fragment_communication_preferences"
+        tools:layout="@layout/fragment_communication_preferences" />
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="com.shopping.swagbag.user.wallet.WalletFragment"
+        android:label="fragment_wallet"
+        tools:layout="@layout/fragment_wallet" />
+    <dialog
+        android:id="@+id/dialogBuyGiftCard"
+        tools:layout="@layout/dialog_buy_giftcard"
+        android:name="com.shopping.swagbag.coupons.DialogBuyGiftCard"
+        android:label="DialogBuyGiftCard" >
+        <argument
+            android:name="coupon"
+            app:argType="string" />
+    </dialog>
+    <fragment
+        android:id="@+id/brandDetailFragment"
+        android:name="com.shopping.swagbag.brand.details.BrandDetailFragment"
+        android:label="fragment_brand_detail"
+        tools:layout="@layout/fragment_brand_detail" >
+        <argument
+            android:name="brand"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

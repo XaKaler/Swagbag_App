@@ -1,0 +1,48 @@
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:background="@drawable/rec_outline_5">
+
+
+    <TextView
+        android:id="@+id/tvTag"
+        style="@style/roboto_normal_12_sonic_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tops"
+        android:padding="@dimen/screen_padding_5"
+        android:textColor="@color/day_dark_liver_night_Spanish_Gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_margin="2dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rec_outline_5"
+    app:flexWrap="wrap"
+    app:alignItems="stretch"
+    app:alignContent="stretch" >
+
+    <TextView
+        android:id="@+id/tvTag"
+        style="@style/roboto_normal_12_sonic_silver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tops"
+        android:padding="@dimen/screen_padding_5"
+        android:textColor="@color/day_dark_liver_night_Spanish_Gray" />
+
+</com.google.android.flexbox.FlexboxLayout>
