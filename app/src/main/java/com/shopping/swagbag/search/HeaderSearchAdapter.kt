@@ -17,7 +17,7 @@ import com.shopping.swagbag.products.ProductsFragmentDirections
 
 class HeaderSearchAdapter(
     private val context: Context,
-    private val data: List<HeaderSearchModel.Result.Product>,
+    private val data: List<MobileProductSearchModel.Result>,
     private val itemClick: RecycleViewItemClick
 ) :
     RecyclerView.Adapter<HeaderSearchAdapter.ProductViewHolder>() {
@@ -25,7 +25,7 @@ class HeaderSearchAdapter(
     inner class ProductViewHolder(private val viewBinding: SingleProductBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bind(singleData: HeaderSearchModel.Result.Product, position: Int, itemClick: RecycleViewItemClick){
+        fun bind(singleData: MobileProductSearchModel.Result, position: Int, itemClick: RecycleViewItemClick){
             with(viewBinding){
                 //for(singleProductResult in singleData.product){
                     //Log.e("search", "search product: $singleProductResult", )
@@ -35,7 +35,7 @@ class HeaderSearchAdapter(
 
                     // set text
                     tvProductName.text = singleData.name
-                    tvBrandName.text = singleData.brand
+                    tvBrandName.text = singleData.brand.name
                     tvProductPrice.text = "${context.getString(R.string.Rs)} ${singleData.price}"
                     //tvProductPriceBeforeDiscount.text = singleData.price
 

@@ -27,6 +27,8 @@ class ProductRepository(private val api: ProductApi) : BaseRepository() {
 
     suspend fun headerSearch(search: String) = safeApiCall { api.headerSearch(search) }
 
+    suspend fun productSearch(search: String) = safeApiCall { api.productSearch(search) }
+
     suspend fun addToWishlist(
         productId: String,
         userId: String

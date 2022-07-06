@@ -41,7 +41,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
     private lateinit var productMenuBinding: LytProductMenuBinding
     private lateinit var searchBarBinding: SearchBarBinding
     private lateinit var searchBar: EditText
-    private lateinit var searchProduct: HeaderSearchModel
+    private lateinit var searchProduct: MobileProductSearchModel
     private val masterCategoryList = ArrayList<String>()
     private var currentMasterCategory = ""
     private var currentMasterCategoryItems = ArrayList<HeaderSearchModel.Result.Product>()
@@ -96,7 +96,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
     }
 
     private fun productSearch(userSearch: String) {
-        viewModel.headerSearch(userSearch)
+        viewModel.productSearch(userSearch)
             .observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Loading -> showLoading()
@@ -110,7 +110,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                             viewBinding.lytSearchBar.root.visibility = View.GONE
                             viewBinding.includeProductMenu.root.visibility = View.VISIBLE*/
 
-                            //separate data
+                           /* //separate data
                             masterCategoryList.clear()
                             productMap.clear()
                             for (singleResult in searchProduct.result) {
@@ -124,7 +124,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                                 productMap[currentMasterCategory]!! as ArrayList
 
                             //when user click on master category then show him a list dialog
-                            //after click on any item in list then show related result
+                            //after click on any item in list then show related result*/
                             setProductMenu()
                             showSearchResult(currentMasterCategoryItems)
                         }
@@ -170,7 +170,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                 }
             }
 
-            //set master category list
+            /*//set master category list
             masterCategoryName.setOnClickListener {
                 openListDialog(
                     masterCategoryName,
@@ -186,7 +186,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                         }
                     }
                 }
-            }
+            }*/
 
             //filter
             tvFilter.setOnClickListener {
@@ -219,7 +219,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
             rvSearchProducts.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 addItemDecoration(GridSpaceItemDecoration(5))
-                adapter = HeaderSearchAdapter(context, product, object : RecycleViewItemClick {
+                adapter = HeaderSearchAdapter(context, searchProduct.result, object : RecycleViewItemClick {
                     override fun onItemClickWithName(name: String, position: Int) {
                         val action =
                             SearchFragmentDirections.actionGlobalProductDetailsFragment(name)

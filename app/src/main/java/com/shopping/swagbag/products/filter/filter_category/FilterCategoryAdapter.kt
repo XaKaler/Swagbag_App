@@ -20,7 +20,7 @@ class FilterCategoryAdapter(
 
             fun bind(singleData: DummyModel){
                 with(viewBinding){
-                    checkBox.text = singleData.name
+                    //checkBox.text = singleData.name
                 }
             }
     }

@@ -325,11 +325,14 @@ class DummyData {
     }
 
     fun getProductFilter(): List<ProductFilter>{
-        productFilter.add(ProductFilter("Size"))
+        productFilter.add(ProductFilter("Filter by keyword"))
+        productFilter.add(ProductFilter("Filter with Deal"))
+        productFilter.add(ProductFilter("All Categories"))
+        productFilter.add(ProductFilter("Filter by Price"))
+        productFilter.add(ProductFilter("Brands"))
         productFilter.add(ProductFilter("Color"))
-        productFilter.add(ProductFilter("Brand"))
-        productFilter.add(ProductFilter("Category"))
-        productFilter.add(ProductFilter("Price Range"))
+        productFilter.add(ProductFilter("Size"))
+        productFilter.add(ProductFilter("Colour"))
 
         return productFilter
     }

@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/singlePrdouct"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/screen_margin_5"
     android:background="@drawable/rec_outline_0"
@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/imgProduct"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/product_image_height"
         android:layout_gravity="center"
         android:layout_margin="@dimen/dimen_1"
@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/tvBrandName"
         style="@style/autowide_normal_10_state_green"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_margin_10"
         android:layout_marginTop="@dimen/space_between_view_and_subview_5"
@@ -37,11 +37,12 @@
     <TextView
         android:id="@+id/tvProductName"
         style="@style/snigiet_normal_10_sonic_silver"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_margin_10"
         android:layout_marginTop="@dimen/space_between_view_and_subview_5"
-        android:maxLines="1"
+        android:maxLines="2"
+        android:minLines="2"
         android:text="Hello world"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +52,7 @@
     <TextView
         android:id="@+id/tvProductPrice"
         style="@style/roboto_normal_12_white"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_margin_10"
         android:layout_marginTop="@dimen/space_between_view_and_subview"

@@ -18,6 +18,7 @@ import com.shopping.swagbag.dummy.DummyData
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductViewModel
 import com.shopping.swagbag.products.ProductViewModelFactory
+import com.shopping.swagbag.products.filter.FilterModel
 import com.shopping.swagbag.products.filter.ProductFilterAdapter
 import com.shopping.swagbag.products.filter.filter_size.FilterSizeFragment
 import com.shopping.swagbag.service.RemoteDataSource
@@ -28,6 +29,7 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
 
     private lateinit var viewBinding: FragmentFilterBinding
     private lateinit var productViewModel: ProductViewModel
+    private lateinit var categoryFilter: FilterModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,6 +77,8 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
             when(it){
                 is Resource.Loading -> {}
                 is Resource.Success -> {
+                    categoryFilter = it.value
+                    setFilterList()
                     //Log.e("filter", it.value.toString())
                 }
                 is Resource.Failure -> {
@@ -82,15 +86,6 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
                 }
             }
         }
-    }
-
-    private fun setFirstFilter() {
-        val transaction: FragmentTransaction? = fragmentManager?.beginTransaction()
-        transaction?.replace(R.id.filterFrameLayout, FilterSizeFragment())
-        transaction?.addToBackStack(null)
-        transaction?.commit()
-
-        //fragmentManager.beginTransaction().attach()
     }
 
     private fun setFilterList() {

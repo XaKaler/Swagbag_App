@@ -14,6 +14,7 @@ import com.shopping.swagbag.products.product_details.ProductDetailModel
 import com.shopping.swagbag.products.product_details.ProductReviewModel
 import com.shopping.swagbag.products.product_details.UpdateCartModel
 import com.shopping.swagbag.search.HeaderSearchModel
+import com.shopping.swagbag.search.MobileProductSearchModel
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.user.order.return_order.ReturnModel
 import com.shopping.swagbag.user.order.with_items.CancelOrderModel
@@ -113,6 +114,17 @@ class ProductViewModel(
         viewModelScope.launch {
             result.value = Resource.Loading
             result.value = repository.headerSearch(search)
+        }
+
+        return result
+    }
+
+    fun productSearch(search: String): LiveData<Resource<MobileProductSearchModel>>{
+        val result = MutableLiveData<Resource<MobileProductSearchModel>>()
+
+        viewModelScope.launch {
+            result.value = Resource.Loading
+            result.value = repository.productSearch(search)
         }
 
         return result

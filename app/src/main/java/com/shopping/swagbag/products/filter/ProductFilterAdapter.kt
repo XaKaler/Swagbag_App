@@ -31,23 +31,6 @@ class ProductFilterAdapter(
             fun bind(singleData: ProductFilter, itemClick: RecycleViewItemClick, position: Int){
                 with(viewBinding){
                     filterName.text = singleData.filterName
-
-                    // set background color if option is selected
-                    if(selectedPosition == position){
-                        singleFilter.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
-                    }
-                    else{
-                        singleFilter.setBackgroundColor(ContextCompat.getColor(context, R.color.cultured))
-                    }
-
-                    //when user click on filter button
-                    singleFilter.setOnClickListener{
-                        itemClick.onItemClickWithName(singleData.filterName, position)
-                        selectedPosition = position
-                        notifyDataSetChanged()
-                    }
-
-                    Log.e("filter", "filter name: ${singleData.filterName}", )
                 }
             }
 

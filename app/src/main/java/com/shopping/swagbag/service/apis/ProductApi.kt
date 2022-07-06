@@ -10,6 +10,7 @@ import com.shopping.swagbag.products.product_details.ProductDetailModel
 import com.shopping.swagbag.products.product_details.ProductReviewModel
 import com.shopping.swagbag.products.product_details.UpdateCartModel
 import com.shopping.swagbag.search.HeaderSearchModel
+import com.shopping.swagbag.search.MobileProductSearchModel
 import com.shopping.swagbag.user.order.return_order.ReturnModel
 import com.shopping.swagbag.user.order.with_items.CancelOrderModel
 import com.shopping.swagbag.user.order.with_items.OrderModel
@@ -56,6 +57,11 @@ interface ProductApi {
     suspend fun headerSearch(
         @Query("s")search: String
     ):HeaderSearchModel
+
+    @GET("mobile-product-search")
+    suspend fun productSearch(
+        @Query("q")search: String
+    ): MobileProductSearchModel
 
     @FormUrlEncoded
     @POST("add-to-wish")
