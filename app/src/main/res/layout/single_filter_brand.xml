@@ -3,36 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingHorizontal="@dimen/screen_horizontal_padding"
-    android:paddingTop="@dimen/dimen_15"
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/checkBox"
-       style="@style/roboto_normal_14_sonic_silver"
-        android:textColor="@color/day_dark_liver_night_Spanish_Gray"
+        android:id="@+id/chBrand"
+        style="@style/roboto_normal_14_sonic_silver"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/space_between_views"
         android:text="Brand"
-        app:layout_constraintEnd_toStartOf="@+id/productCount"
+        android:textColor="@color/day_dark_liver_night_Spanish_Gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/productCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="45"
-        style="@style/roboto_normal_14_sonic_silver"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/checkBox" />
-
-    <View
-        android:id="@+id/view17"
-        style="@style/line_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 </androidx.constraintlayout.widget.ConstraintLayout>

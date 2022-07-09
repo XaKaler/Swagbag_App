@@ -1,34 +1,27 @@
-package com.shopping.swagbag.products.filter.filter_brand
+package com.shopping.swagbag.products.filter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shopping.swagbag.databinding.SingleFilterBrandBinding
-import com.shopping.swagbag.databinding.SingleFilterColorBinding
 import com.shopping.swagbag.dummy.DummyModel
 
 
 class FilterBrandAdapter(
     private val context: Context,
-    private val data: List<DummyModel>
+    private val data: List<FilterModel.Brand>
 ) :
     RecyclerView.Adapter<FilterBrandAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(private val viewBinding: SingleFilterBrandBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-            fun bind(singleData: DummyModel){
+            fun bind(singleData: FilterModel.Brand){
                 with(viewBinding){
-                    //sizeType.text = singleData.filterName
+                    chBrand.text = singleData.name
                 }
             }
-    }
-
-    private fun setButtonBackground(position: Int) {
-        for(i in data.indices){
-
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

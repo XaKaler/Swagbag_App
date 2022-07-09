@@ -1,8 +1,6 @@
 package com.shopping.swagbag.common.adapter
 
-import com.shopping.swagbag.common.FreeData
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

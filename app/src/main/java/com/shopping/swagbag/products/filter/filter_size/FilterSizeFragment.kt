@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.shopping.swagbag.R
 import com.shopping.swagbag.databinding.FragmentFilterSizeBinding
 import com.shopping.swagbag.dummy.DummyData
+import com.shopping.swagbag.products.filter.FilterSizeAdapter
 
 class FilterSizeFragment : Fragment(R.layout.fragment_filter_size) {
 
@@ -31,7 +32,7 @@ class FilterSizeFragment : Fragment(R.layout.fragment_filter_size) {
         with(viewBinding){
             rvSize.apply{
                 layoutManager = LinearLayoutManager(context)
-                adapter = DummyData().getProductSize().let { FilterSizeAdapter(context, it) }
+                //adapter = DummyData().getProductSize().let { FilterSizeAdapter(context, it) }
             }
         }
     }

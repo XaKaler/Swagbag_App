@@ -34,6 +34,7 @@ class ProductsFragment : BaseFragment<
     private lateinit var productSearchParameters: ProductSearchParameters
     private lateinit var appUtils: AppUtils
     private lateinit var products: ArrayList<ProductSearchModel.Result>
+    private lateinit var filterDialog: BottomFilterDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,6 +55,7 @@ class ProductsFragment : BaseFragment<
             getProducts()
 
         setProductMenu()
+        filterDialog = BottomFilterDialog(productSearchParameters.master)
         appUtils = context?.let { AppUtils(it) }!!
     }
 
@@ -92,7 +94,7 @@ class ProductsFragment : BaseFragment<
             //filter product according to master category
             tvFilter.setOnClickListener {
                 //context?.let { it1 -> Dialogs(it1, layoutInflater).showFilterBottomSheetDialog(productSearchParameters.master) }
-                BottomFilterDialog(productSearchParameters.master).show(childFragmentManager, "filter")
+                filterDialog.show(childFragmentManager, "filter")
             }
         }
     }

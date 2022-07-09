@@ -5,22 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.databinding.FragmentFilterBinding
 import com.shopping.swagbag.dummy.DummyData
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductViewModel
 import com.shopping.swagbag.products.ProductViewModelFactory
+import com.shopping.swagbag.products.filter.ExtraFilterModel
 import com.shopping.swagbag.products.filter.FilterModel
 import com.shopping.swagbag.products.filter.ProductFilterAdapter
-import com.shopping.swagbag.products.filter.filter_size.FilterSizeFragment
 import com.shopping.swagbag.service.RemoteDataSource
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.ProductApi
@@ -30,6 +28,8 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
     private lateinit var viewBinding: FragmentFilterBinding
     private lateinit var productViewModel: ProductViewModel
     private lateinit var categoryFilter: FilterModel
+    private var filterMap = mutableMapOf<String, Any>()
+    private lateinit var extraFilter: ExtraFilterModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,14 +72,42 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
         }
     }
 
+     private fun getExtraFilter() {
+        productViewModel.extraFilter().observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    extraFilter = it.value
+                    sortData()
+                }
+                is Resource.Failure -> {}
+            }
+        }
+    }
+
+    private fun sortData() {
+        //all categories
+        filterMap["All Categories"] = categoryFilter.category
+        filterMap["Brands"] = categoryFilter.brands
+
+        for(singleExtraFilter in extraFilter.result){
+            when(singleExtraFilter.name){
+                "Color" -> filterMap["Color"] = singleExtraFilter.value
+                "Size" -> filterMap["Size"] = singleExtraFilter.value
+                "Colour" -> filterMap["Colour"] = singleExtraFilter.value
+            }
+        }
+
+        setFilterList()
+    }
+
     private fun getCategoryFilter() {
-        productViewModel.getFilter(categoryName).observe(viewLifecycleOwner){
-            when(it){
+        productViewModel.getFilter(categoryName).observe(viewLifecycleOwner) {
+            when (it) {
                 is Resource.Loading -> {}
                 is Resource.Success -> {
                     categoryFilter = it.value
-                    setFilterList()
-                    //Log.e("filter", it.value.toString())
+                    getExtraFilter()
                 }
                 is Resource.Failure -> {
                     Log.e("filter", it.errorBody.toString())
@@ -95,6 +123,7 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
                 adapter = ProductFilterAdapter(
                     context,
                     DummyData().getProductFilter(),
+                    filterMap,
                     object : RecycleViewItemClick {
                         override fun onItemClickWithName(name: String, position: Int) {
                             Log.e("filter selected item", "item name is : $name")

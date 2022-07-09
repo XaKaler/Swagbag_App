@@ -1,33 +1,32 @@
 package com.shopping.swagbag.products.filter.filter_color
 
 import android.content.Context
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shopping.swagbag.databinding.SingleFilterColorBinding
-import com.shopping.swagbag.databinding.SingleFilterSizeBinding
-import com.shopping.swagbag.dummy.DummyModel
 
 
 class FilterColorAdapter(
     private val context: Context,
-    private val data: List<DummyModel>
+    private val data: List<String>
 ) :
     RecyclerView.Adapter<FilterColorAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(private val viewBinding: SingleFilterColorBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-            fun bind(singleData: DummyModel){
-                with(viewBinding){
-                    //sizeType.text = singleData.filterName
+        fun bind(singleData: String) {
+            with(viewBinding) {
+                Log.e("color : -> ", singleData)
+                try {
+                    imgColor.setBackgroundColor(Color.parseColor(singleData))
+                } catch (e: Exception) {
+                    Log.e("error is -> ", e.message.toString())
                 }
             }
-    }
-
-    private fun setButtonBackground(position: Int) {
-        for(i in data.indices){
-
         }
     }
 

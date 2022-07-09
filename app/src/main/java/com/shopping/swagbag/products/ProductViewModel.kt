@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.shopping.swagbag.brand.BrandModel
 import com.shopping.swagbag.brand.details.BrandDetailsModel
 import com.shopping.swagbag.home.HomeModel
+import com.shopping.swagbag.products.filter.ExtraFilterModel
 import com.shopping.swagbag.products.filter.FilterModel
 import com.shopping.swagbag.products.product_details.AddToCartModel
 import com.shopping.swagbag.products.product_details.ProductDetailModel
@@ -346,6 +347,17 @@ class ProductViewModel(
         viewModelScope.launch {
             result.value = Resource.Loading
             result.value = repository.getFilter(category)
+        }
+
+        return result
+    }
+
+    fun extraFilter(): LiveData<Resource<ExtraFilterModel>>{
+        val result = MutableLiveData<Resource<ExtraFilterModel>>()
+
+        viewModelScope.launch {
+            result.value = Resource.Loading
+            result.value = repository.extraFilter()
         }
 
         return result

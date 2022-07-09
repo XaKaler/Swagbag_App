@@ -17,7 +17,7 @@ import com.shopping.swagbag.products.ProductsFragmentDirections
 
 class HeaderSearchAdapter(
     private val context: Context,
-    private val data: List<MobileProductSearchModel.Result>,
+    private val data: List<MobileProductSearchModel.Result.Product>,
     private val itemClick: RecycleViewItemClick
 ) :
     RecyclerView.Adapter<HeaderSearchAdapter.ProductViewHolder>() {
@@ -25,10 +25,9 @@ class HeaderSearchAdapter(
     inner class ProductViewHolder(private val viewBinding: SingleProductBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bind(singleData: MobileProductSearchModel.Result, position: Int, itemClick: RecycleViewItemClick){
+        fun bind(singleData: MobileProductSearchModel.Result.Product, position: Int, itemClick: RecycleViewItemClick){
             with(viewBinding){
-                //for(singleProductResult in singleData.product){
-                    //Log.e("search", "search product: $singleProductResult", )
+                   //Log.e("search", "search product: $singleData", )
                     Glide.with(context)
                         .load(singleData.file[0].location)
                         .into(imgProduct)
@@ -37,12 +36,7 @@ class HeaderSearchAdapter(
                     tvProductName.text = singleData.name
                     tvBrandName.text = singleData.brand.name
                     tvProductPrice.text = "${context.getString(R.string.Rs)} ${singleData.price}"
-                    //tvProductPriceBeforeDiscount.text = singleData.price
 
-                    /*tvProductPriceBeforeDiscount.paintFlags = tvProductPriceBeforeDiscount.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    textView22.paintFlags = textView22.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG*/
-                //}
-                // set imgae
                 imgWishlist.setOnClickListener{
                     itemClick.onItemClickWithView(singleData.id, viewBinding.imgWishlist, position)
                 }

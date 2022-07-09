@@ -22,14 +22,14 @@ class Dialogs(private val context: Context, private val inflater: LayoutInflater
 
         //recycle view items
         val rvFilterOption = infla.findViewById<RecyclerView>(R.id.rvFilterList)
-        rvFilterOption.apply {
+      /*  rvFilterOption.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ProductFilterAdapter(context, DummyData().getProductFilter(), object : RecycleViewItemClick{
                 override fun onItemClickWithName(name: String, position: Int) {
                     Log.e("filter button", "filter name is : $name")
                 }
             })
-        }
+        }*/
 
         btmDialog.show()
     }

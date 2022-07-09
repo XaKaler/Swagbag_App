@@ -1,20 +1,12 @@
 package com.shopping.swagbag.common.adapter
 
 
-import com.shopping.swagbag.common.FreeData
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.shopping.swagbag.R
 import com.shopping.swagbag.databinding.SingleCard21Binding
-import com.shopping.swagbag.databinding.SingleCategorySliderBinding
-import com.shopping.swagbag.databinding.SingleCategoryToBegBinding
-import com.shopping.swagbag.databinding.SingleDealAndPopularBinding
 import com.shopping.swagbag.dummy.DummyChild
-import com.shopping.swagbag.dummy.DummyModel
 
 class CategoryToBegTravelAdapter(
     private val context: Context,

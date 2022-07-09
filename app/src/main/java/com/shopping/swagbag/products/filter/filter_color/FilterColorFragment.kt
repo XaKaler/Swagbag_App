@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.shopping.swagbag.R
 import com.shopping.swagbag.databinding.FragmentFilterColorBinding
 import com.shopping.swagbag.dummy.DummyData
-import com.shopping.swagbag.products.filter.filter_size.FilterSizeAdapter
 
 class FilterColorFragment : Fragment(R.layout.fragment_filter_color) {
     private lateinit var viewBinding: FragmentFilterColorBinding
@@ -31,7 +30,7 @@ class FilterColorFragment : Fragment(R.layout.fragment_filter_color) {
         with(viewBinding){
             rvFilterColor.apply{
                 layoutManager = LinearLayoutManager(context)
-                adapter = DummyData().getDummyData()?.let { FilterColorAdapter(context, it) }
+                //adapter = DummyData().getDummyData()?.let { FilterColorAdapter(context, it) }
             }
         }
     }

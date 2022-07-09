@@ -1,26 +1,25 @@
-package com.shopping.swagbag.products.filter.filter_size
+package com.shopping.swagbag.products.filter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.shopping.swagbag.databinding.SingleFilterSizeBinding
-import com.shopping.swagbag.dummy.DummyModel
 import com.shopping.swagbag.dummy.ProductFilter
 
 
 class FilterSizeAdapter(
     private val context: Context,
-    private val data: List<ProductFilter>
+    private val data: List<String>
 ) :
     RecyclerView.Adapter<FilterSizeAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(private val viewBinding: SingleFilterSizeBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-            fun bind(singleData: ProductFilter){
+            fun bind(singleData: String){
                 with(viewBinding){
-                    sizeType.text = singleData.filterName
+                    sizeType.text = singleData
                 }
             }
 

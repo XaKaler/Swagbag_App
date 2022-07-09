@@ -22,16 +22,16 @@ class DialogSearchUsingImage: DialogFragment(R.layout.dialog_search_using_image)
 
         private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ success ->
             if(success.resultCode == Activity.RESULT_OK){
-                context?.let { ShowToast.short("Get image successfully", it) }
+                //context?.let { ShowToast.short("Get image successfully", it) }
             }else{
-                context?.let { ShowToast.short("Get image failed", it) }
+                //context?.let { ShowToast.short("Get image failed", it) }
             }
             dismiss()
         }
 
     private val galleryLauncher  = registerForActivityResult(ActivityResultContracts.GetContent()){ _: Uri->
         run {
-            context?.let { ShowToast.short("Get image successfully", it) }
+            //context?.let { ShowToast.short("Get image successfully", it) }
             dismiss()
         }
 

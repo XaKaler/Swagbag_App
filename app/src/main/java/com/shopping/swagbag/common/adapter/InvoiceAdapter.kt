@@ -1,16 +1,9 @@
 package com.shopping.swagbag.common.adapter
 
-import android.app.Activity
-import com.shopping.swagbag.common.FreeData
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.shopping.swagbag.R
-import com.shopping.swagbag.common.RecycleItemClickListener
-import com.shopping.swagbag.databinding.SingleBestProductsBinding
 import com.shopping.swagbag.databinding.SingleGetInvoiceBinding
 import com.shopping.swagbag.dummy.DummyModel
 

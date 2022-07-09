@@ -22,6 +22,7 @@ import com.shopping.swagbag.common.GridSpaceItemDecoration
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.base.BaseFragment
 import com.shopping.swagbag.common.base.GeneralFunction
+import com.shopping.swagbag.common.views.BottomFilterDialog
 import com.shopping.swagbag.databinding.FragmentSearchBinding
 import com.shopping.swagbag.databinding.LytProductMenuBinding
 import com.shopping.swagbag.databinding.SearchBarBinding
@@ -40,12 +41,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
     private lateinit var toolbarBinding: ToolbarWithNoMenuWhiteBgBinding
     private lateinit var productMenuBinding: LytProductMenuBinding
     private lateinit var searchBarBinding: SearchBarBinding
+    private lateinit var filterDialog: BottomFilterDialog
     private lateinit var searchBar: EditText
     private lateinit var searchProduct: MobileProductSearchModel
     private val masterCategoryList = ArrayList<String>()
     private var currentMasterCategory = ""
-    private var currentMasterCategoryItems = ArrayList<HeaderSearchModel.Result.Product>()
-    private val productMap = mutableMapOf<String, List<HeaderSearchModel.Result.Product>>()
+    private var currentMasterCategoryItems = ArrayList<MobileProductSearchModel.Result.Product>()
+    private val productMap = mutableMapOf<String, List<MobileProductSearchModel.Result.Product>>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -110,12 +112,15 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                             viewBinding.lytSearchBar.root.visibility = View.GONE
                             viewBinding.includeProductMenu.root.visibility = View.VISIBLE*/
 
-                           /* //separate data
+                            //separate data
                             masterCategoryList.clear()
                             productMap.clear()
                             for (singleResult in searchProduct.result) {
-                                masterCategoryList.add(singleResult.name)
-                                productMap[singleResult.name] = singleResult.product
+                                if (singleResult.product.isNotEmpty()) {
+                                    masterCategoryList.add(singleResult.masterCategory.name)
+                                    productMap[singleResult.masterCategory.name] =
+                                        singleResult.product
+                                }
                             }
 
                             //show 1st category data
@@ -124,7 +129,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                                 productMap[currentMasterCategory]!! as ArrayList
 
                             //when user click on master category then show him a list dialog
-                            //after click on any item in list then show related result*/
+                            //after click on any item in list then show related result
                             setProductMenu()
                             showSearchResult(currentMasterCategoryItems)
                         }
@@ -170,7 +175,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                 }
             }
 
-            /*//set master category list
+            //set master category list
             masterCategoryName.setOnClickListener {
                 openListDialog(
                     masterCategoryName,
@@ -186,16 +191,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                         }
                     }
                 }
-            }*/
+            }
 
             //filter
             tvFilter.setOnClickListener {
-                context?.let { it1 ->
-                    Dialogs(
-                        it1,
-                        layoutInflater
-                    ).showFilterBottomSheetDialog("men")
-                }
+                    filterDialog.show(childFragmentManager, "filter")
             }
         }
     }
@@ -208,9 +208,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
         }
     }
 
-    private fun showSearchResult(product: List<HeaderSearchModel.Result.Product>) {
+    private fun showSearchResult(product: List<MobileProductSearchModel.Result.Product>) {
+
         viewBinding.includeProductMenu.root.visibility = View.VISIBLE
         productMenuBinding.masterCategoryName.text = currentMasterCategory
+
+        filterDialog = BottomFilterDialog(currentMasterCategory)
+//        filterDialog.getCategoryFilter()
 
         with(viewBinding) {
             rvSearchProducts.visibility = View.VISIBLE
@@ -219,7 +223,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
             rvSearchProducts.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 addItemDecoration(GridSpaceItemDecoration(5))
-                adapter = HeaderSearchAdapter(context, searchProduct.result, object : RecycleViewItemClick {
+                adapter = HeaderSearchAdapter(context, product, object : RecycleViewItemClick {
                     override fun onItemClickWithName(name: String, position: Int) {
                         val action =
                             SearchFragmentDirections.actionGlobalProductDetailsFragment(name)

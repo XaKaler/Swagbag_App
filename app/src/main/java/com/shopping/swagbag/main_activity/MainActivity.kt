@@ -202,10 +202,10 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     }
 
     private fun apiCalls() {
+        setAllCategories()
         setMasterCategories()
         getSettings()
         getWallet()
-        setAllCategories()
     }
 
     fun getWalletResult(): WalletModel {

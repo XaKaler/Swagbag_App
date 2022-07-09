@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shopping.swagbag.R
-import com.shopping.swagbag.common.FreeData
 import com.shopping.swagbag.databinding.SingleFeatureBrandsBinding
 import com.shopping.swagbag.dummy.DummyModel
 

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.shopping.swagbag.R
 import com.shopping.swagbag.databinding.FragmentFilterCategoryBinding
 import com.shopping.swagbag.dummy.DummyData
-import com.shopping.swagbag.products.filter.filter_size.FilterSizeAdapter
 
 class FilterCategoryFragment : Fragment(R.layout.fragment_filter_category) {
     private lateinit var viewBinding: FragmentFilterCategoryBinding

@@ -28,12 +28,13 @@
     <TextView
         android:id="@+id/filterName"
         style="@style/roboto_normal_18_dim_grey"
+        android:textStyle="bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/screen_horizontal_padding"
         android:paddingVertical="@dimen/dimen_15"
         android:text="Tops"
-        android:paddingHorizontal="@dimen/screen_horizontal_padding"
-        android:textColor="@color/day_dark_liver_night_Spanish_Gray"
+        android:textColor="@color/black"
         android:textSize="@dimen/txt_14"
         app:layout_constraintEnd_toStartOf="@+id/btnShowHideFilter"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +75,147 @@
         app:layout_constraintTop_toBottomOf="@+id/filterName"
         tools:itemCount="1"
         tools:listitem="@layout/single_filter_category" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lytFilterByPrice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/space_between_views"
+        android:padding="@dimen/screen_horizontal_padding"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterName">
+
+
+        <TextView
+            android:id="@+id/textView51"
+            style="@style/roboto_normal_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Price Range"
+            android:textColor="@color/day_dark_liver_night_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView55"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="@string/Rs"
+            app:layout_constraintStart_toStartOf="@+id/textView51"
+            app:layout_constraintTop_toBottomOf="@+id/textView51" />
+
+        <TextView
+            android:id="@+id/minPrice"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintBottom_toBottomOf="@+id/textView55"
+            app:layout_constraintStart_toEndOf="@+id/textView55"
+            app:layout_constraintTop_toTopOf="@+id/textView55" />
+
+        <TextView
+            android:id="@+id/textView57"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_5"
+            android:text="-"
+            app:layout_constraintBottom_toBottomOf="@+id/minPrice"
+            app:layout_constraintEnd_toStartOf="@+id/textView58"
+            app:layout_constraintStart_toEndOf="@+id/minPrice"
+            app:layout_constraintTop_toTopOf="@+id/minPrice" />
+
+        <TextView
+            android:id="@+id/textView58"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_5"
+            android:text="@string/Rs"
+            app:layout_constraintBottom_toBottomOf="@+id/textView57"
+            app:layout_constraintStart_toEndOf="@+id/textView57"
+            app:layout_constraintTop_toTopOf="@+id/textView57" />
+
+        <TextView
+            android:id="@+id/maxPrice"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5000"
+            app:layout_constraintBottom_toBottomOf="@+id/textView58"
+            app:layout_constraintStart_toEndOf="@+id/textView58"
+            app:layout_constraintTop_toTopOf="@+id/textView58" />
+
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/priceRangeSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_between_views"
+            android:stepSize="1.0"
+            android:valueFrom="0.0"
+            android:valueTo="5000.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView57"
+            app:thumbColor="@color/white"
+            app:thumbStrokeColor="@color/red_light"
+            app:thumbStrokeWidth="@dimen/dimen_1"
+            app:tickVisible="false"
+            app:trackColor="@color/red_light"
+            app:values="@array/initial_slider_values" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvBrand"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterName"
+        tools:listitem="@layout/single_filter_brand" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvColor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterName"
+        tools:listitem="@layout/single_filter_color" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterName"
+        tools:listitem="@layout/single_filter_size" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvColour"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterName"
+        tools:listitem="@layout/single_filter_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
