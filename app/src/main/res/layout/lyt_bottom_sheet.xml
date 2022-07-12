@@ -208,7 +208,7 @@
         android:background="@drawable/rec_white_5"
         android:ems="10"
         android:padding="@dimen/dimen_5"
-        android:hint="swagbag@gmail.com"
+        android:hint="enter email"
         android:layout_marginEnd="@dimen/space_between_view_and_subview"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/submit"

@@ -13,6 +13,7 @@
     <dimen name="profile_gender_size">50dp</dimen>
 
     <!--common-->
+    <dimen name="paragraph_line_spacing_5">5dp</dimen>
     <dimen name="space_between_views">20dp</dimen>
     <dimen name="space_between_views_30">30dp</dimen>
     <dimen name="current_tracking_position_image_size">10dp</dimen>

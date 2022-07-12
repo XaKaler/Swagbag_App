@@ -197,7 +197,29 @@ class ProductDetailsFragment : BaseFragment<
             layoutManager = flexLayoutManager
             adapter = TagsAdapter(context, tagList, object: RecycleViewItemClick{
                 override fun onItemClickWithName(name: String, position: Int) {
-                    Log.e("product details", "tag is $name")
+                    Log.e(
+                        "product details",
+                        "tag is $name\nmaster category is : ${product.result.masterCategory}"
+                    )
+                    val productSearchParameters =
+                        ProductSearchParameters(
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            product.result.masterCategory.joinToString(","),
+                            name
+                        )
+                    val action = ProductDetailsFragmentDirections.actionGlobalProductsFragment(
+                        Gson().toJson(
+                            productSearchParameters,
+                            ProductSearchParameters::class.java
+                        )
+                    )
+                    findNavController().navigate(action)
                 }
             })
         }
@@ -339,6 +361,7 @@ class ProductDetailsFragment : BaseFragment<
             addToBeg.setOnClickListener(this@ProductDetailsFragment)
             imgBegBackground.setOnClickListener(this@ProductDetailsFragment)
             imgShareBackground.setOnClickListener(this@ProductDetailsFragment)
+            imgWishlistBackground.setOnClickListener(this@ProductDetailsFragment)
             btnRateProduct.setOnClickListener { rateProduct() }
         }
     }

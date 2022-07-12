@@ -49,16 +49,11 @@ class SignInFragment :
                 val data: Intent? = it.data
                 val task: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
+
                 try {
                     task.getResult(ApiException::class.java)
+                    Log.e("google", task.result.id.toString())
                     //signInUserWithGoogle()
-                    Log.e("google", task.result.idToken.toString())
-                    val gso =
-                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
-                            .build()
-                    val gsc = GoogleSignIn.getClient(context!!, gso)
-                    gsc.signOut()
-                    moveToHome()
                 } catch (e: ApiException) {
                     toast("Something went wrong!")
                 }
@@ -76,14 +71,14 @@ class SignInFragment :
         initViews()
     }
 
-    private fun moveToHome() {
-        findNavController().navigate(R.id.action_global_home2)
+    private fun moveToBackStack() {
+        findNavController().popBackStack()
     }
 
     private fun initViews() {
         registerFacebookCallback()
 
-        with(viewBinding) {
+        with(viewBinding)
             btnSignIn.setOnClickListener { signInUser() }
             btnGoogle.setOnClickListener {
                 val gso =
@@ -126,7 +121,7 @@ class SignInFragment :
                     parameters.putString("fields", "id,name,link")
                     request.parameters = parameters
                     request.executeAsync()
-                    moveToHome()
+                    moveToBackStack()
                 }
             })
         callbackManager = create()
@@ -144,11 +139,14 @@ class SignInFragment :
 
     private fun signInUserWithGoogle() {
         val acct: GoogleSignInAccount? = getLastSignedInAccount(context!!)
-        viewModel.loginWithGoogle(acct?.idToken.toString(), acct?.email.toString())
+        viewModel.loginWithGoogle(acct?.id.toString(), acct?.email.toString())
             .observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Loading -> showLoading()
-                    is Resource.Success -> stopShowingLoading()
+                    is Resource.Success -> {
+                        stopShowingLoading()
+
+                    }
                     is Resource.Failure -> stopShowingLoading()
                 }
             }
@@ -175,7 +173,7 @@ class SignInFragment :
                             context?.let { it1 -> AppUtils(it1).saveUser(loginResponse) }
                             mainActivity.setUpNavigationHeader()
                             mainActivity.getWallet()
-                            moveToHome()
+                            moveToBackStack()
                         }
                     }
 

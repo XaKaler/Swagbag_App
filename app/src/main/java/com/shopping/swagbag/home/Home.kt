@@ -155,7 +155,7 @@ RecycleViewItemClick{
                                     ""
                                 )
                                     val action =
-                                        ParticularCategoryFragmentDirections.actionParticularCategoryFragmentToProductsFragment(
+                                        HomeDirections.actionHome2ToProductsFragment(
                                             Gson().toJson(
                                                 productSearchParameters,
                                                 ProductSearchParameters::class.java
@@ -176,7 +176,7 @@ RecycleViewItemClick{
                                         ""
                                     )
                                     val action =
-                                        ParticularCategoryFragmentDirections.actionParticularCategoryFragmentToProductsFragment(
+                                        HomeDirections.actionHome2ToProductsFragment(
                                             Gson().toJson(
                                                 productSearchParameters,
                                                 ProductSearchParameters::class.java

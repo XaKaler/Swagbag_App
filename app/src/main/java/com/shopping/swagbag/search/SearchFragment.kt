@@ -120,18 +120,22 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                                     masterCategoryList.add(singleResult.masterCategory.name)
                                     productMap[singleResult.masterCategory.name] =
                                         singleResult.product
+
+                                    //show 1st category data
+                                    currentMasterCategory = masterCategoryList[0]
+                                    currentMasterCategoryItems =
+                                        productMap[currentMasterCategory]!! as ArrayList
+
+                                    //when user click on master category then show him a list dialog
+                                    //after click on any item in list then show related result
+                                    setProductMenu()
+                                    showSearchResult(currentMasterCategoryItems)
+                                }else{
+                                    showNoProductFound()
                                 }
                             }
 
-                            //show 1st category data
-                            currentMasterCategory = masterCategoryList[0]
-                            currentMasterCategoryItems =
-                                productMap[currentMasterCategory]!! as ArrayList
 
-                            //when user click on master category then show him a list dialog
-                            //after click on any item in list then show related result
-                            setProductMenu()
-                            showSearchResult(currentMasterCategoryItems)
                         }
                     }
 

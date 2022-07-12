@@ -39,6 +39,7 @@
                 android:layout_marginTop="10dp"
                 android:maxLines="1"
                 android:text="TextView"
+                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/imgFeatureBrand"
                 app:layout_constraintTop_toBottomOf="@+id/imgFeatureBrand" />
@@ -51,7 +52,7 @@
                 app:layout_constraintStart_toStartOf="@+id/productName"
                 app:layout_constraintTop_toBottomOf="@+id/productName">
 
-      <!--          <TextView
+                <!--          <TextView
                     android:id="@+id/textView59"
                     style="@style/roboto_normal_12_davys_grey"
                     android:layout_width="wrap_content"
@@ -74,26 +75,16 @@
                     app:layout_constraintTop_toTopOf="@+id/textView59" />-->
 
                 <TextView
-                    android:id="@+id/textView63"
-                    style="@style/roboto_normal_12_davys_grey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/Rs"
-                    android:textColor="@color/day_dark_liver_night_white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
                     android:id="@+id/newRate"
                     style="@style/roboto_normal_12_davys_grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="9999"
+                    android:textAlignment="center"
                     android:textColor="@color/day_dark_liver_night_white"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView63"
-                    app:layout_constraintStart_toEndOf="@+id/textView63"
-                    app:layout_constraintTop_toTopOf="@+id/textView63" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -104,6 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:textAlignment="center"
                 android:text="Women Embroidered Kurthas....."
                 android:textColor="@color/day_dark_liver_night_Spanish_Gray"
                 app:layout_constraintEnd_toEndOf="@+id/constraintLayout14"

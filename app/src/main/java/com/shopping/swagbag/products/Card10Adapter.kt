@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.databinding.SingleCard10Binding
 import com.shopping.swagbag.products.product_details.ProductDetailsProductModel
@@ -34,7 +35,7 @@ class Card10Adapter(
                 // set text
                 productName.text = singleData.name
                 productDetails.text = singleData.shortDesc
-                newRate.text = singleData.price
+                newRate.text = "${context.getString(R.string.Rs)}${singleData.price}"
 
                 // click listener
                 itemView.setOnClickListener{

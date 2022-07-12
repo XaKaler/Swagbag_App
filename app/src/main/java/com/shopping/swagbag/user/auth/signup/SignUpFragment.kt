@@ -43,13 +43,13 @@ class SignUpFragment : BaseFragment<
                     GoogleSignIn.getSignedInAccountFromIntent(data)
                 try {
                     task.getResult(ApiException::class.java)
-                    val gso =
+                   /* val gso =
                         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
                             .build()
                     val gsc = GoogleSignIn.getClient(context!!, gso)
                     gsc.signOut()
-                    moveToHome()
-                    //signInUserWithGoogle()
+                    moveToHome()*/
+                    signUpUserWithGoogle()
                 } catch (e: ApiException) {
                     toast("Something went wrong!")
                 }
@@ -178,8 +178,11 @@ class SignUpFragment : BaseFragment<
 
     private fun signUpUserWithGoogle() {
         val acct: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context!!)
+
+        Log.e("google sign up ", "id : ${acct?.id}\nemail : ${acct?.email}\nfname : ${acct?.displayName}\nlname : ${acct?.givenName}\n")
+
         viewModel.registerGoogle(
-            acct?.idToken.toString(),
+            acct?.id.toString(),
             acct?.email.toString(),
             acct?.displayName.toString(),
             acct?.givenName.toString()
