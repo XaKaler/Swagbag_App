@@ -8,20 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleItemClick
+import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.databinding.SingleCategoryBinding
 
 
 class CategoryAdapter(
     private val context: Context,
     private val data: List<MasterCategoryModel.Result>,
-    private val itemClick: RecycleItemClick
+    private val itemClick: RecycleViewItemClick
 ) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(private val viewBinding: SingleCategoryBinding) :
         RecyclerView.ViewHolder(viewBinding.root) {
 
-        fun bind(singleData: MasterCategoryModel.Result, position: Int) {
+        fun bind(singleData: MasterCategoryModel.Result, position: Int, itemClick: RecycleViewItemClick) {
             with(viewBinding) {
 
                 // set image
@@ -38,7 +39,7 @@ class CategoryAdapter(
 
                     Log.e("TAG", "bind: itemClick ${singleData.id}", )
 
-                    itemClick.onItemClick(singleData.name.lowercase(), position)
+                    itemClick.onItemClickWithName(singleData.name.lowercase(), position)
                 }
             }
         }
@@ -56,7 +57,7 @@ class CategoryAdapter(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(data[position], position)
+        holder.bind(data[position], position, itemClick)
     }
 
     override fun getItemCount() = data.size

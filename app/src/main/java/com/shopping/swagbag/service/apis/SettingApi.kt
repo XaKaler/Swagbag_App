@@ -1,11 +1,11 @@
 package com.shopping.swagbag.service.apis
 
+import com.shopping.swagbag.contactus.ContactUsModel
 import com.shopping.swagbag.settings.SettingsModel
 import com.shopping.swagbag.coupons.GiftCardModel
 import com.shopping.swagbag.settings.AllCityModel
 import com.shopping.swagbag.settings.AllCountryModel
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface SettingApi {
 
@@ -22,4 +22,13 @@ interface SettingApi {
     suspend fun allCity(
         @Query("id")cityId: String
     ): AllCityModel
+
+    @FormUrlEncoded
+    @POST("create-contact-now")
+    suspend fun contactUs(
+        @Field("name") name: String,
+        @Field("email")email: String,
+        @Field("subject")subject: String,
+        @Field("message")message: String
+    ): ContactUsModel
 }

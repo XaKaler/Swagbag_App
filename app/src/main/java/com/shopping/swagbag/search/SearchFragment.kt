@@ -34,9 +34,11 @@ import com.shopping.swagbag.service.apis.ProductApi
 import com.shopping.swagbag.utils.AppUtils
 
 
-class SearchFragment : BaseFragment<FragmentSearchBinding,
+class SearchFragment : BaseFragment<
+        FragmentSearchBinding,
         ProductViewModel,
-        ProductRepository>(FragmentSearchBinding::inflate), View.OnClickListener {
+        ProductRepository
+        >( FragmentSearchBinding::inflate), View.OnClickListener {
 
     private lateinit var toolbarBinding: ToolbarWithNoMenuWhiteBgBinding
     private lateinit var productMenuBinding: LytProductMenuBinding

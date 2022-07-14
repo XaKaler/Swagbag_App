@@ -10,21 +10,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.shopping.swagbag.R
 import com.shopping.swagbag.common.GridSpaceItemDecoration
-import com.shopping.swagbag.common.RecycleItemClick
+import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.base.BaseFragment
 import com.shopping.swagbag.databinding.FragmentCategoryBinding
 import com.shopping.swagbag.databinding.ToolbarWithNoMenuWhiteBgBinding
 import com.shopping.swagbag.main_activity.MainActivity
 import com.shopping.swagbag.products.ProductSearchParameters
+import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.CategoryApi
 
 class CategoryFragment :
     BaseFragment<FragmentCategoryBinding,
             CategoryViewModel,
-            CategoryRepository>(FragmentCategoryBinding::inflate), RecycleItemClick {
+            CategoryRepository>(FragmentCategoryBinding::inflate) {
 
     private lateinit var toolbarBinding: ToolbarWithNoMenuWhiteBgBinding
     private lateinit var mainActivity: MainActivity
+    private lateinit var categories: MasterCategoryModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,15 +57,47 @@ class CategoryFragment :
 
         setToolbar()
 
-        setCategoryData()
+        if (this::categories.isInitialized)
+            setCategoryData()
+        else
+            getCategories()
     }
+
+    private fun getCategories() {
+        viewModel.masterCategory().observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading -> showLoading()
+                is Resource.Success -> {
+                    stopShowingLoading()
+                    categories = it.value
+                    setCategoryData()
+                }
+                is Resource.Failure -> stopShowingLoading()
+            }
+        }
+    }
+
     private fun setCategoryData() {
-        val masterCategories = mainActivity.getMasterCategories()
+        //val masterCategories = mainActivity.getMasterCategories()
         with(viewBinding) {
             rvCategory.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 addItemDecoration(GridSpaceItemDecoration(5))
-                adapter = CategoryAdapter(context, masterCategories, this@CategoryFragment)
+                adapter = CategoryAdapter(context, categories.result, object : RecycleViewItemClick {
+                    override fun onItemClickWithName(name: String, position: Int) {
+                        val productSearchParameters =
+                            ProductSearchParameters("", "", "", "", "", "", "", name, "")
+
+                        val action =
+                            CategoryFragmentDirections.actionCategoryFragmentToProductsFragment(
+                                Gson().toJson(
+                                    productSearchParameters,
+                                    ProductSearchParameters::class.java
+                                )
+                            )
+                        findNavController().navigate(action)
+                    }
+                })
             }
         }
     }
@@ -80,21 +114,5 @@ class CategoryFragment :
         }
     }
 
-    override fun onItemClick(name: String, position: Int) {
-        val productSearchParameters =
-            ProductSearchParameters("", "", "", "", "", "", "", name, "")
-
-        val action = CategoryFragmentDirections.actionCategoryFragmentToProductsFragment(
-            Gson().toJson(
-                productSearchParameters,
-                ProductSearchParameters::class.java
-            )
-        )
-        findNavController().navigate(action)
-    }
-
-    override fun onItemClickWithView(position: Int, view: View) {
-        TODO("Not yet implemented")
-    }
 
 }

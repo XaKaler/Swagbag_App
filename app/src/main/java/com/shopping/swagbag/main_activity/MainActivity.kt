@@ -28,6 +28,7 @@ import com.shopping.swagbag.home.HomeModel
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductViewModel
 import com.shopping.swagbag.products.ProductViewModelFactory
+import com.shopping.swagbag.products.filter.ExtraFilterModel
 import com.shopping.swagbag.service.RemoteDataSource
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.CategoryApi
@@ -58,11 +59,10 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     private lateinit var settingResult: SettingsModel
     private lateinit var walletResult: WalletModel
     private lateinit var homeResult: HomeModel
-    private lateinit var masterCategories: List<MasterCategoryModel.Result>
-    private lateinit var allCategories: List<CategoryModel.Result>
+    private lateinit var extraFilter: ExtraFilterModel
+    private lateinit var masterCategories: MasterCategoryModel
     private var appUtils = AppUtils(this@MainActivity)
     private lateinit var progressDialog: ProgressDialogFragment
-    private var handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,24 +146,10 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
         setUPToolbar()
 
         initializeRepositories()
-
         setUpNavigationHeader()
-
-        getDataFromIntent()
-
+        setUpNavigation()
+        setMasterCategories()
         apiCalls()
-    }
-
-    private fun getDataFromIntent(): HomeModel {
-        val intentData = intent
-        homeResult = Gson().fromJson(intentData.getStringExtra("home"), HomeModel::class.java)
-        masterCategories = listOf(
-            Gson().fromJson(
-                intentData.getStringExtra("masterCategories"),
-                MasterCategoryModel.Result::class.java
-            )
-        )
-        return homeResult
     }
 
     private fun initializeRepositories() {
@@ -202,10 +188,22 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     }
 
     private fun apiCalls() {
-        setAllCategories()
-        setMasterCategories()
         getSettings()
         getWallet()
+        getExtraFilter()
+    }
+
+    private fun getExtraFilter() {
+        productViewModel.extraFilter().observe(this){
+            when(it){
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    extraFilter = it.value
+                    AppUtils(this).saveExtraFilter(extraFilter)
+                }
+                is Resource.Failure -> {}
+            }
+        }
     }
 
     fun getWalletResult(): WalletModel {
@@ -253,10 +251,10 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     fun setMasterCategories() {
         val intentData = intent
         masterCategories =
-            Gson().fromJson(
-                intentData.getStringExtra("masterCategories"),
-                MasterCategoryModel::class.java
-            ).result
+                Gson().fromJson(
+                    intentData.getStringExtra("masterCategories"),
+                    MasterCategoryModel::class.java
+            )
 
         Log.e("master", "$masterCategories\n" +
                 "view binding is initialized : ${this::viewBinding.isInitialized}")
@@ -268,7 +266,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                 adapter =
                     CategorySliderAdapter(
                         this@MainActivity,
-                        masterCategories,
+                        masterCategories.result,
                         this@MainActivity
                     )
             }
@@ -277,35 +275,13 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
 
      fun getMasterCategories(): List<MasterCategoryModel.Result> {
         return if(this::masterCategories.isInitialized)
-            masterCategories
+            masterCategories.result
         else {
             val intentData = intent
                 Gson().fromJson(
                     intentData.getStringExtra("masterCategories"),
                     MasterCategoryModel::class.java
                 ).result
-        }
-    }
-
-    private fun setAllCategories() {
-        if (this::allCategories.isInitialized)
-            setUpNavigation()
-        else
-            getAllCategories()
-    }
-
-    private fun getAllCategories() {
-        categoryViewModel.getAllCategories().observe(this@MainActivity) {
-            when (it) {
-                is Resource.Loading -> {}
-                is Resource.Success -> {
-                    allCategories = it.value.result
-                    setAllCategories()
-                }
-
-                is Resource.Failure ->
-                    Log.e("TAG", "setUpNavigation: $it")
-            }
         }
     }
 
@@ -338,6 +314,14 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     }
 
     private fun setUpNavigation() {
+        val intentData = intent
+        val allCategories = listOf(
+            Gson().fromJson(
+                intentData.getStringExtra("allCategories"),
+                CategoryModel.Result::class.java
+            )
+        )
+
         with(navigationBinding) {
             progressBar.visibility = View.GONE
             // add navigation menu
@@ -407,31 +391,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
         }
     }
 
-    fun getHome(): HomeModel {
-        /*productViewModel.getHome().observe(this) {
-            when (it) {
-                is Resource.Loading -> {
-                    showLoading()
-                }
-                is Resource.Success -> {
-                    stopShowingLoading()
-                    homeResult = it.value
-                }
-                is Resource.Failure -> {
-                    stopShowingLoading()
-                    Log.e("home", "getHomeScreenData: $it")
-                }
-            }
-
-        }*/
-        return if (this::homeResult.isInitialized)
-            homeResult
-        else {
-            val intentData = intent
-            homeResult = Gson().fromJson(intentData.getStringExtra("home"), HomeModel::class.java)
-            return homeResult
-        }
-    }
+    fun getHome(): HomeModel = Gson().fromJson(intent.getStringExtra("home"), HomeModel::class.java)
 
     fun showLoading() {
         val manager = this.supportFragmentManager
@@ -451,7 +411,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
         val navController = navHostFragment.navController
         val action = ParticularCategoryFragmentDirections.actionGlobalParticularCategoryFragment(
-            masterCategories[position].id
+            masterCategories.result[position].id
         )
         navController.navigate(action)
 

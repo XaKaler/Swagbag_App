@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shopping.swagbag.contactus.ContactUsModel
 import com.shopping.swagbag.settings.SettingRepository
 import com.shopping.swagbag.settings.SettingsModel
 import com.shopping.swagbag.coupons.GiftCardModel
@@ -54,6 +55,23 @@ class SettingViewModel(private val repository: SettingRepository): ViewModel() {
         viewModelScope.launch {
             result.value = Resource.Loading
             result.value = repository.allCity(cityId)
+        }
+
+        return result
+    }
+
+
+    fun contactUs(
+        name: String,
+        email: String,
+        subject: String,
+        message: String
+    ): LiveData<Resource<ContactUsModel>>{
+        val result = MutableLiveData<Resource<ContactUsModel>>()
+
+        viewModelScope.launch {
+            result.value = Resource.Loading
+            result.value = repository.contactUs(name, email, subject, message)
         }
 
         return result

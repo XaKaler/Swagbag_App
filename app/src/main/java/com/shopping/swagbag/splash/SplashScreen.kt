@@ -9,10 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.shopping.swagbag.R
-import com.shopping.swagbag.category.CategoryRepository
-import com.shopping.swagbag.category.CategoryViewModel
-import com.shopping.swagbag.category.CategoryViewModelFactory
-import com.shopping.swagbag.category.MasterCategoryModel
+import com.shopping.swagbag.category.*
 import com.shopping.swagbag.home.HomeModel
 import com.shopping.swagbag.main_activity.MainActivity
 import com.shopping.swagbag.products.ProductRepository
@@ -30,6 +27,7 @@ class SplashScreen : AppCompatActivity() {
     private lateinit var productViewModel: ProductViewModel
     private lateinit var homeResult: HomeModel
     private lateinit var masterCategories: MasterCategoryModel
+    private lateinit var allCategories: CategoryModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +63,8 @@ class SplashScreen : AppCompatActivity() {
                 is Resource.Loading -> {}
                 is Resource.Success -> {
                     homeResult = it.value
-                    getMasterCategories()
-                   // sendToNext()
+                    getAllCategories()
+                    // sendToNext()
                 }
                 is Resource.Failure -> {
                     Log.e("home", "getHomeScreenData: $it")
@@ -76,15 +74,30 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    private fun getMasterCategories() {
-            categoryViewModel.masterCategory().observe(this){
-                when (it) {
-                    is Resource.Success -> {
-                        masterCategories = it.value
-                        sendToNext()
-                    }
+    private fun getAllCategories() {
+        categoryViewModel.getAllCategories().observe(this) {
+            when (it) {
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    allCategories = it.value
+                    getMasterCategories()
+                }
 
-                    is Resource.Failure -> Toast.makeText(
+                is Resource.Failure ->
+                    Log.e("TAG", "setUpNavigation: $it")
+            }
+        }
+    }
+
+    private fun getMasterCategories() {
+        categoryViewModel.masterCategory().observe(this) {
+            when (it) {
+                is Resource.Success -> {
+                    masterCategories = it.value
+                    sendToNext()
+                }
+
+                is Resource.Failure -> Toast.makeText(
                         this,
                         it.errorCode.toString(),
                         Toast.LENGTH_SHORT
@@ -96,12 +109,25 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun sendToNext() {
-       // Handler().postDelayed(Runnable {
+        /*if (!this::allCategories.isInitialized)
+            getAllCategories()
+        else if (!this::homeResult.isInitialized)
+            getHomeResult()
+        else if (!this::masterCategories.isInitialized)
+            getMasterCategories()
+        else {*/
             val intent = Intent(this@SplashScreen, MainActivity::class.java)
             intent.putExtra("home", Gson().toJson(homeResult, HomeModel::class.java))
-            intent.putExtra("masterCategories", Gson().toJson(masterCategories, MasterCategoryModel::class.java))
+            intent.putExtra(
+                "allCategories",
+                Gson().toJson(allCategories, CategoryModel::class.java)
+            )
+            intent.putExtra(
+                "masterCategories",
+                Gson().toJson(masterCategories, MasterCategoryModel::class.java)
+            )
             startActivity(Intent(intent))
             finish()
-      //  }, 2000)
-    }
+        }
+    //}
 }

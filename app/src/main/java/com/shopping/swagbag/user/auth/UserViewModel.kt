@@ -62,8 +62,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         email: String,
         password: String,
         reffer_by: String,
-    ): LiveData<Resource<SignUpModel>> {
-        val signUpResponse = MutableLiveData<Resource<SignUpModel>>()
+    ): LiveData<Resource<SignInModel>> {
+        val signUpResponse = MutableLiveData<Resource<SignInModel>>()
         viewModelScope.launch {
             signUpResponse.value = Resource.Loading
             signUpResponse.value = repository.register(fName, lName, email, password, reffer_by)
@@ -76,8 +76,8 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         email: String,
         fName: String,
         lName: String
-    ): LiveData<Resource<SignUpModel>> {
-        val signUpResponse = MutableLiveData<Resource<SignUpModel>>()
+    ): LiveData<Resource<SignInModel>> {
+        val signUpResponse = MutableLiveData<Resource<SignInModel>>()
         viewModelScope.launch {
             signUpResponse.value = Resource.Loading
             signUpResponse.value = repository.registerGoogle(token, email, fName, lName)

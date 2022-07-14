@@ -45,11 +45,6 @@ class SignUpFragment : BaseFragment<
                 try {
                     task.getResult(ApiException::class.java)
                     signUpUserWithGoogle()
-                    val gso =
-                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
-                            .build()
-                    val gsc = GoogleSignIn.getClient(context!!, gso)
-                    gsc.signOut()
                     //moveToHome()
                 } catch (e: ApiException) {
                     toast("Something went wrong!")
@@ -153,7 +148,15 @@ class SignUpFragment : BaseFragment<
                                     //move user to home page
                                     //@todo save user in app utils
                                    // saveUser(email, password)
-                                    moveToHome()
+                                    val signUpResponse = it.value
+
+                                    if (signUpResponse.status == "error")
+                                        toast(signUpResponse.message)
+                                    else {
+                                        toast(signUpResponse.message)
+                                        context?.let { it1 -> AppUtils(it1).saveUser(signUpResponse) }
+                                        moveToBackStack()
+                                    }
                                 }
 
                                 toast(result.message)
@@ -201,7 +204,18 @@ class SignUpFragment : BaseFragment<
             .observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Loading -> showLoading()
-                    is Resource.Success -> stopShowingLoading()
+                    is Resource.Success -> {
+                        stopShowingLoading()
+
+                        val signUpResponse = it.value
+                        if (signUpResponse.status == "error")
+                            toast(signUpResponse.message)
+                        else {
+                            toast(signUpResponse.message)
+                            context?.let { it1 -> AppUtils(it1).saveUser(signUpResponse) }
+                            moveToBackStack()
+                        }
+                    }
                     is Resource.Failure -> stopShowingLoading()
                 }
             }
@@ -213,7 +227,7 @@ class SignUpFragment : BaseFragment<
             when (it) {
                 is Resource.Success -> {
                     context?.let { context -> AppUtils(context).saveUser(it.value) }
-                    moveToHome()
+                    moveToBackStack()
                 }
 
                 is Resource.Failure -> {
@@ -224,8 +238,8 @@ class SignUpFragment : BaseFragment<
         })
     }
 
-    private fun moveToHome() {
-        findNavController().navigate(R.id.action_signUpFragment_to_home2)
+    private fun moveToBackStack() {
+        findNavController().popBackStack()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

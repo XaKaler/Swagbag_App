@@ -150,6 +150,14 @@ class SignInFragment :
                     is Resource.Success -> {
                         stopShowingLoading()
 
+                        val signInResponse = it.value
+                        if (signInResponse.status == "error")
+                            toast(signInResponse.message)
+                        else {
+                            toast(signInResponse.message)
+                            context?.let { it1 -> AppUtils(it1).saveUser(signInResponse) }
+                            moveToBackStack()
+                        }
                     }
                     is Resource.Failure -> stopShowingLoading()
                 }

@@ -43,7 +43,7 @@ interface UserApi {
         @Field("email")email: String,
         @Field("password")password: String,
         @Field("reffer_by")reffer_by: String
-    ): SignUpModel
+    ): SignInModel
 
 
     @FormUrlEncoded
@@ -53,7 +53,7 @@ interface UserApi {
         @Field("email")email: String,
         @Field("fName")fName: String,
         @Field("lName")lName: String
-    ): SignUpModel
+    ): SignInModel
 
     @FormUrlEncoded
     @POST("register-fb")

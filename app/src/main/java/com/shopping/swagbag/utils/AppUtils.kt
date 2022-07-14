@@ -9,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.gson.Gson
+import com.shopping.swagbag.products.filter.ExtraFilterModel
 import com.shopping.swagbag.user.auth.signin.SignInModel
 
 class AppUtils(private val context: Context) {
@@ -16,6 +17,7 @@ class AppUtils(private val context: Context) {
     private val _myPrefName = "sharePrefName"
     private val _userData = "user_data"
     private val _isUserLogIn = "user_login"
+    private val _extraFilter = "extra_filter"
 
     fun saveUser(user: SignInModel){
         val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
@@ -69,6 +71,15 @@ class AppUtils(private val context: Context) {
         val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
         // editor.putBoolean(_isUserLogIn, false)
         editor.clear()
+        editor.apply()
+    }
+
+
+    //save api data
+
+    fun saveExtraFilter(extraFilter: ExtraFilterModel){
+        val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
+        editor.putString(_extraFilter, Gson().toJson(extraFilter, ExtraFilterModel::class.java))
         editor.apply()
     }
 }
