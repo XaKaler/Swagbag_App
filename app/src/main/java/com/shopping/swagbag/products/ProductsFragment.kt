@@ -55,7 +55,6 @@ class ProductsFragment : BaseFragment<
             getProducts()
 
         setProductMenu()
-        filterDialog = BottomFilterDialog(productSearchParameters.master)
         appUtils = context?.let { AppUtils(it) }!!
     }
 
@@ -93,7 +92,11 @@ class ProductsFragment : BaseFragment<
 
             //filter product according to master category
             tvFilter.setOnClickListener {
-                //context?.let { it1 -> Dialogs(it1, layoutInflater).showFilterBottomSheetDialog(productSearchParameters.master) }
+                BottomFilterDialog("men", object: BottomFilterDialog.FilterCallback {
+                    override fun onCallback(color: String) {
+                        TODO("Not yet implemented")
+                    }
+                }).show(childFragmentManager, "filter")
                 filterDialog.show(childFragmentManager, "filter")
             }
         }

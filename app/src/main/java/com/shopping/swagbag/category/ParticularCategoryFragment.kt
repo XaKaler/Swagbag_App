@@ -1,7 +1,9 @@
 package com.shopping.swagbag.category
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,6 +28,7 @@ import com.shopping.swagbag.common.model.AllTimeSliderModel
 import com.shopping.swagbag.common.model.BestProductModel
 import com.shopping.swagbag.common.model.TopTrendingModel
 import com.shopping.swagbag.databinding.FragmentParticularCategoryBinding
+import com.shopping.swagbag.databinding.LytBottomSheetBinding
 import com.shopping.swagbag.home.TopTrendingAdapter
 import com.shopping.swagbag.main_activity.MainActivity
 import com.shopping.swagbag.products.ProductSearchParameters
@@ -42,6 +45,7 @@ class ParticularCategoryFragment :
     private lateinit var categoryData: ParticularCategoryModel.Result
     private lateinit var mainActivity: MainActivity
     private lateinit var categoryName: String
+    private lateinit var bottomSheet: LytBottomSheetBinding
 
 
     override fun onAttach(context: Context) {
@@ -86,6 +90,67 @@ class ParticularCategoryFragment :
             setData()
         else
             getCategoryData()
+    }
+
+
+    private fun setUpBottomSheet() {
+        bottomSheet = viewBinding.includeBtmSheet
+        with(bottomSheet) {
+            mainActivity.run {
+                //facebook
+                facebook.setOnClickListener {
+                    val fbLink = getSettingResult("Facebook")
+                    val url = android.net.Uri.parse(fbLink)
+                    val intent = Intent(android.content.Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //instagram
+                instagram.setOnClickListener {
+                    val instaLink = getSettingResult("Instagram")
+                    val url = android.net.Uri.parse(instaLink)
+                    val intent = Intent(android.content.Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //twitter
+                twitter.setOnClickListener {
+                    val twitterLink = getSettingResult("Twitter")
+                    val url = android.net.Uri.parse(twitterLink)
+                    val intent = Intent(android.content.Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //linkedIn
+                linkedIn.setOnClickListener {
+                    val linkedInLink = getSettingResult("Linkdin")
+                    val url = android.net.Uri.parse(linkedInLink)
+                    val intent = Intent(android.content.Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //message
+                message.setOnClickListener {
+                    val phone = getSettingResult("Mobile")
+                    val intent = Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse("sms:$phone"))
+                    startActivity(intent)
+                }
+                //email
+                email.setOnClickListener {
+                    val mailId = getSettingResult("Email")
+                    val intent = Intent(
+                        android.content.Intent.ACTION_SENDTO, android.net.Uri.fromParts(
+                            "mailto", mailId, null
+                        )
+                    )
+                    startActivity(android.content.Intent.createChooser(intent, "Choose an Email client :"))
+                }
+                //whatsapp
+                whatsapp.setOnClickListener {
+                    val phone = getSettingResult("Mobile")
+                    val uri = android.net.Uri.parse("smsto:$phone")
+                    val i = Intent(android.content.Intent.ACTION_SENDTO, uri)
+                    i.setPackage("com.whatsapp")
+                    startActivity(android.content.Intent.createChooser(i, ""))
+                }
+            }
+        }
     }
 
     private fun getCategoryData() {
@@ -392,7 +457,35 @@ class ParticularCategoryFragment :
 
     override fun onItemClickWithName(name: String, position: Int) {
         mainActivity.hideToolbarAndBottomNavigation()
-        val action = ProductDetailsFragmentDirections.actionGlobalProductDetailsFragment(name)
-        findNavController().navigate(action)
+        when (name) {
+            "brand" -> {
+                categoryData.run {
+                    val productSearchParameters =
+                        ProductSearchParameters(
+                            "",
+                            brand[position].id,
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            categoryName,
+                            ""
+                        )
+                    val action =
+                        ParticularCategoryFragmentDirections.actionParticularCategoryFragmentToProductsFragment(
+                            Gson().toJson(
+                                productSearchParameters,
+                                ProductSearchParameters::class.java
+                            )
+                        )
+                    findNavController().navigate(action)
+                }
+            }
+            else -> {
+                val action = ProductDetailsFragmentDirections.actionGlobalProductDetailsFragment(name)
+                findNavController().navigate(action)
+            }
+        }
     }
 }

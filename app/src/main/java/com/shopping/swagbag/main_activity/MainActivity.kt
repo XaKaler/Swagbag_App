@@ -373,8 +373,6 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     }
 
     fun getSettingResult(name: String): String {
-        /* Log.e("TAG", "getSettingResult: $name\n" +
-                 "setting result is : $settingResult", )*/
 
         var result: String = ""
         for (settingName in settingResult.result) {
@@ -383,6 +381,10 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                 result = settingName.value
             }
         }
+
+         Log.e("setting result", "getSettingResult: $name\n" +
+                 "setting result is : $result", )
+
         return result
     }
 

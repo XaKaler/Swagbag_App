@@ -3,6 +3,7 @@
 
     <!--google-->
     <string name="google_map_api_key">AIzaSyB_dTh5gK_Jw0K-Snt7CG84DarcmxnAOOA</string>
+    <string name="default_google_web_client_id">270690778965-hs5g7v6n651b2osuln8dcfv0sup76g49.apps.googleusercontent.com</string>
 
     <!--facebook-->
     <string name="facebook_app_id">717667365980668</string>

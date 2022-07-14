@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.text.TextUtils
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.gson.Gson
 import com.shopping.swagbag.user.auth.signin.SignInModel
 
@@ -52,17 +54,15 @@ class AppUtils(private val context: Context) {
 
     fun isUserLoggedIn(): Boolean{
         val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-        /*
-        val isLoggedIn: Boolean = sharedPreferences.getBoolean(_isUserLogIn, false)
-        return if(isLoggedIn)
-            true
-        else{
-            val activity  = context as Activity
-            activity.findNavController()
-            false
-        }*/
+        val acct: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
+        var isLoggedIn = false
 
-        return sharedPreferences.getBoolean(_isUserLogIn, false)
+        if(sharedPreferences.getBoolean(_isUserLogIn, false))
+            isLoggedIn = true
+        else if(acct!=null)
+            isLoggedIn = true
+
+        return isLoggedIn
     }
 
     fun logOut(){

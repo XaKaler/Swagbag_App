@@ -43,7 +43,7 @@ class AllTimeSliderAdapter(
                     tvBestProductDetails.text = singleData.description
 
                     itemView.setOnClickListener{
-                        itemClick.onItemClickWithName(singleData.slug, position)
+                        itemClick.onItemClickWithName("brand", position)
                     }
                 }
             }

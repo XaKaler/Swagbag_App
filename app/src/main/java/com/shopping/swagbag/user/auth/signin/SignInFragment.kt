@@ -32,6 +32,7 @@ import com.shopping.swagbag.service.apis.UserApi
 import com.shopping.swagbag.user.auth.UserRepository
 import com.shopping.swagbag.user.auth.UserViewModel
 import com.shopping.swagbag.utils.AppUtils
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 
 class SignInFragment :
@@ -53,7 +54,7 @@ class SignInFragment :
                 try {
                     task.getResult(ApiException::class.java)
                     Log.e("google", task.result.id.toString())
-                    //signInUserWithGoogle()
+                    signInUserWithGoogle()
                 } catch (e: ApiException) {
                     toast("Something went wrong!")
                 }
@@ -78,11 +79,13 @@ class SignInFragment :
     private fun initViews() {
         registerFacebookCallback()
 
-        with(viewBinding)
+        with(viewBinding) {
             btnSignIn.setOnClickListener { signInUser() }
             btnGoogle.setOnClickListener {
                 val gso =
-                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken("270690778965-fvfnfmf1kluddnj8ud62msprnn855euu.apps.googleusercontent.com")
+                        .requestEmail()
                         .build()
                 val gsc = GoogleSignIn.getClient(context!!, gso)
                 val intent = gsc.signInIntent
@@ -96,6 +99,7 @@ class SignInFragment :
             forgotPassword.setOnClickListener { findNavController().navigate(R.id.action_signInFragment_to_resetPassword) }
         }
     }
+
 
     private fun registerFacebookCallback() {
         LoginManager.getInstance()
@@ -139,7 +143,7 @@ class SignInFragment :
 
     private fun signInUserWithGoogle() {
         val acct: GoogleSignInAccount? = getLastSignedInAccount(context!!)
-        viewModel.loginWithGoogle(acct?.id.toString(), acct?.email.toString())
+        viewModel.loginWithGoogle(acct?.idToken.toString(), acct?.email.toString())
             .observe(viewLifecycleOwner) {
                 when (it) {
                     is Resource.Loading -> showLoading()

@@ -38,18 +38,19 @@ class SignUpFragment : BaseFragment<
     private val signInResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
+                Log.e("gogole", it.data.toString())
                 val data: Intent? = it.data
                 val task: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
                 try {
                     task.getResult(ApiException::class.java)
-                   /* val gso =
+                    signUpUserWithGoogle()
+                    val gso =
                         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
                             .build()
                     val gsc = GoogleSignIn.getClient(context!!, gso)
                     gsc.signOut()
-                    moveToHome()*/
-                    signUpUserWithGoogle()
+                    //moveToHome()
                 } catch (e: ApiException) {
                     toast("Something went wrong!")
                 }
@@ -66,14 +67,21 @@ class SignUpFragment : BaseFragment<
         registerFacebookCallback()
         with(viewBinding) {
             signIn.setOnClickListener { findNavController().navigate(R.id.action_signUpFragment_to_signInFragment) }
+
             btnSignUp.setOnClickListener { signUp() }
+
             btnFacebook.setOnClickListener {
                 LoginManager.getInstance()
                     .logInWithReadPermissions(this@SignUpFragment, listOf("public_profile"))
             }
+
             btnGoogle.setOnClickListener {
+                val web_client_id= getString(R.string.default_google_web_client_id)
                 val gso =
-                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail()
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(web_client_id)
+                       // .requestServerAuthCode(web_client_id)
+                        .requestEmail()
                         .build()
                 val gsc = GoogleSignIn.getClient(context!!, gso)
                 val intent = gsc.signInIntent
@@ -179,10 +187,13 @@ class SignUpFragment : BaseFragment<
     private fun signUpUserWithGoogle() {
         val acct: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context!!)
 
-        Log.e("google sign up ", "id : ${acct?.id}\nemail : ${acct?.email}\nfname : ${acct?.displayName}\nlname : ${acct?.givenName}\n")
+        Log.e(
+            "google sign up ",
+            "id : ${acct?.id}\nemail : ${acct?.email}\nfname : ${acct?.displayName}\nlname : ${acct?.givenName}\ntoken : ${acct?.idToken}"
+        )
 
         viewModel.registerGoogle(
-            acct?.id.toString(),
+            acct?.idToken.toString(),
             acct?.email.toString(),
             acct?.displayName.toString(),
             acct?.givenName.toString()

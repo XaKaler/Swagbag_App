@@ -130,12 +130,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
                                     //after click on any item in list then show related result
                                     setProductMenu()
                                     showSearchResult(currentMasterCategoryItems)
-                                }else{
-                                    showNoProductFound()
                                 }
                             }
 
-
+                            //if no product found related search query then show sorry! no product found
+                            if(masterCategoryList.isEmpty())
+                                showNoProductFound()
                         }
                     }
 
@@ -217,7 +217,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding,
         viewBinding.includeProductMenu.root.visibility = View.VISIBLE
         productMenuBinding.masterCategoryName.text = currentMasterCategory
 
-        filterDialog = BottomFilterDialog(currentMasterCategory)
+        //filterDialog = BottomFilterDialog(currentMasterCategory)
 //        filterDialog.getCategoryFilter()
 
         with(viewBinding) {

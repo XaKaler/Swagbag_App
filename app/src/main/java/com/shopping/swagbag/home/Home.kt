@@ -1,6 +1,8 @@
 package com.shopping.swagbag.home
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.shopping.swagbag.category.CategoryToBegModel
-import com.shopping.swagbag.category.ParticularCategoryFragmentDirections
 import com.shopping.swagbag.common.GridSpaceItemDecoration
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.adapter.AutoImageSliderAdapter
@@ -20,8 +21,8 @@ import com.shopping.swagbag.common.adapter.BestProductAdapter
 import com.shopping.swagbag.common.adapter.CategoryToBegAdapter
 import com.shopping.swagbag.common.base.BaseFragment
 import com.shopping.swagbag.common.model.BestProductModel
-import com.shopping.swagbag.common.model.TopTrendingModel
 import com.shopping.swagbag.databinding.FragmentHomeBinding
+import com.shopping.swagbag.databinding.LytBottomSheetBinding
 import com.shopping.swagbag.main_activity.MainActivity
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductSearchParameters
@@ -35,12 +36,15 @@ import com.smarteist.autoimageslider.SliderView
 import kotlin.system.exitProcess
 
 
-class Home :
-    BaseFragment<FragmentHomeBinding, ProductViewModel, ProductRepository>(FragmentHomeBinding::inflate),
-RecycleViewItemClick{
+class Home : BaseFragment<
+        FragmentHomeBinding,
+        ProductViewModel,
+        ProductRepository
+        >(FragmentHomeBinding::inflate), RecycleViewItemClick {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var homeResult: HomeModel
+    private lateinit var bottomSheet: LytBottomSheetBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -72,10 +76,71 @@ RecycleViewItemClick{
 
         homeResult = mainActivity.getHome()
         setData()
+        setUpBottomSheet()
 
     }
 
-    private fun setData(){
+    private fun setUpBottomSheet() {
+        bottomSheet = viewBinding.includeBtmSheet
+        with(bottomSheet) {
+            mainActivity.run {
+                //facebook
+                facebook.setOnClickListener {
+                    val fbLink = getSettingResult("Facebook")
+                    val url = Uri.parse(fbLink)
+                    val intent = Intent(Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //instagram
+                instagram.setOnClickListener {
+                    val instaLink = getSettingResult("Instagram")
+                    val url = Uri.parse(instaLink)
+                    val intent = Intent(Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //twitter
+                twitter.setOnClickListener {
+                    val twitterLink = getSettingResult("Twitter")
+                    val url = Uri.parse(twitterLink)
+                    val intent = Intent(Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //linkedIn
+                linkedIn.setOnClickListener {
+                    val linkedInLink = getSettingResult("Linkdin")
+                    val url = Uri.parse(linkedInLink)
+                    val intent = Intent(Intent.ACTION_VIEW, url)
+                    startActivity(intent)
+                }
+                //message
+                message.setOnClickListener {
+                    val phone = getSettingResult("Mobile")
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:$phone"))
+                    startActivity(intent)
+                }
+                //email
+                email.setOnClickListener {
+                    val mailId = getSettingResult("Email")
+                    val intent = Intent(
+                        Intent.ACTION_SENDTO, Uri.fromParts(
+                            "mailto", mailId, null
+                        )
+                    )
+                    startActivity(Intent.createChooser(intent, "Choose an Email client :"))
+                }
+                //whatsapp
+                whatsapp.setOnClickListener {
+                    val phone = getSettingResult("Mobile")
+                    val uri = Uri.parse("smsto:$phone")
+                    val i = Intent(Intent.ACTION_SENDTO, uri)
+                    i.setPackage("com.whatsapp")
+                    startActivity(Intent.createChooser(i, ""))
+                }
+            }
+        }
+    }
+
+    private fun setData() {
         setAutoImageSlider(homeResult.result.slider)
         setCategoryToBeg(homeResult.result.masterCategory)
         showOfferImages()

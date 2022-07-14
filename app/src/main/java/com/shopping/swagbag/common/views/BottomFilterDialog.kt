@@ -23,7 +23,10 @@ import com.shopping.swagbag.service.RemoteDataSource
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.ProductApi
 
-class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFragment() {
+class BottomFilterDialog(
+    private val categoryName: String,
+    private val callback: FilterCallback
+    ) : BottomSheetDialogFragment() {
 
     private lateinit var viewBinding: FragmentFilterBinding
     private lateinit var productViewModel: ProductViewModel
@@ -132,4 +135,8 @@ class BottomFilterDialog(private val categoryName: String) : BottomSheetDialogFr
             }
         }
     }
+interface FilterCallback {
+    fun onCallback(color: String)
 }
+}
+
