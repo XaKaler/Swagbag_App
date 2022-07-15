@@ -43,6 +43,7 @@ class ProductFilterAdapter(
                     itemView.setOnClickListener {
                         selectedPosition = position
                         Log.e("itemClick", filterName.text.toString())
+                        itemClick.onItemClickWithName(filterName.text.toString(), 0)
                         when(filterName.text.toString()){
                             "Filter by keyword" -> {
                                 visibleView = edtFilterByKeyword
@@ -97,7 +98,7 @@ class ProductFilterAdapter(
                         layoutManager = LinearLayoutManager(context)
                         adapter = FilterBrandAdapter(context, allBrands)
                     }
-                    //3. colors
+                   /* //3. colors
                     @Suppress("UNCHECKED_CAST")
                     val allColors: List<String> = filterValue["Color"] as List<String>
                     rvColor.run{
@@ -117,7 +118,7 @@ class ProductFilterAdapter(
                     rvColour.run{
                         layoutManager = LinearLayoutManager(context)
                         adapter = FilterColorAdapter(context, allColours)
-                    }
+                    }*/
                 }
             }
 

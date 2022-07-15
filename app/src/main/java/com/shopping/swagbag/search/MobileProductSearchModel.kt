@@ -74,7 +74,7 @@ data class MobileProductSearchModel(
             @SerializedName("master_category")
             val masterCategory: List<String>,
             val name: String, // Urban-Detox Pet Shampoo
-            val options: List<Any>,
+            val options: List<Option>,
             @SerializedName("packaging_charge")
             val packagingCharge: String,
             val point: Int, // 0
@@ -146,6 +146,11 @@ data class MobileProductSearchModel(
                 val updateDate: String, // 2022-03-30T04:59:42.000Z
                 @SerializedName("__v")
                 val v: Int // 0
+            )
+
+            data class Option(
+                val name: String, // Colour
+                val value: String // #FFA500:68.08:2023424:10
             )
 
             data class File(

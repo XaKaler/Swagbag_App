@@ -25,8 +25,9 @@ import com.shopping.swagbag.service.apis.ProductApi
 
 class BottomFilterDialog(
     private val categoryName: String,
-    private val callback: FilterCallback
-    ) : BottomSheetDialogFragment() {
+    private val userSelectedFilters: (String) -> Unit
+    // private val callback: FilterCallback
+) : BottomSheetDialogFragment() {
 
     private lateinit var viewBinding: FragmentFilterBinding
     private lateinit var productViewModel: ProductViewModel
@@ -93,13 +94,13 @@ class BottomFilterDialog(
         filterMap["All Categories"] = categoryFilter.category
         filterMap["Brands"] = categoryFilter.brands
 
-        for(singleExtraFilter in extraFilter.result){
+   /*     for(singleExtraFilter in extraFilter.result){
             when(singleExtraFilter.name){
                 "Color" -> filterMap["Color"] = singleExtraFilter.value
                 "Size" -> filterMap["Size"] = singleExtraFilter.value
                 "Colour" -> filterMap["Colour"] = singleExtraFilter.value
             }
-        }
+        }*/
 
         setFilterList()
     }
@@ -110,7 +111,7 @@ class BottomFilterDialog(
                 is Resource.Loading -> {}
                 is Resource.Success -> {
                     categoryFilter = it.value
-                    getExtraFilter()
+                    sortData()
                 }
                 is Resource.Failure -> {
                     Log.e("filter", it.errorBody.toString())
@@ -130,6 +131,7 @@ class BottomFilterDialog(
                     object : RecycleViewItemClick {
                         override fun onItemClickWithName(name: String, position: Int) {
                             Log.e("filter selected item", "item name is : $name")
+                            userSelectedFilters.invoke(name)
                         }
                     })
             }

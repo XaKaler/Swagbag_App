@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.shopping.swagbag.R
-import com.shopping.swagbag.common.Dialogs
 import com.shopping.swagbag.common.GridSpaceItemDecoration
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.base.BaseFragment
@@ -201,7 +200,9 @@ class SearchFragment : BaseFragment<
 
             //filter
             tvFilter.setOnClickListener {
-                    filterDialog.show(childFragmentManager, "filter")
+                BottomFilterDialog(currentMasterCategory) { color ->
+                    Log.e("color", color)
+                }.show(childFragmentManager, "filter")
             }
         }
     }

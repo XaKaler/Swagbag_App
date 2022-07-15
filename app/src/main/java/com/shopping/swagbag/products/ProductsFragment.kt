@@ -92,11 +92,9 @@ class ProductsFragment : BaseFragment<
 
             //filter product according to master category
             tvFilter.setOnClickListener {
-                BottomFilterDialog("men", object: BottomFilterDialog.FilterCallback {
-                    override fun onCallback(color: String) {
-                        TODO("Not yet implemented")
-                    }
-                }).show(childFragmentManager, "filter")
+                BottomFilterDialog("men") { color ->
+                    Log.e("color", color)
+                }.show(childFragmentManager, "filter")
                 filterDialog.show(childFragmentManager, "filter")
             }
         }

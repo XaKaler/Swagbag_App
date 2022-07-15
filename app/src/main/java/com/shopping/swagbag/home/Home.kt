@@ -33,7 +33,6 @@ import com.shopping.swagbag.service.apis.ProductApi
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
-import kotlin.system.exitProcess
 
 
 class Home : BaseFragment<
@@ -64,20 +63,15 @@ class Home : BaseFragment<
 
         // handle back pressed
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            exitProcess(0)
+            mainActivity.finish()
         }
 
-        initViews()
-    }
-
-    private fun initViews() {
         mainActivity.showToolbarAndBottomNavigation()
         mainActivity.setMasterCategories()
 
         homeResult = mainActivity.getHome()
         setData()
         setUpBottomSheet()
-
     }
 
     private fun setUpBottomSheet() {

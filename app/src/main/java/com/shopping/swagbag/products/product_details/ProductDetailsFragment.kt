@@ -425,7 +425,11 @@ class ProductDetailsFragment : BaseFragment<
         with(viewBinding) {
             rvProductImage.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                adapter = SingleProductImagesAdatper(context, data)
+                adapter = SingleProductImagesAdatper(context, data, object: RecycleViewItemClick{
+                    override fun onItemClickWithName(name: String, position: Int) {
+                        viewBinding.sliderView.currentPagePosition = position
+                    }
+                })
             }
         }
     }
@@ -440,18 +444,10 @@ class ProductDetailsFragment : BaseFragment<
             context?.let { ProductImageSliderAdapter(it, data) }
                 ?.let { sliderView.setSliderAdapter(it) }
 
-            // below method is use to set
-            // scroll time in seconds.
-            //sliderView.scrollTimeInSec = 5
-
-            // to set it scrollable automatically
-            // we use below method.
-            // sliderView.isAutoCycle = true
-
             sliderView.setIndicatorAnimation(com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType.THIN_WORM)
             sliderView.setSliderTransformAnimation(com.smarteist.autoimageslider.SliderAnimations.SIMPLETRANSFORMATION)
-            sliderView.autoCycleDirection =
-                SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH
+
+            val currentPosition = sliderView.currentPagePosition
 
             // to start auto cycle below method is used.
             //sliderView.startAutoCycle()
