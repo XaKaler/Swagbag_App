@@ -17,9 +17,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.shopping.swagbag.R
 import com.shopping.swagbag.category.*
+import com.shopping.swagbag.category.particular_category.ParticularCategoryFragmentDirections
 import com.shopping.swagbag.common.ProgressDialogFragment
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.adapter.CategorySliderAdapter
+import com.shopping.swagbag.common.base.BaseFragment
+import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.databinding.ActivityMainBinding
 import com.shopping.swagbag.databinding.MainToolbarBinding
 import com.shopping.swagbag.databinding.NavigationDrawerBinding
@@ -70,6 +73,8 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
         setContentView(viewBinding.root)
 
         initViews()
+
+        //GeneralFunction.walletItemCount = 15
     }
 
     private fun initViews() {
@@ -189,7 +194,6 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
 
     private fun apiCalls() {
         getSettings()
-        getWallet()
         getExtraFilter()
     }
 
@@ -202,35 +206,6 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                     AppUtils(this).saveExtraFilter(extraFilter)
                 }
                 is Resource.Failure -> {}
-            }
-        }
-    }
-
-    fun getWalletResult(): WalletModel {
-        Log.e("wallet", "getWalletResult: $walletResult")
-        return if (this::walletResult.isInitialized)
-            walletResult
-        else {
-            getWallet()
-            Log.e("wallet", "getWalletResult if not initialized: $walletResult")
-            walletResult
-        }
-    }
-
-    fun getWallet() {
-        if (appUtils.isUserLoggedIn()) {
-            userViewModel.wallet(appUtils.getUserId(), "", "").observe(this) {
-                when (it) {
-                    is Resource.Loading -> {}
-                    is Resource.Success -> {
-                        walletResult = it.value
-                        Log.e("wallet", "getWallet in main activity: $walletResult")
-                    }
-                    is Resource.Failure -> {
-                        Toast.makeText(this, "Failed to get wallet", Toast.LENGTH_SHORT).show()
-                        Log.e("wallet", "getWallet error in main activity: $it")
-                    }
-                }
             }
         }
     }

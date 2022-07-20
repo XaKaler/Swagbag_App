@@ -47,17 +47,6 @@
                 tools:itemCount="1"
                 tools:listitem="@layout/single_brand_detail" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvBrandBestSeller"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_between_view_and_subview"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView52"
-                tools:itemCount="1"
-                tools:listitem="@layout/single_card_10" />
 
             <TextView
                 android:id="@+id/textView52"
@@ -81,6 +70,19 @@
                 android:drawableEnd="@drawable/ic_right_arrow"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvBrandDetails" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvBrandBestSeller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_between_view_and_subview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView52"
+                tools:itemCount="1"
+                tools:listitem="@layout/single_card_10" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,9 +1,8 @@
-package com.shopping.swagbag.category
+package com.shopping.swagbag.category.particular_category
 
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.shopping.swagbag.R
+import com.shopping.swagbag.category.CategoryRepository
+import com.shopping.swagbag.category.CategoryToBegModel
+import com.shopping.swagbag.category.CategoryViewModel
 import com.shopping.swagbag.common.GridSpaceItemDecoration
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.adapter.AllTimeSliderAdapter
@@ -47,6 +49,16 @@ class ParticularCategoryFragment :
     private lateinit var categoryName: String
     private lateinit var bottomSheet: LytBottomSheetBinding
 
+
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentParticularCategoryBinding.inflate(inflater, container, false)
+
+    override fun getViewModel() = CategoryViewModel::class.java
+
+    override fun getFragmentRepository() =
+        CategoryRepository(remoteDataSource.getBaseUrl().create(CategoryApi::class.java))
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -188,21 +200,12 @@ class ParticularCategoryFragment :
         setTopTrending(categoryData.section)
         showOfferImages()
         setCategoryToBeg(categoryData.category)
-        setBestOffer(categoryData.featured)
-        setDealOfTheDay(categoryData.deals)
-        setFeatureBrands(categoryData.brand)
+        setRecommendForYou(categoryData.featured)
+        setMostPopular(categoryData.deals)
+        setRecentlyVisited(categoryData.brand)
+        setBrand(categoryData.brand)
+        setLatestNews(categoryData.brand)
     }
-
-    override fun getFragmentBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentParticularCategoryBinding.inflate(inflater, container, false)
-
-    override fun getViewModel() = CategoryViewModel::class.java
-
-    override fun getFragmentRepository() =
-        CategoryRepository(remoteDataSource.getBaseUrl().create(CategoryApi::class.java))
-
 
     private fun setTopTrending(data: List<ParticularCategoryModel.Result.Section>) {
 
@@ -359,7 +362,7 @@ class ParticularCategoryFragment :
 
     }
 
-    private fun setBestOffer(data: List<ParticularCategoryModel.Result.Featured>) {
+    private fun setRecommendForYou(data: List<ParticularCategoryModel.Result.Featured>) {
         val bestProductModel = ArrayList<BestProductModel>()
 
         for (item in data) {
@@ -384,7 +387,7 @@ class ParticularCategoryFragment :
         }
 
         with(viewBinding) {
-            rvBestOffer.apply {
+            rvRecommendForYou.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter =
                     BestProductAdapter(context, bestProductModel, this@ParticularCategoryFragment)
@@ -393,7 +396,7 @@ class ParticularCategoryFragment :
 
     }
 
-    private fun setDealOfTheDay(data: List<ParticularCategoryModel.Result.Deal>) {
+    private fun setMostPopular(data: List<ParticularCategoryModel.Result.Deal>) {
         val bestProductModel = ArrayList<BestProductModel>()
 
         for (item in data) {
@@ -419,7 +422,7 @@ class ParticularCategoryFragment :
         }
 
         with(viewBinding) {
-            rvPromotedBrands.apply {
+            rvMostPopular.apply {
                 layoutManager = GridLayoutManager(context, 2)
                 adapter =
                     BestProductAdapter(context, bestProductModel, this@ParticularCategoryFragment)
@@ -427,7 +430,7 @@ class ParticularCategoryFragment :
         }
     }
 
-    private fun setFeatureBrands(data: List<ParticularCategoryModel.Result.Brand>) {
+    private fun setRecentlyVisited(data: List<ParticularCategoryModel.Result.Brand>) {
         val allTimeSliderModel = ArrayList<AllTimeSliderModel>()
 
         for (item in data) {
@@ -444,11 +447,67 @@ class ParticularCategoryFragment :
         }
 
         with(viewBinding) {
-            rvKidsPicks.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvRecentlyVisited.apply {
+                layoutManager = GridLayoutManager(context, 2)
                 adapter = AllTimeSliderAdapter(
                     context,
                     allTimeSliderModel,
+                    this@ParticularCategoryFragment
+                )
+            }
+        }
+    }
+
+    private fun setBrand(data: List<ParticularCategoryModel.Result.Brand>) {
+        val allTimeSliderModel = ArrayList<AllTimeSliderModel>()
+
+        for (item in data) {
+            allTimeSliderModel.add(
+                AllTimeSliderModel(
+                    item.desc,
+                    item.file.toString(),
+                    item.id,
+                    "",
+                    item.name,
+                    item.slug
+                )
+            )
+        }
+
+        with(viewBinding) {
+            rvBrands.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = ParticularCategoryBrandAdapter(
+                    context,
+                    data,
+                    this@ParticularCategoryFragment
+                )
+            }
+        }
+    }
+
+    private fun setLatestNews(data: List<ParticularCategoryModel.Result.Brand>) {
+        val allTimeSliderModel = ArrayList<AllTimeSliderModel>()
+
+        for (item in data) {
+            allTimeSliderModel.add(
+                AllTimeSliderModel(
+                    item.desc,
+                    item.file.toString(),
+                    item.id,
+                    "",
+                    item.name,
+                    item.slug
+                )
+            )
+        }
+
+        with(viewBinding) {
+            rvLatestNews.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = LatestNewsAdapter(
+                    context,
+                    data,
                     this@ParticularCategoryFragment
                 )
             }
@@ -459,31 +518,16 @@ class ParticularCategoryFragment :
         mainActivity.hideToolbarAndBottomNavigation()
         when (name) {
             "brand" -> {
-                categoryData.run {
-                    val productSearchParameters =
-                        ProductSearchParameters(
-                            "",
-                            brand[position].id,
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            categoryName,
-                            ""
-                        )
-                    val action =
-                        ParticularCategoryFragmentDirections.actionParticularCategoryFragmentToProductsFragment(
-                            Gson().toJson(
-                                productSearchParameters,
-                                ProductSearchParameters::class.java
-                            )
-                        )
-                    findNavController().navigate(action)
-                }
+                val action =
+                    ParticularCategoryFragmentDirections.actionParticularCategoryFragmentToBrandDetailFragment(
+                        categoryData.brand[position].slug
+                    )
+                findNavController().navigate(action)
             }
+            "news" -> {}
             else -> {
-                val action = ProductDetailsFragmentDirections.actionGlobalProductDetailsFragment(name)
+                val action =
+                    ProductDetailsFragmentDirections.actionGlobalProductDetailsFragment(name)
                 findNavController().navigate(action)
             }
         }

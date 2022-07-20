@@ -206,6 +206,7 @@
             android:layout_marginStart="@dimen/all_time_margin_start"
             android:text="Best offers"
             android:layout_marginTop="@dimen/space_between_views"
+            android:visibility="gone"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvCategoryToBag" />
@@ -230,6 +231,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -272,7 +274,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPromotedBrands"
+            android:id="@+id/rvDealOfTheDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -293,7 +295,7 @@
             android:text="Featured"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvPromotedBrands" />
+            app:layout_constraintTop_toBottomOf="@id/rvDealOfTheDay" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -338,10 +340,10 @@
             style="@style/sunflower_normal_14_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/all_time_margin_start"
             android:paddingVertical="@dimen/dimen_10"
             android:text="Top Trending"
             android:textAllCaps="true"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/heading1"
             app:layout_constraintTop_toBottomOf="@+id/sliderView" />
 

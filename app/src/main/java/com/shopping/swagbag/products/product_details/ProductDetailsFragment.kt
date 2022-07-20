@@ -20,6 +20,7 @@ import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.adapter.ProductImageSliderAdapter
 import com.shopping.swagbag.common.base.BaseFragment
+import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.databinding.FragmentProductDetailsBinding
 import com.shopping.swagbag.dummy.DummyData
 import com.shopping.swagbag.products.*
@@ -155,28 +156,24 @@ class ProductDetailsFragment : BaseFragment<
 
                 // set product options like color or size
                 val optionsList = product.result.options
-
                 if (optionsList.isNotEmpty()) {
                     for (option in optionsList.indices) {
-
                         val optionName = optionsList[option].name
                         val optionValue = optionsList[option].value
-
                         if (optionName == "Size") {
                             with(viewBinding) {
                                 txtSize.visibility = View.VISIBLE
                                 rvSize.visibility = View.VISIBLE
                                 size.visibility = View.VISIBLE
                                 sizeChart.visibility = View.VISIBLE
-
-                                sizeList = stringToList(optionValue)
+                                sizeList = GeneralFunction.stringToList(optionValue)
                                 setProductSize(sizeList)
                             }
                             //option is coming in string form separate with comma
                             //so we have exclude it
                         } else if (optionName == "Colour") {
                             viewBinding.colors.root.visibility = View.VISIBLE
-                            colorList = stringToList(optionValue)
+                            colorList = GeneralFunction.stringToList(optionValue)
                             setProductColor(colorList)
                         }
                     }
@@ -279,53 +276,6 @@ class ProductDetailsFragment : BaseFragment<
                     }
                 }
             }
-    }
-
-    private fun stringToList(optionValue: String): ArrayList<ProductOptionModel> {
-        //1. remove all white spaces from string
-        //2. iterate string
-        //3. value:price:sku:qty these are 4 parameters in string
-        //make list of them
-
-        val updatedOptionValue = optionValue.replace("\\s".toRegex(), "")
-
-        Log.e("TAG", "Remove white space: $updatedOptionValue")
-
-        val list = ArrayList<ProductOptionModel>()
-
-        var colonCount = 0
-        var value = ""
-        var price = ""
-        var sku = ""
-        var qty = ""
-
-        for (option in updatedOptionValue) {
-
-            when (option) {
-                ':' -> colonCount += 1
-                ',' -> {
-                    colonCount = 0
-                    list.add(ProductOptionModel(value, price, sku, qty))
-
-                    Log.e("TAG", "option == ,: $list  ")
-
-                    value = ""
-                    price = ""
-                    sku = ""
-                    qty = ""
-                }
-                else -> {
-                    when (colonCount) {
-                        0 -> value += option
-                        1 -> price += option
-                        2 -> sku += option
-                        3 -> qty += option
-                    }
-                }
-            }
-        }
-        list.add(ProductOptionModel(value, price, sku, qty))
-        return list
     }
 
     private fun setProductColor(colors: List<ProductOptionModel>) {

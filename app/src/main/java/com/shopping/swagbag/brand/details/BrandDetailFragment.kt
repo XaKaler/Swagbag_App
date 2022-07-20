@@ -27,7 +27,7 @@ class BrandDetailFragment :
     ) {
 
     private lateinit var toolbarBinding: ToolbarWithNoMenuWhiteBgBinding
-    private lateinit var brand: BrandModel.Result
+    private lateinit var brandSlug: String
     private lateinit var brandDetails: BrandDetailsModel
 
     override fun getFragmentBinding(
@@ -55,17 +55,10 @@ class BrandDetailFragment :
         setToolbar()
 
         with(viewBinding) {
-            //set brand image
-            context?.let {
-                Glide.with(it)
-                    .load(brand.file)
-                    .into(imgBrand)
-            }
-
             //click events
             btnViewMore.setOnClickListener {
                 val productSearchParameters =
-                    ProductSearchParameters("", brand.id, "", "", "", "", "", "", "")
+                    ProductSearchParameters("", brandDetails.brands.id, "", "", "", "", "", "", "")
 
                 val action = BrandDetailFragmentDirections.actionGlobalProductsFragment(
                     Gson().toJson(
@@ -79,7 +72,7 @@ class BrandDetailFragment :
     }
 
     private fun getBrandDetails() {
-        viewModel.brandDetails(brand.slug).observe(viewLifecycleOwner){
+        viewModel.brandDetails(brandSlug).observe(viewLifecycleOwner){
             when(it){
                 is Resource.Loading -> showLoading()
                 is Resource.Success -> {
@@ -106,6 +99,13 @@ class BrandDetailFragment :
     }
 
     private fun showBrandDetails() {
+        //set brand image
+        context?.let {
+            Glide.with(it)
+                .load(brandDetails.brands.file)
+                .into(viewBinding.imgBrand)
+        }
+
         viewBinding.rvBrandDetails.run{
             val aboutBrandList = ArrayList<AboutBrandModel>()
 
@@ -121,7 +121,7 @@ class BrandDetailFragment :
 
     private fun getArgument() {
         val args: BrandDetailFragmentArgs by navArgs()
-        brand = Gson().fromJson(args.brand, BrandModel.Result::class.java)
+        brandSlug = args.brandSlug
     }
 
     private fun setToolbar() {
@@ -131,7 +131,7 @@ class BrandDetailFragment :
             imgBack.setOnClickListener{
                 findNavController().popBackStack()
             }
-            tvTitle.text = brand.name
+            tvTitle.text ="Brand Details"
         }
     }
 }

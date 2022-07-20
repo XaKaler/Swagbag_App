@@ -1,4 +1,4 @@
-package com.shopping.swagbag.category
+package com.shopping.swagbag.category.particular_category
 
 
 import com.google.gson.annotations.SerializedName

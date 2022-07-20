@@ -58,6 +58,12 @@
     <dimen name="grid_circle_image">111dp</dimen>
     <dimen name="collage_spacing">2dp</dimen>
 
+    <dimen name="particular_category_brand_image_height">40dp</dimen>
+    <dimen name="particular_category_brand_image_width">80dp</dimen>
+
+    <dimen name="latest_news_image_height">150dp</dimen>
+    <dimen name="latest_news_image_width">200dp</dimen>
+
     <dimen name="home_page_logo_size">35dp</dimen>
 
     <dimen name="home_page_social_media_icon">50dp</dimen>

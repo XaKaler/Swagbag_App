@@ -1,5 +1,6 @@
 package com.shopping.swagbag.service.apis
 
+import com.shopping.swagbag.blog.BlogListModel
 import com.shopping.swagbag.contactus.ContactUsModel
 import com.shopping.swagbag.settings.SettingsModel
 import com.shopping.swagbag.coupons.GiftCardModel
@@ -17,6 +18,9 @@ interface SettingApi {
 
     @GET("all-country")
     suspend fun allCountry(): AllCountryModel
+
+    @GET("all-blogs")
+    suspend fun allBlogs(): BlogListModel
 
     @GET("all-city")
     suspend fun allCity(

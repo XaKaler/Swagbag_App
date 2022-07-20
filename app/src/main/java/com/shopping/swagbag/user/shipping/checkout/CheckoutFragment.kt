@@ -70,10 +70,6 @@ class CheckoutFragment : BaseFragment<
 
         toolbarBinding = viewBinding.include
 
-        initViews()
-    }
-
-    private fun initViews() {
         //initialize payment view model
         val repository =
             PaymentRepository(PaymentDataSource().getBaseUrl().create(PaymentApi::class.java))
@@ -81,6 +77,9 @@ class CheckoutFragment : BaseFragment<
             this@CheckoutFragment,
             PaymentViewModelFactory(repository)
         )[PaymentViewModel::class.java]
+
+        getWallet()
+        setToolbar()
 
         with(viewBinding) {
             placeOrder.setOnClickListener {
@@ -95,10 +94,24 @@ class CheckoutFragment : BaseFragment<
                 }
             }
         }
+    }
 
-        setToolbar()
+    private fun getWallet() {
+        val userViewModel = getUserViewModel()
+        val userId = context?.let { AppUtils(it).getUserId() }
 
-        getArgument()
+        userViewModel.wallet(userId!!, "", "").observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> showLoading()
+                is Resource.Success -> {
+                    stopShowingLoading()
+                    walletData = it.value
+
+                    getArgument()
+                }
+                is Resource.Failure -> stopShowingLoading()
+            }
+        }
     }
 
     private fun placeOrders() {
@@ -220,10 +233,8 @@ class CheckoutFragment : BaseFragment<
 
     private fun getArgument() {
         val args: CheckoutFragmentArgs by navArgs()
-        address = args.address
-        cartData = args.cartData
-
-        walletData = mainActivity.getWalletResult()
+        address = Gson().fromJson(args.address, AllAddressModel.Result::class.java)
+        cartData = Gson().fromJson(args.cartData, GetCartModel::class.java)
         tax = mainActivity.getSettingResult("TAX (Percentage)").toInt()
 
         setData()

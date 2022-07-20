@@ -21,6 +21,10 @@ import com.google.gson.Gson
 import com.shopping.swagbag.R
 import com.shopping.swagbag.common.ProgressDialogFragment
 import com.shopping.swagbag.service.RemoteDataSource
+import com.shopping.swagbag.service.apis.UserApi
+import com.shopping.swagbag.user.UserViewModelFactory
+import com.shopping.swagbag.user.auth.UserRepository
+import com.shopping.swagbag.user.auth.UserViewModel
 import java.lang.reflect.Type
 
 abstract class BaseFragment<VB : ViewBinding, VM : ViewModel, BR : BaseRepository>(
@@ -60,6 +64,16 @@ abstract class BaseFragment<VB : ViewBinding, VM : ViewModel, BR : BaseRepositor
     abstract fun getViewModel(): Class<VM>
 
     abstract fun getFragmentRepository(): BR
+
+    fun getUserViewModel(): UserViewModel {
+        val userRepository =
+            UserRepository(remoteDataSource.getBaseUrl().create(UserApi::class.java))
+
+        return ViewModelProvider(
+             this,
+             UserViewModelFactory(userRepository)
+         )[UserViewModel::class.java]
+    }
 
     fun showLoading() {
         val manager = requireActivity().supportFragmentManager

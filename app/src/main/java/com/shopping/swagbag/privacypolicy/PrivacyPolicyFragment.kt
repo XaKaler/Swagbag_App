@@ -6,14 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import androidx.navigation.fragment.findNavController
-import com.shopping.swagbag.main_activity.MainActivity
 import com.shopping.swagbag.R
-import com.shopping.swagbag.service.apis.SettingApi
-import com.shopping.swagbag.settings.SettingRepository
 import com.shopping.swagbag.common.base.BaseFragment
 import com.shopping.swagbag.databinding.FragmentPrivacyPolicyBinding
 import com.shopping.swagbag.databinding.ToolbarWithNoMenuWhiteBgBinding
+import com.shopping.swagbag.main_activity.MainActivity
+import com.shopping.swagbag.service.apis.SettingApi
+import com.shopping.swagbag.settings.SettingRepository
 import com.shopping.swagbag.utils.SettingViewModel
 
 class PrivacyPolicyFragment :
@@ -70,7 +72,7 @@ class PrivacyPolicyFragment :
             }
         }*/
 
-        val aboutUs = mainActivity.getSettingResult("About")
+        val aboutUs = mainActivity.getSettingResult("Privacy")
         viewBinding.privacyPolicy.text = html2Text(aboutUs)
     }
 

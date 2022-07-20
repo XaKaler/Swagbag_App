@@ -46,7 +46,7 @@ data class CategoryModel(
         data class Master(
             val `file`: String, // https://swagbag-space.fra1.digitaloceanspaces.com/16399423877561lqex.png
             val id: String, // 615ae14c63d6a6435a183db7
-            val name: String // Kids
+            val name: String = "" // Kids
         )
     }
 }

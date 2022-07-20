@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleItemClickWithView
 import com.shopping.swagbag.common.RecycleViewItemClick
@@ -14,10 +15,10 @@ import com.shopping.swagbag.common.base.BaseFragment
 import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.databinding.FragmentShoppingBegWithProductBinding
 import com.shopping.swagbag.databinding.ToolbarWithTwoMenusDeleteAndWishlistBinding
-import com.shopping.swagbag.service.apis.ProductApi
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductViewModel
 import com.shopping.swagbag.service.Resource
+import com.shopping.swagbag.service.apis.ProductApi
 import com.shopping.swagbag.utils.AppUtils
 
 class ShoppingBegWithProductFragment : BaseFragment<
@@ -46,13 +47,16 @@ class ShoppingBegWithProductFragment : BaseFragment<
     private fun initViews() {
         toolbar()
 
+        if (this::product.isInitialized)
+            setItems()
+        else
             getCart()
 
         with(viewBinding) {
             placeOrder.setOnClickListener {
                 val action =
                     ShoppingBegWithProductFragmentDirections.actionShoppingBegWithProductFragmentToShoppingBegSelectAddressFragment(
-                        product
+                        Gson().toJson(product, GetCartModel::class.java)
                     )
 
                 findNavController().navigate(action)
@@ -68,16 +72,7 @@ class ShoppingBegWithProductFragment : BaseFragment<
 
                     is Resource.Success -> {
                         stopShowingLoading()
-
-                        val productCount = it.value.result?.size
-                        Log.e("TAG", "getCart: $productCount")
-
-                        if (productCount == 0) {
-                            showEmptyCart()
-                        } else {
-                            product = it.value
-                            setItems(it.value.result)
-                        }
+                        product = it.value
                     }
 
                     is Resource.Failure -> {
@@ -89,13 +84,22 @@ class ShoppingBegWithProductFragment : BaseFragment<
         }
     }
 
-    private fun setItems(product: List<GetCartModel.Result?>?) {
-        with(viewBinding) {
-            rvShoppingBegItems.apply {
-                layoutManager = LinearLayoutManager(context)
-                shoppingBegProductAdapter =
-                    ShoppingBegProductAdapter(context, product, this@ShoppingBegWithProductFragment, this@ShoppingBegWithProductFragment)
-                adapter = shoppingBegProductAdapter
+    private fun setItems() {
+        if (product.result!!.isEmpty()) {
+            showEmptyCart()
+        } else {
+            with(viewBinding) {
+                rvShoppingBegItems.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    shoppingBegProductAdapter =
+                        ShoppingBegProductAdapter(
+                            context,
+                            product.result,
+                            this@ShoppingBegWithProductFragment,
+                            this@ShoppingBegWithProductFragment
+                        )
+                    adapter = shoppingBegProductAdapter
+                }
             }
         }
     }

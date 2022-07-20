@@ -361,11 +361,11 @@
         <action
             android:id="@+id/action_shoppingBegSelectAddressFragment_to_addUserDetailFragment"
             app:destination="@id/addUserDetailsFragment" />
-
-
         <argument
             android:name="CartData"
-            app:argType="com.shopping.swagbag.user.shoppingbeg.withproduct.GetCartModel" />
+            app:argType="string" />
+
+
     </fragment>
     <fragment
         android:id="@+id/viewUserDetailsFragment"
@@ -561,10 +561,10 @@
             app:destination="@id/viewOrderDetails" />
         <argument
             android:name="CartData"
-            app:argType="com.shopping.swagbag.user.shoppingbeg.withproduct.GetCartModel" />
+            app:argType="string" />
         <argument
             android:name="Address"
-            app:argType="com.shopping.swagbag.user.address.address_list.AllAddressModel$Result" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/orderConfirmedFragment"
@@ -810,7 +810,7 @@
     </fragment>
     <fragment
         android:id="@+id/particularCategoryFragment"
-        android:name="com.shopping.swagbag.category.ParticularCategoryFragment"
+        android:name="com.shopping.swagbag.category.particular_category.ParticularCategoryFragment"
         android:label="fragment_particular_category"
         tools:layout="@layout/fragment_particular_category">
         <argument
@@ -819,6 +819,9 @@
         <action
             android:id="@+id/action_particularCategoryFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+        <action
+            android:id="@+id/action_particularCategoryFragment_to_brandDetailFragment"
+            app:destination="@id/brandDetailFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_particularCategoryFragment"
@@ -887,13 +890,14 @@
             android:name="coupon"
             app:argType="string" />
     </dialog>
+
     <fragment
         android:id="@+id/brandDetailFragment"
         android:name="com.shopping.swagbag.brand.details.BrandDetailFragment"
         android:label="fragment_brand_detail"
         tools:layout="@layout/fragment_brand_detail" >
         <argument
-            android:name="brand"
+            android:name="brandSlug"
             app:argType="string" />
     </fragment>
 

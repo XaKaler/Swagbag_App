@@ -18,6 +18,7 @@ import com.shopping.swagbag.common.views.BottomFilterDialog
 import com.shopping.swagbag.databinding.FragmentProductsBinding
 import com.shopping.swagbag.databinding.LytProductMenuBinding
 import com.shopping.swagbag.databinding.ToolbarWithThreeMenusBinding
+import com.shopping.swagbag.products.filter.FilterModel
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.ProductApi
 import com.shopping.swagbag.utils.AppUtils
@@ -33,6 +34,8 @@ class ProductsFragment : BaseFragment<
     private lateinit var productMenuBinding: LytProductMenuBinding
     private lateinit var productSearchParameters: ProductSearchParameters
     private lateinit var appUtils: AppUtils
+    private lateinit var categoryFilter: FilterModel
+    private var filterMap = mutableMapOf<String, Any>()
     private lateinit var products: ArrayList<ProductSearchModel.Result>
     private lateinit var filterDialog: BottomFilterDialog
 
@@ -54,8 +57,25 @@ class ProductsFragment : BaseFragment<
         else
             getProducts()
 
+        getCategoryFilter()
         setProductMenu()
         appUtils = context?.let { AppUtils(it) }!!
+    }
+
+    private fun getCategoryFilter() {
+        viewModel.getFilter(productSearchParameters.master).observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    stopShowingLoading()
+                    categoryFilter = it.value
+                }
+                is Resource.Failure -> {
+                    stopShowingLoading()
+                    Log.e("filter", it.errorBody.toString())
+                }
+            }
+        }
     }
 
     private fun setProductMenu() {
@@ -72,7 +92,7 @@ class ProductsFragment : BaseFragment<
                             setProducts()
                         }
                         "Latest" -> {
-                            products.sortByDescending { r -> r.createdDate }
+                            products.sortBy { r -> r.createdDate }
                             setProducts()
                         }
                         "Sort forward price low" -> {
@@ -92,10 +112,9 @@ class ProductsFragment : BaseFragment<
 
             //filter product according to master category
             tvFilter.setOnClickListener {
-                BottomFilterDialog("men") { color ->
+                BottomFilterDialog(categoryFilter) { color ->
                     Log.e("color", color)
                 }.show(childFragmentManager, "filter")
-                filterDialog.show(childFragmentManager, "filter")
             }
         }
     }

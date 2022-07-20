@@ -11,6 +11,8 @@ class SettingRepository(private val api: SettingApi) : BaseRepository() {
 
     suspend fun allCountry() = safeApiCall { api.allCountry() }
 
+    suspend fun allBlogs() = safeApiCall { api.allBlogs() }
+
     suspend fun allCity(cityId: String) = safeApiCall { api.allCity(cityId) }
 
     suspend fun contactUs(

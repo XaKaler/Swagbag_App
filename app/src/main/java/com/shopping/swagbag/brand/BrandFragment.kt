@@ -62,7 +62,7 @@ class BrandFragment :
             layoutManager = LinearLayoutManager(context)
             adapter = BrandAdapter(context, brandList, object : RecycleViewItemClick {
                 override fun onItemClickWithName(name: String, position: Int) {
-                    val brand = Gson().toJson(brandList[position], BrandModel.Result::class.java)
+                    val brand = brandList[position].slug
                     val action =
                         BrandFragmentDirections.actionBrandFragmentToBrandDetailFragment(brand)
                     findNavController().navigate(action)

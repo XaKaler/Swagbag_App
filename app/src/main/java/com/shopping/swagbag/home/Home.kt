@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.shopping.swagbag.category.CategoryToBegModel
@@ -141,7 +142,7 @@ class Home : BaseFragment<
         setTopTrending(homeResult.result.section)
         setDealOfTheDay(homeResult.result.deals)
         //setBestOffer(homeResult.result.randomCategory)
-        setFeatureBrands(homeResult.result.featured)
+        setFetured(homeResult.result.featured)
     }
 
     private fun getHomeData() {
@@ -351,14 +352,14 @@ class Home : BaseFragment<
         }
 
         with(viewBinding) {
-            rvPromotedBrands.apply {
-                layoutManager = GridLayoutManager(context, 2)
+            rvDealOfTheDay.apply {
+                layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
                 adapter = BestProductAdapter(context, bestProductModel, this@Home )
             }
         }
     }
 
-    private fun setFeatureBrands(data: List<HomeModel.Result.Featured>) {
+    private fun setFetured(data: List<HomeModel.Result.Featured>) {
         val bestProductModel = ArrayList<BestProductModel>()
 
         for (item in data) {
@@ -385,7 +386,7 @@ class Home : BaseFragment<
 
         with(viewBinding) {
             rvKidsPicks.apply {
-                layoutManager = GridLayoutManager(context, 2)
+                layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
                 adapter = BestProductAdapter(context, bestProductModel, this@Home)
             }
         }

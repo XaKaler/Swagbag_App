@@ -2,7 +2,7 @@ package com.shopping.swagbag.service.apis
 
 import com.shopping.swagbag.category.CategoryModel
 import com.shopping.swagbag.category.MasterCategoryModel
-import com.shopping.swagbag.category.ParticularCategoryModel
+import com.shopping.swagbag.category.particular_category.ParticularCategoryModel
 import retrofit2.http.*
 
 

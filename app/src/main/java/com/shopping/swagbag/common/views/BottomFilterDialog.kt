@@ -24,16 +24,16 @@ import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.ProductApi
 
 class BottomFilterDialog(
-    private val categoryName: String,
+   // private val categoryName: String,
+    //private val extraFilter: ExtraFilterModel,
+    private val categoryFilter: FilterModel,
     private val userSelectedFilters: (String) -> Unit
     // private val callback: FilterCallback
 ) : BottomSheetDialogFragment() {
 
     private lateinit var viewBinding: FragmentFilterBinding
     private lateinit var productViewModel: ProductViewModel
-    private lateinit var categoryFilter: FilterModel
-    private var filterMap = mutableMapOf<String, Any>()
-    private lateinit var extraFilter: ExtraFilterModel
+    private val filterMap = mutableMapOf<String, Any>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,7 +64,8 @@ class BottomFilterDialog(
             ProductViewModelFactory(productRepository)
         )[ProductViewModel::class.java]
 
-        getCategoryFilter()
+        setFilterList()
+        //getCategoryFilter()
 
         with(viewBinding) {
             apply.setOnClickListener {
@@ -76,42 +77,56 @@ class BottomFilterDialog(
         }
     }
 
-     private fun getExtraFilter() {
-        productViewModel.extraFilter().observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {}
-                is Resource.Success -> {
-                    extraFilter = it.value
-                    sortData()
-                }
-                is Resource.Failure -> {}
-            }
-        }
-    }
-
     private fun sortData() {
         //all categories
         filterMap["All Categories"] = categoryFilter.category
         filterMap["Brands"] = categoryFilter.brands
 
-   /*     for(singleExtraFilter in extraFilter.result){
+        /*     for(singleExtraFilter in extraFilter.result){
+                 when(singleExtraFilter.name){
+                     "Color" -> filterMap["Color"] = singleExtraFilter.value
+                     "Size" -> filterMap["Size"] = singleExtraFilter.value
+                     "Colour" -> filterMap["Colour"] = singleExtraFilter.value
+                 }
+             }*/
+    }
+
+     private fun getExtraFilter() {
+        productViewModel.extraFilter().observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                   // extraFilter = it.value
+                    //sortData()
+                }
+                is Resource.Failure -> {}
+            }
+        }
+    }
+/*
+    private fun sortData() {
+        //all categories
+        filterMap["All Categories"] = categoryFilter.category
+        filterMap["Brands"] = categoryFilter.brands
+
+   *//*     for(singleExtraFilter in extraFilter.result){
             when(singleExtraFilter.name){
                 "Color" -> filterMap["Color"] = singleExtraFilter.value
                 "Size" -> filterMap["Size"] = singleExtraFilter.value
                 "Colour" -> filterMap["Colour"] = singleExtraFilter.value
             }
-        }*/
+        }*//*
 
         setFilterList()
-    }
+    }*/
 
     private fun getCategoryFilter() {
-        productViewModel.getFilter(categoryName).observe(viewLifecycleOwner) {
+        productViewModel.getFilter("categoryName").observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {}
                 is Resource.Success -> {
-                    categoryFilter = it.value
-                    sortData()
+                   // categoryFilter = it.value
+                   // sortData()
                 }
                 is Resource.Failure -> {
                     Log.e("filter", it.errorBody.toString())
@@ -121,6 +136,7 @@ class BottomFilterDialog(
     }
 
     private fun setFilterList() {
+        sortData()
         with(viewBinding) {
             rvFilterList.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

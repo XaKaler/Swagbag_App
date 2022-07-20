@@ -16,10 +16,9 @@ import com.shopping.swagbag.databinding.FragmentShoppingBegSelectAddressBinding
 import com.shopping.swagbag.databinding.ToolbarWithNoMenuWhiteBgBinding
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.UserApi
+import com.shopping.swagbag.user.address.address_list.AllAddressModel
 import com.shopping.swagbag.user.auth.UserRepository
 import com.shopping.swagbag.user.auth.UserViewModel
-import com.shopping.swagbag.user.address.address_list.AllAddressModel
-import com.shopping.swagbag.user.shoppingbeg.withproduct.GetCartModel
 import com.shopping.swagbag.user.shoppingbeg.withproduct.UserAddressAdapter
 import com.shopping.swagbag.utils.AppUtils
 
@@ -43,29 +42,30 @@ class ShoppingBegSelectAddressFragment :
 
     private fun initViews() {
         with(viewBinding) {
-            btnContinue.setOnClickListener{moveToPayment()}
+            btnContinue.setOnClickListener { moveToPayment() }
             termsOfUse.setOnClickListener(this@ShoppingBegSelectAddressFragment)
             privacyPolicy.setOnClickListener(this@ShoppingBegSelectAddressFragment)
             btnAddAddress.setOnClickListener { findNavController().navigate(R.id.action_shoppingBegSelectAddressFragment_to_addUserDetailsFragment) }
         }
 
-        getAddresses()
-
+        if (this::addressList.isInitialized)
+            setAddresses()
+        else
+            getAddresses()
         setToolbar()
-
         setDeliveryEstimate()
     }
 
     private fun moveToPayment() {
         // send cart data that we get from cart screen
         val args: ShoppingBegSelectAddressFragmentArgs by navArgs()
-        val cartData: GetCartModel = args.cartData
+        val cartData = args.cartData
 
         if (this::selectedAddress.isInitialized){
             val action =
                 ShoppingBegSelectAddressFragmentDirections.actionShoppingBegSelectAddressFragmentToPaymentModeFragment(
                     cartData,
-                    selectedAddress
+                    Gson().toJson(selectedAddress, AllAddressModel.Result::class.java)
                 )
             findNavController().navigate(action)
         }
@@ -85,20 +85,8 @@ class ShoppingBegSelectAddressFragment :
 
                     is Resource.Success -> {
                         stopShowingLoading()
-
                         addressList = it.value.result!!
-
-                        if (addressList.isEmpty()) {
-                            viewBinding.noAddress.visibility = View.VISIBLE
-                            viewBinding.rvAddress.visibility = View.GONE
-                        } else {
-                            viewBinding.noAddress.visibility = View.GONE
-                            viewBinding.rvAddress.visibility = View.VISIBLE
-
-                            setAddresses(addressList)
-                        }
-
-                        setAddresses(it.value.result)
+                        setAddresses()
                     }
 
                     is Resource.Failure -> {
@@ -117,32 +105,43 @@ class ShoppingBegSelectAddressFragment :
         }
     }
 
-    private fun setAddresses(addresses: List<AllAddressModel.Result>) {
-        with(viewBinding) {
-            rvAddress.apply {
-                layoutManager = LinearLayoutManager(context)
-                adapter =
-                    UserAddressAdapter(context, addresses, object: RecycleViewItemClick{
-                        override fun onItemClickWithName(name: String, position: Int) {
-                            when (name) {
-                                "select" -> {
-                                    selectedAddress = addressList[position]
-                                    Log.e("TAG", "onItemClickWithName: $selectedAddress")
-                                }
+    private fun setAddresses() {
+        if (addressList.isEmpty()) {
+            viewBinding.noAddress.visibility = View.VISIBLE
+            viewBinding.rvAddress.visibility = View.GONE
+        } else {
+            viewBinding.noAddress.visibility = View.GONE
+            viewBinding.rvAddress.visibility = View.VISIBLE
 
-                                "edit" -> {
-                                    val editAddress = addressList[position]
-                                    Log.e("address", "edit address: $editAddress", )
+            with(viewBinding) {
+                rvAddress.apply {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter =
+                        UserAddressAdapter(context, addressList, object : RecycleViewItemClick {
+                            override fun onItemClickWithName(name: String, position: Int) {
+                                when (name) {
+                                    "select" -> {
+                                        selectedAddress = addressList[position]
+                                        Log.e("TAG", "onItemClickWithName: $selectedAddress")
+                                    }
 
-                                    val action =
-                                        ShoppingBegSelectAddressFragmentDirections.actionShoppingBegSelectAddressFragmentToAddUserDetailFragment(
-                                            Gson().toJson(addressList[position], AllAddressModel.Result::class.java)
-                                        )
-                                    findNavController().navigate(action)
+                                    "edit" -> {
+                                        val editAddress = addressList[position]
+                                        Log.e("address", "edit address: $editAddress")
+
+                                        val action =
+                                            ShoppingBegSelectAddressFragmentDirections.actionShoppingBegSelectAddressFragmentToAddUserDetailFragment(
+                                                Gson().toJson(
+                                                    addressList[position],
+                                                    AllAddressModel.Result::class.java
+                                                )
+                                            )
+                                        findNavController().navigate(action)
+                                    }
                                 }
                             }
-                        }
-                    })
+                        })
+                }
             }
         }
     }

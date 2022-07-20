@@ -28,6 +28,8 @@ import com.shopping.swagbag.databinding.SearchBarBinding
 import com.shopping.swagbag.databinding.ToolbarWithNoMenuWhiteBgBinding
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductViewModel
+import com.shopping.swagbag.products.filter.ExtraFilterModel
+import com.shopping.swagbag.products.filter.FilterModel
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.ProductApi
 import com.shopping.swagbag.utils.AppUtils
@@ -47,6 +49,8 @@ class SearchFragment : BaseFragment<
     private lateinit var searchProduct: MobileProductSearchModel
     private val masterCategoryList = ArrayList<String>()
     private var currentMasterCategory = ""
+    private lateinit var extraFitler: ExtraFilterModel
+    private lateinit var categoryFilter: FilterModel
     private var currentMasterCategoryItems = ArrayList<MobileProductSearchModel.Result.Product>()
     private val productMap = mutableMapOf<String, List<MobileProductSearchModel.Result.Product>>()
 
@@ -69,8 +73,10 @@ class SearchFragment : BaseFragment<
             searchByVoice.setOnClickListener(this@SearchFragment)
         }
 
-        if (this::searchProduct.isInitialized)
+        if (this::searchProduct.isInitialized) {
             showSearchResult(currentMasterCategoryItems)
+            setProductMenu()
+        }
         else
             showSoftKeyboard(searchBar)
 
@@ -129,6 +135,7 @@ class SearchFragment : BaseFragment<
 
                                     //when user click on master category then show him a list dialog
                                     //after click on any item in list then show related result
+                                    getCategoryFilter()
                                     setProductMenu()
                                     showSearchResult(currentMasterCategoryItems)
                                 }
@@ -190,6 +197,7 @@ class SearchFragment : BaseFragment<
                     for (singleMasterCategory in masterCategoryList) {
                         if (result == singleMasterCategory) {
                             currentMasterCategory = result
+                            getCategoryFilter()
                             currentMasterCategoryItems =
                                 productMap[currentMasterCategory]!! as ArrayList
                             showSearchResult(currentMasterCategoryItems)
@@ -200,7 +208,7 @@ class SearchFragment : BaseFragment<
 
             //filter
             tvFilter.setOnClickListener {
-                BottomFilterDialog(currentMasterCategory) { color ->
+                BottomFilterDialog(categoryFilter) { color ->
                     Log.e("color", color)
                 }.show(childFragmentManager, "filter")
             }
@@ -216,7 +224,6 @@ class SearchFragment : BaseFragment<
     }
 
     private fun showSearchResult(product: List<MobileProductSearchModel.Result.Product>) {
-
         viewBinding.includeProductMenu.root.visibility = View.VISIBLE
         productMenuBinding.masterCategoryName.text = currentMasterCategory
 
@@ -245,6 +252,21 @@ class SearchFragment : BaseFragment<
                             findNavController().navigate(R.id.action_global_signInFragment)
                     }
                 })
+            }
+        }
+    }
+
+    private fun getCategoryFilter() {
+        viewModel.getFilter(currentMasterCategory).observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    categoryFilter = it.value
+                    Log.e("filter master", categoryFilter.category[0].master)
+                }
+                is Resource.Failure -> {
+                    Log.e("filter", it.errorBody.toString())
+                }
             }
         }
     }

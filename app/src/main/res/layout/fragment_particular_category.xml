@@ -6,7 +6,7 @@
     android:background="@color/main_bg_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".category.ParticularCategoryFragment">
+    tools:context=".category.particular_category.ParticularCategoryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
             android:layout_height="@dimen/banner_230"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bestOfferScrollView" />
+            app:layout_constraintTop_toBottomOf="@+id/rvRecommendForYou" />
 
         <TextView
             android:id="@+id/heading3"
@@ -188,57 +188,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/all_time_margin_start"
             android:layout_marginTop="@dimen/space_between_views"
-            android:text="Best offers"
+            android:text="Recommend For You"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rvCategoryToBag" />
 
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/bestOfferScrollView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:scrollbars="none"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/heading6">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvBestOffer"
+                    android:id="@+id/rvRecommendForYou"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/heading6"
                     tools:itemCount="1"
                     tools:listitem="@layout/single_slider_products" />
 
-                <TextView
-                    android:id="@+id/viewAll"
-                    style="@style/sunflower_normal_14_grey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/screen_horizontal_padding"
-                    android:gravity="center"
-                    android:text="+View All"
-                    android:textAlignment="center"
-                    android:textColor="@color/steel_teal"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@+id/rvBestOffer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/rvBestOffer"
-                    app:layout_constraintTop_toTopOf="@+id/rvBestOffer" />
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.core.widget.NestedScrollView>
 
 
         <TextView
@@ -248,14 +213,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/all_time_margin_start"
             android:layout_marginTop="@dimen/space_between_views"
-            android:text="Deal of the day"
+            android:text="MOST POPULAR"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homeImg5" />
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPromotedBrands"
+            android:id="@+id/rvMostPopular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -273,14 +238,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/all_time_margin_start"
             android:layout_marginTop="@dimen/space_between_views"
-            android:text="Feature brands"
+            android:text="RECENTLY VISITED"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvPromotedBrands" />
-
+            app:layout_constraintTop_toBottomOf="@id/rvMostPopular" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvKidsPicks"
+            android:id="@+id/rvRecentlyVisited"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -290,31 +254,65 @@
             tools:itemCount="1"
             tools:listitem="@layout/single_slider_products" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBrands"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_between_views"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvRecentlyVisited"
+            tools:itemCount="1"
+            tools:listitem="@layout/single_particular_category_brand" />
+
+
         <TextView
-            android:id="@+id/heading9"
-            style="@style/sunflower_normal_14_grey"
+            android:id="@+id/textView52"
+            style="@style/roboto_medium_14_davys_grey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/all_time_margin_start"
             android:layout_marginTop="@dimen/space_between_views"
-            android:visibility="gone"
-            android:text="perfect picks for home"
+            android:text="Latest news"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvKidsPicks" />
+            app:layout_constraintTop_toBottomOf="@+id/rvBrands" />
 
+        <TextView
+            android:id="@+id/btnViewMore"
+            style="@style/roboto_medium_14_davys_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/all_time_margin_start"
+            android:drawableEnd="@drawable/ic_right_arrow"
+            android:drawablePadding="@dimen/drawable_padding_10"
+            android:text="View more"
+            app:layout_constraintBottom_toBottomOf="@+id/textView52"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView52" />
+
+        <View
+            style="@style/line_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/vertical_line_width"
+            android:layout_marginHorizontal="@dimen/screen_margin_5"
+            android:layout_marginTop="@dimen/space_between_view_and_subview"
+            app:layout_constraintEnd_toEndOf="@+id/btnViewMore"
+            app:layout_constraintStart_toStartOf="@+id/textView52"
+            app:layout_constraintTop_toBottomOf="@id/textView52" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCollage"
-            android:layout_width="match_parent"
+            android:id="@+id/rvLatestNews"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
+            android:layout_marginTop="@dimen/space_between_view_and_subview"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/heading9"
+            app:layout_constraintTop_toBottomOf="@+id/textView52"
             tools:itemCount="1"
-            tools:listitem="@layout/single_best_products" />
+            tools:listitem="@layout/single_latest_news" />
+
 
         <TextView
             android:id="@+id/textView232"
@@ -323,6 +321,7 @@
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/dimen_10"
             android:text="Top Trending"
+            android:layout_marginStart="@dimen/all_time_margin_start"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="@+id/heading1"
             app:layout_constraintTop_toTopOf="parent" />
@@ -345,7 +344,7 @@
             android:layout_width="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintTop_toBottomOf="@+id/rvCollage"
+            app:layout_constraintTop_toBottomOf="@+id/rvLatestNews"
             app:layout_constraintStart_toStartOf="parent" />
 
 

@@ -42,7 +42,10 @@ class DropDownCategoryAdapter(
                     //view.visibility = View.GONE
                 }
 
-                tvCatName.text = singleData.master.name
+                if (singleData.master.name == null)
+                    Log.e("master", " master name is null")
+                else
+                    tvCatName.text = singleData.master.name
 
                 Glide
                     .with(context)

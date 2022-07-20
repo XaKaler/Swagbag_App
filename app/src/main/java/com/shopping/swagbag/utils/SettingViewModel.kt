@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shopping.swagbag.blog.BlogListModel
 import com.shopping.swagbag.contactus.ContactUsModel
 import com.shopping.swagbag.settings.SettingRepository
 import com.shopping.swagbag.settings.SettingsModel
@@ -77,5 +78,15 @@ class SettingViewModel(private val repository: SettingRepository): ViewModel() {
         return result
     }
 
+    fun allBlogs(): LiveData<Resource<BlogListModel>>{
+        val result = MutableLiveData<Resource<BlogListModel>>()
+
+        viewModelScope.launch {
+            result.value = Resource.Loading
+            result.value = repository.allBlogs()
+        }
+
+        return result
+    }
 
 }

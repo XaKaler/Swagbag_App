@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shopping.swagbag.category.particular_category.ParticularCategoryModel
 import com.shopping.swagbag.service.Resource
 import kotlinx.coroutines.launch
 
