@@ -1,21 +1,14 @@
 package com.shopping.swagbag.category.particular_category
 
-import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shopping.swagbag.R
-import com.shopping.swagbag.common.RecycleItemClickListener
 import com.shopping.swagbag.common.RecycleViewItemClick
-import com.shopping.swagbag.common.adapter.ProductImageAdapter
-import com.shopping.swagbag.common.model.BestProductModel
-import com.shopping.swagbag.databinding.SingleBestProductsBinding
+import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.databinding.SingleLatestNewsBinding
-import com.shopping.swagbag.products.product_details.ProductDetailsFragmentDirections
 
 class LatestNewsAdapter(
     private val context: Context,
@@ -36,15 +29,15 @@ class LatestNewsAdapter(
                     Glide.with(context)
                         .load(singleData.file)
                         .error(R.drawable.ic_launcher_foreground)
-                        .placeholder(R.drawable.logo)
-                        .into(imgNews)
+                        .placeholder(R.drawable.logo) //Tue May 24 2022
+                    .into(imgNews)
 
                     // set text
-                    tvDate.text = singleData.createdDate
-                    tvBlogType.text = singleData.slug
+                    tvDate.text = GeneralFunction.convertServerDateToUserTimeZoneTask(singleData.createdDate)
+                    tvBlogType.text = "|${singleData.slug}"
                     tvBlogHeading.text = singleData.name
 
-                    itemView.setOnClickListener{
+                    itemView.setOnClickListener {
                         itemClick.onItemClickWithName("news", position)
                     }
 

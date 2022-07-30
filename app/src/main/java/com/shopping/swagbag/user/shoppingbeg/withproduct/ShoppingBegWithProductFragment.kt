@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -73,6 +74,7 @@ class ShoppingBegWithProductFragment : BaseFragment<
                     is Resource.Success -> {
                         stopShowingLoading()
                         product = it.value
+                        setItems()
                     }
 
                     is Resource.Failure -> {
@@ -114,6 +116,11 @@ class ShoppingBegWithProductFragment : BaseFragment<
                 findNavController().popBackStack()
             }
 
+            val wishlistLayout: View = layoutInflater.inflate(R.layout.menu_wishlist_icon, null)
+            val wishlistCounter:TextView = wishlistLayout.findViewById(R.id.tvWishlistCounter)
+            wishlistCounter.text = GeneralFunction.wishlistItemCount
+
+            imgWishlist.setImageResource(R.layout.menu_wishlist_icon)
             imgWishlist.setOnClickListener {
                     findNavController().navigate(R.id.action_shoppingBegWithProductFragment_to_wishlistWithProductFragment)
                 /*if (context?.let { it1 -> AppUtils(it1).isUserLoggedIn() } == true)
@@ -169,7 +176,6 @@ class ShoppingBegWithProductFragment : BaseFragment<
         when (name) {
             "remove" -> {
                 removeSingleItem(position)
-
             }
         }
     }
@@ -179,7 +185,7 @@ class ShoppingBegWithProductFragment : BaseFragment<
 
         if (productId != null) {
             userId?.let { userId ->
-                viewModel.deleteSingleWish(productId, userId).observe(viewLifecycleOwner) {
+                viewModel.deleteSingleCart(productId, userId).observe(viewLifecycleOwner) {
                     when (it) {
                         is Resource.Loading -> showLoading()
 
@@ -188,7 +194,7 @@ class ShoppingBegWithProductFragment : BaseFragment<
 
                             toast(it.value.message)
 
-                            //update list
+                           /* //update list
                             val productList: MutableList<GetCartModel.Result> =
                                 product.result as MutableList
                             productList.removeAt(position)
@@ -196,7 +202,8 @@ class ShoppingBegWithProductFragment : BaseFragment<
                             //if size is 0 then show user to empty cart
                             if (position == 0 && productList.isEmpty()) {
                                 showEmptyCart()
-                            }
+                            }*/
+                            getCart()
                         }
 
                         is Resource.Failure -> {

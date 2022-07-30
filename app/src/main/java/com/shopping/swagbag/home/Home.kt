@@ -14,23 +14,25 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.shopping.swagbag.R
 import com.shopping.swagbag.category.CategoryToBegModel
 import com.shopping.swagbag.common.GridSpaceItemDecoration
 import com.shopping.swagbag.common.RecycleViewItemClick
+import com.shopping.swagbag.common.adapter.AllTimeSliderAdapter
 import com.shopping.swagbag.common.adapter.AutoImageSliderAdapter
-import com.shopping.swagbag.common.adapter.BestProductAdapter
 import com.shopping.swagbag.common.adapter.CategoryToBegAdapter
 import com.shopping.swagbag.common.base.BaseFragment
-import com.shopping.swagbag.common.model.BestProductModel
+import com.shopping.swagbag.common.base.GeneralFunction
+import com.shopping.swagbag.common.model.AllTimeSliderModel
 import com.shopping.swagbag.databinding.FragmentHomeBinding
 import com.shopping.swagbag.databinding.LytBottomSheetBinding
 import com.shopping.swagbag.main_activity.MainActivity
 import com.shopping.swagbag.products.ProductRepository
 import com.shopping.swagbag.products.ProductSearchParameters
 import com.shopping.swagbag.products.ProductViewModel
-import com.shopping.swagbag.products.product_details.ProductDetailsFragmentDirections
 import com.shopping.swagbag.service.Resource
 import com.shopping.swagbag.service.apis.ProductApi
+import com.shopping.swagbag.utils.AppUtils
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
@@ -40,7 +42,7 @@ class Home : BaseFragment<
         FragmentHomeBinding,
         ProductViewModel,
         ProductRepository
-        >(FragmentHomeBinding::inflate), RecycleViewItemClick {
+        >(FragmentHomeBinding::inflate) {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var homeResult: HomeModel
@@ -48,15 +50,7 @@ class Home : BaseFragment<
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         mainActivity = context as MainActivity
-
-        if(mainActivity !is MainActivity) {
-            Log.e("TAG", "onAttach: is instance of main activity")
-        }
-        else{
-            Log.e("TAG", "onAttach:not is instance of main activity")
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,8 +64,16 @@ class Home : BaseFragment<
         mainActivity.showToolbarAndBottomNavigation()
         mainActivity.setMasterCategories()
 
-        homeResult = mainActivity.getHome()
-        setData()
+        //homeResult = mainActivity.getHome()
+        if(this::homeResult.isInitialized)
+            setData()
+        else if (AppUtils(context!!).getHomePageData() != null) {
+            homeResult = AppUtils(context!!).getHomePageData()!!
+            setData()
+        }
+        else
+            getHomeData()
+        //setData()
         setUpBottomSheet()
     }
 
@@ -142,7 +144,7 @@ class Home : BaseFragment<
         setTopTrending(homeResult.result.section)
         setDealOfTheDay(homeResult.result.deals)
         //setBestOffer(homeResult.result.randomCategory)
-        setFetured(homeResult.result.featured)
+        setFeatured(homeResult.result.featured)
     }
 
     private fun getHomeData() {
@@ -152,11 +154,9 @@ class Home : BaseFragment<
 
                  is Resource.Success -> {
                      stopShowingLoading()
-
-                     Log.e("TAG", "getHomeData: $it")
-
+                     //Log.e("TAG", "getHomeData: $it")
                      homeResult = it.value
-
+                     AppUtils(context!!).saveHomePageData(homeResult)
                      setData()
                  }
 
@@ -164,6 +164,57 @@ class Home : BaseFragment<
              }
          }
 
+    }
+
+    private fun addToWishlist(productId: String) {
+        val appUtils = context?.let { AppUtils(it) }
+        if (appUtils!!.isUserLoggedIn()) {
+            val userId = appUtils.getUserId()
+            viewModel.addToWishList(productId, userId).observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Loading -> showLoading()
+
+                    is Resource.Success -> {
+                        stopShowingLoading()
+                        toast(it.value.message)
+                    }
+
+                    is Resource.Failure -> stopShowingLoading()
+                }
+            }
+        } else
+            findNavController().navigate(R.id.action_global_signInFragment)
+    }
+
+    private fun getCart(){
+        viewModel.getCart(AppUtils(context!!).getUserId()).observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    var cartItem = 0
+                    for(item in it.value.result!!){
+                        cartItem+=item.quantity
+                    }
+
+                    GeneralFunction.cartItemCount = cartItem.toString()
+                }
+                is Resource.Failure -> {}
+
+            }
+        }
+    }
+
+    private fun getWishlist(){
+        viewModel.getWish(AppUtils(context!!).getUserId()).observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading -> {}
+                is Resource.Success -> {
+                    GeneralFunction.wishlistItemCount = it.value.result.size.toString()
+                }
+                is Resource.Failure -> {}
+
+            }
+        }
     }
 
     private fun showOfferImages() {
@@ -327,67 +378,73 @@ class Home : BaseFragment<
     }*/
 
     private fun setDealOfTheDay(data: List<HomeModel.Result.Deal>) {
-        val bestProductModel = ArrayList<BestProductModel>()
+        val allTimeSliderModel = ArrayList<AllTimeSliderModel>()
 
         for (item in data) {
-            val file = ArrayList<BestProductModel.File>()
-            for (fileItem in item.file) {
-                file.add(
-                    BestProductModel.File(
-                        fileItem.location
+            item.run {
+                allTimeSliderModel.add(
+                    AllTimeSliderModel(
+                        desc, file[0].location, id, "masterCategory", name, slug
                     )
                 )
             }
-
-            bestProductModel.add(
-                BestProductModel(
-                    html2Text(item.desc),
-                    item.shortDesc,
-                    file,
-                    item.id,
-                    item.name,
-                    item.slug
-                )
-            )
         }
 
         with(viewBinding) {
             rvDealOfTheDay.apply {
-                layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
-                adapter = BestProductAdapter(context, bestProductModel, this@Home )
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = AllTimeSliderAdapter(context, allTimeSliderModel,
+                    object : RecycleViewItemClick {
+                        override fun onItemClickWithName(name: String, position: Int) {
+                            when (name) {
+                                "wishlist" -> {
+                                    addToWishlist(data[position].id)
+                                }
+                                else -> {
+                                    val action =
+                                        HomeDirections.actionGlobalProductDetailsFragment(data[position].name)
+                                    findNavController().navigate(action)
+                                }
+                            }
+                        }
+                    })
             }
         }
     }
 
-    private fun setFetured(data: List<HomeModel.Result.Featured>) {
-        val bestProductModel = ArrayList<BestProductModel>()
+    private fun setFeatured(data: List<HomeModel.Result.Featured>) {
+        val allTimeSliderModel = ArrayList<AllTimeSliderModel>()
 
         for (item in data) {
-            val file = ArrayList<BestProductModel.File>()
-            for (fileItem in item.file) {
-                file.add(
-                    BestProductModel.File(
-                        fileItem.location
+            item.run {
+                allTimeSliderModel.add(
+                    AllTimeSliderModel(
+                        desc, file[0].location, id, "masterCategory", name, slug
                     )
                 )
             }
-
-            bestProductModel.add(
-                BestProductModel(
-                    html2Text(item.desc),
-                    item.shortDesc,
-                    file,
-                    item.id,
-                    item.name,
-                    item.slug
-                )
-            )
         }
 
         with(viewBinding) {
-            rvKidsPicks.apply {
-                layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
-                adapter = BestProductAdapter(context, bestProductModel, this@Home)
+            rvFeatured.apply {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                adapter = AllTimeSliderAdapter(
+                    context,
+                    allTimeSliderModel,
+                    object : RecycleViewItemClick {
+                        override fun onItemClickWithName(name: String, position: Int) {
+                            when (name) {
+                                "wishlist" -> {
+                                    addToWishlist(data[position].id)
+                                }
+                                else -> {
+                                    val action =
+                                        HomeDirections.actionGlobalProductDetailsFragment(data[position].name)
+                                    findNavController().navigate(action)
+                                }
+                            }
+                        }
+                    })
             }
         }
     }
@@ -428,10 +485,10 @@ class Home : BaseFragment<
     override fun getFragmentRepository() =
         ProductRepository(remoteDataSource.getBaseUrl().create(ProductApi::class.java))
 
-    override fun onItemClickWithName(name: String, position: Int) {
-        mainActivity.hideToolbarAndBottomNavigation()
-        val action = ProductDetailsFragmentDirections.actionGlobalProductDetailsFragment(name)
-        findNavController().navigate(action)
+    override fun onResume() {
+        super.onResume()
+        getCart()
+        getWishlist()
     }
 
 }

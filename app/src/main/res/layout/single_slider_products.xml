@@ -75,15 +75,15 @@
                 android:paddingHorizontal="5dp"
                 android:text="TextView  "
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/textView140"
+                app:layout_constraintBottom_toTopOf="@+id/btnAddToWishlist"
                 app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayout"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
             <TextView
-                android:id="@+id/textView140"
+                android:id="@+id/btnAddToWishlist"
                 style="@style/arya_normal_12_black"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:padding="5dp"

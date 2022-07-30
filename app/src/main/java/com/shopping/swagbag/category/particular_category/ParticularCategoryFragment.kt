@@ -98,10 +98,18 @@ class ParticularCategoryFragment :
             }?.let { it2 -> ColorDrawable(it2) }
 
 
+        //when user click on view all blog button
+        viewBinding.btnViewMore.setOnClickListener{
+            mainActivity.hideToolbarAndBottomNavigation()
+            findNavController().navigate(R.id.action_particularCategoryFragment_to_blogListFragment)
+        }
+
         if (this::categoryData.isInitialized)
             setData()
         else
             getCategoryData()
+
+        setUpBottomSheet()
     }
 
 
@@ -202,7 +210,7 @@ class ParticularCategoryFragment :
         setCategoryToBeg(categoryData.category)
         setRecommendForYou(categoryData.featured)
         setMostPopular(categoryData.deals)
-        setRecentlyVisited(categoryData.brand)
+        setRecentlyVisited(categoryData.deals)
         setBrand(categoryData.brand)
         setLatestNews(categoryData.brand)
     }
@@ -430,16 +438,25 @@ class ParticularCategoryFragment :
         }
     }
 
-    private fun setRecentlyVisited(data: List<ParticularCategoryModel.Result.Brand>) {
-        val allTimeSliderModel = ArrayList<AllTimeSliderModel>()
+    private fun setRecentlyVisited(data: List<ParticularCategoryModel.Result.Deal>) {
+        val bestProductModel = ArrayList<BestProductModel>()
 
         for (item in data) {
-            allTimeSliderModel.add(
-                AllTimeSliderModel(
-                    item.desc,
-                    item.file.toString(),
+            val file = ArrayList<BestProductModel.File>()
+            for (fileItem in item.file) {
+                file.add(
+                    BestProductModel.File(
+                        fileItem.location
+                    )
+                )
+            }
+
+            bestProductModel.add(
+                BestProductModel(
+                    html2Text(item.desc),
+                    item.shortDesc,
+                    file,
                     item.id,
-                    "",
                     item.name,
                     item.slug
                 )
@@ -449,11 +466,7 @@ class ParticularCategoryFragment :
         with(viewBinding) {
             rvRecentlyVisited.apply {
                 layoutManager = GridLayoutManager(context, 2)
-                adapter = AllTimeSliderAdapter(
-                    context,
-                    allTimeSliderModel,
-                    this@ParticularCategoryFragment
-                )
+                adapter = BestProductAdapter(context, bestProductModel, this@ParticularCategoryFragment)
             }
         }
     }
@@ -493,7 +506,7 @@ class ParticularCategoryFragment :
             allTimeSliderModel.add(
                 AllTimeSliderModel(
                     item.desc,
-                    item.file.toString(),
+                    item.file,
                     item.id,
                     "",
                     item.name,

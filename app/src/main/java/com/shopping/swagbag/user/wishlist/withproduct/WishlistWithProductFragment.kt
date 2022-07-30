@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.base.BaseFragment
+import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.databinding.FragmentWishlistWithProductBinding
 import com.shopping.swagbag.databinding.ToolbarWithTwoMenusDeleteAndCartBinding
 import com.shopping.swagbag.dummy.DummyData
@@ -72,7 +74,7 @@ class WishlistWithProductFragment : BaseFragment<
                                 showEmptyWishlist()
                             } else {
                                 wistListProduct = it.value
-                                Log.e("TAG", "getWishlistProduct: $wistListProduct")
+                               // Log.e("TAG", "getWishlistProduct: $wistListProduct")
                                 setWishlistProduct(it.value.result)
                             }
                         }
@@ -133,6 +135,10 @@ class WishlistWithProductFragment : BaseFragment<
                 clearWishlist()
             }
 
+            val cartLayout: View = layoutInflater.inflate(R.layout.menu_cart_icon, null)
+            val cartCounter: TextView = cartLayout.findViewById(R.id.tvCartCounter)
+            cartCounter.text = GeneralFunction.cartItemCount
+
             imgCart.setOnClickListener {
                 findNavController().navigate(R.id.action_wishlistWithProductFragment_to_shoppingBegWithProductFragment)
             }
@@ -192,29 +198,30 @@ class WishlistWithProductFragment : BaseFragment<
         if (isUserLogIn==true && userId != null) {
 
             viewModel.deleteSingleWish(wistListProduct.result[position].product.id, userId)
-                .observe(viewLifecycleOwner, Observer {
+                .observe(viewLifecycleOwner) {
                     when (it) {
                         is Resource.Loading -> showLoading()
 
                         is Resource.Success -> {
                             stopShowingLoading()
 
-                            //toast("")
+                            toast(it.value.message)
 
-                            val allDataList: MutableList<GetWishlistModel.Result> =
+                            /*val allDataList: MutableList<GetWishlistModel.Result> =
                                 wistListProduct.result as MutableList
                             allDataList.removeAt(position)
                             wishlistProductAdapter.updateData(allDataList)
 
-                            if (position==0 && allDataList.isEmpty()) {
+                            if (position == 0 && allDataList.isEmpty()) {
                                 showEmptyWishlist()
-                            }
-                            Log.e("wishlist", "removeFromWishlist: $allDataList")
+                            }*/
+                            getWishlistProduct()
+                            //Log.e("wishlist", "removeFromWishlist: $allDataList")
                         }
 
                         is Resource.Failure -> Log.e("TAG", "removeFromWishlist: $it")
                     }
-                })
+                }
         }
     }
 

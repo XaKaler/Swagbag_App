@@ -37,15 +37,7 @@ class DropDownCategoryAdapter(
         fun bind(singleData: CategoryModel.Result, parentPosition: Int) {
             setMap()
             with(viewBinding) {
-
-                if (parentPosition == dataSize - 1) {
-                    //view.visibility = View.GONE
-                }
-
-                if (singleData.master.name == null)
-                    Log.e("master", " master name is null")
-                else
-                    tvCatName.text = singleData.master.name
+                tvCatName.text = singleData.master.name
 
                 Glide
                     .with(context)
@@ -147,7 +139,7 @@ class DropDownCategoryAdapter(
     )
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        data[position].let { holder.bind(it, position) }
+            data[position].let { holder.bind(it, position) }
     }
 
     override fun getItemCount() = data.size

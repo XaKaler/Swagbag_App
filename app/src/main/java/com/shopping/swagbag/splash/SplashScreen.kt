@@ -34,8 +34,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_common)
 
         initializeRepositories()
-
-        getHomeScreenData()
+        getAllCategories()
     }
 
     private fun initializeRepositories() {
@@ -117,7 +116,7 @@ class SplashScreen : AppCompatActivity() {
             getMasterCategories()
         else {*/
             val intent = Intent(this@SplashScreen, MainActivity::class.java)
-            intent.putExtra("home", Gson().toJson(homeResult, HomeModel::class.java))
+            //intent.putExtra("home", Gson().toJson(homeResult, HomeModel::class.java))
             intent.putExtra(
                 "allCategories",
                 Gson().toJson(allCategories, CategoryModel::class.java)

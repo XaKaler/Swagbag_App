@@ -1,16 +1,10 @@
 package com.shopping.swagbag.common.base
 
 import android.util.Log
-import com.google.gson.Gson
 import com.shopping.swagbag.service.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.HttpException
-import retrofit2.Response
-import java.lang.reflect.Type
 
 abstract class BaseRepository {
 

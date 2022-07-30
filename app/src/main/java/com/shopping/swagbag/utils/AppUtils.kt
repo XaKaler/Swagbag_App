@@ -1,14 +1,12 @@
 package com.shopping.swagbag.utils
 
-import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.gson.Gson
+import com.shopping.swagbag.home.HomeModel
 import com.shopping.swagbag.products.filter.ExtraFilterModel
 import com.shopping.swagbag.user.auth.signin.SignInModel
 
@@ -18,6 +16,7 @@ class AppUtils(private val context: Context) {
     private val _userData = "user_data"
     private val _isUserLogIn = "user_login"
     private val _extraFilter = "extra_filter"
+    private val _homeScreenData = "home_screen_data"
 
     fun saveUser(user: SignInModel){
         val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
@@ -67,137 +66,45 @@ class AppUtils(private val context: Context) {
         return isLoggedIn
     }
 
-    fun logOut(){
-        val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
+    fun logOut() {
+        val editor: SharedPreferences.Editor =
+            context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
         // editor.putBoolean(_isUserLogIn, false)
         editor.clear()
         editor.apply()
     }
 
 
-    //save api data
-
-    fun saveExtraFilter(extraFilter: ExtraFilterModel){
-        val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
+    //<---------------   save api data  ------------------>
+    //extra filter
+    fun saveExtraFilter(extraFilter: ExtraFilterModel) {
+        val editor: SharedPreferences.Editor =
+            context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
         editor.putString(_extraFilter, Gson().toJson(extraFilter, ExtraFilterModel::class.java))
         editor.apply()
     }
-}
-/*
-package com.shopping.swagbag.utils
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.text.TextUtils
-import android.util.Log
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.gson.Gson
-import com.shopping.swagbag.user.auth.signin.SignInModel
-
-class AppUtils(private val context: Context) {
-
-    private val _myPrefName = "sharePrefName"
-    private val _userData = "user_data"
-    private val _isUserLogIn = "user_login"
-
-    fun saveUser(user: SignInModel){
-       val editor: SharedPreferences.Editor = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
-        editor.putString(_userData, Gson().toJson(user, SignInModel::class.java))
-        editor.putBoolean(_isUserLogIn, true)
+    //home page
+    fun saveHomePageData(homePage: HomeModel) {
+        val editor: SharedPreferences.Editor =
+            context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
+        editor.putString(_homeScreenData, Gson().toJson(homePage, HomeModel::class.java))
         editor.apply()
     }
 
-    fun getUser(): Any?{
-        return when(signInWith()){
-            "Email" -> {
-                val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-                val user =sharedPreferences.getString(_userData, "")
-                return Gson().fromJson(user, SignInModel::class.java)
-            }
-            "Google" -> {
-                val signInWithGoogleAccount:GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-                signInWithGoogleAccount
-            }
-            else -> null
-        }
+    fun getHomePageData(): HomeModel? {
+        val sharedPreferences: SharedPreferences =
+            context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
+        val homePage = sharedPreferences.getString(_homeScreenData, "")
 
-    }
-
-    fun getUserId(): String?{
-        return when(signInWith()){
-            "Email" -> {
-                val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-                val user =sharedPreferences.getString(_userData, "")
-                val singInUser: SignInModel =  Gson().fromJson(user, SignInModel::class.java)
-                singInUser.result.id
-            }
-            "Google" -> {
-                val signInWithGoogleAccount:GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-                signInWithGoogleAccount?.id
-            }
-            else -> null
-        }
-    }
-
-    private fun signInWith(): String?{
-        val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-        val signInWithEmail = sharedPreferences.getBoolean(_isUserLogIn, false)
-        val signInWithGoogleAccount:GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-
-        return if(signInWithEmail)
-            "Email"
-        else if(signInWithGoogleAccount!=null)
-            "Google"
-        else
+        return if (TextUtils.isEmpty(homePage))
             null
+        else
+            Gson().fromJson(homePage, HomeModel::class.java)
     }
 
-    fun getUserToken(): String?{
-        return when(signInWith()){
-            "Email" -> {
-                val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-                val signInWithEmail = sharedPreferences.getBoolean(_isUserLogIn, false)
-                val user =sharedPreferences.getString(_userData, "")
-                val singInUser: SignInModel =  Gson().fromJson(user, SignInModel::class.java)
-                singInUser.token
-            }
-            "Google" -> {
-                val signInWithGoogleAccount:GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(context)
-                signInWithGoogleAccount?.idToken
-            }
-            else -> null
-        }
-    }
-
-
-    fun isUserLoggedIn(): Boolean{
-        val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-        val signInWithEmail = sharedPreferences.getBoolean(_isUserLogIn, false)
-        val signInWithGoogle = GoogleSignIn.getLastSignedInAccount(context)?.account
-
-        Log.e("google", signInWithGoogle.toString())
-
-        return signInWithEmail || signInWithGoogle!=null
-    }
-
-    fun logOut(){
-        val sharedPreferences: SharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE)
-        val signInWithEmail = sharedPreferences.getBoolean(_isUserLogIn, false)
-        val signInWithGoogle = GoogleSignIn.getLastSignedInAccount(context)?.account
-       // editor.putBoolean(_isUserLogIn, false)
-
-        if(signInWithEmail) {
-            val editor = sharedPreferences.edit()
-            editor.clear()
-            editor.apply()
-        }
-        else if(signInWithGoogle != null){
-            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-            val gsc = GoogleSignIn.getClient(context, gso)
-            gsc.signOut()
-        }
+    fun removeHomePageData(){
+        val sharedPreferences = context.getSharedPreferences(_myPrefName, Context.MODE_PRIVATE).edit()
+        sharedPreferences.remove(_homeScreenData)
     }
 }
-*/

@@ -36,7 +36,10 @@ class BlogListFragment : BaseFragment<
 
         setToolbar()
 
-        getBrandList()
+        if (this::blogList.isInitialized)
+            setBlogList()
+        else
+            getBlogList()
     }
 
     fun setToolbar() {
@@ -46,7 +49,7 @@ class BlogListFragment : BaseFragment<
         }
     }
 
-    private fun getBrandList() {
+    private fun getBlogList() {
         viewModel.allBlogs().observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> showLoading()

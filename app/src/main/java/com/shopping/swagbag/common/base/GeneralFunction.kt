@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object GeneralFunction {
-    var walletItemCount = 0
-    var cartItemCount = 0
+    var wishlistItemCount = ""
+    var cartItemCount = ""
 
     fun getProductQty() = arrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 

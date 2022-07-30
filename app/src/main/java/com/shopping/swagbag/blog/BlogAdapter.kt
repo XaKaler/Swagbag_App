@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.shopping.swagbag.R
 import com.shopping.swagbag.common.RecycleItemClickListener
 import com.shopping.swagbag.common.RecycleViewItemClick
+import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.common.model.BestProductModel
 import com.shopping.swagbag.databinding.SingleBestProductsBinding
 import com.shopping.swagbag.databinding.SingleBlogBinding
@@ -36,7 +37,7 @@ class BlogAdapter(
                         .into(imgNews)
 
                     // set text
-                    tvDate.text = singleData.createdAt
+                    tvDate.text = GeneralFunction.convertServerDateToUserTimeZoneTask(singleData.createdAt)
                     tvBlogType.text = singleData.blogCategory.name
                     tvBlogHeading.text = singleData.title
 

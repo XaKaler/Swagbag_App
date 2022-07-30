@@ -299,7 +299,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvKidsPicks"
+            android:id="@+id/rvFeatured"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -320,7 +320,7 @@
             android:text="perfect picks for home"
             android:textAllCaps="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvKidsPicks" />
+            app:layout_constraintTop_toBottomOf="@id/rvFeatured" />
 
 
         <androidx.recyclerview.widget.RecyclerView

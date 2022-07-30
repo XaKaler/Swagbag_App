@@ -42,6 +42,10 @@ class AllTimeSliderAdapter(
                     tvBestProductName.text = singleData.name
                     tvBestProductDetails.text = singleData.description
 
+                    btnAddToWishlist.setOnClickListener {
+                        itemClick.onItemClickWithName("wishlist", position)
+                    }
+
                     itemView.setOnClickListener{
                         itemClick.onItemClickWithName("brand", position)
                     }

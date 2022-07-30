@@ -1,12 +1,9 @@
 package com.shopping.swagbag.main_activity
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -14,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.badge.BadgeDrawable
 import com.google.gson.Gson
 import com.shopping.swagbag.R
 import com.shopping.swagbag.category.*
@@ -21,7 +19,6 @@ import com.shopping.swagbag.category.particular_category.ParticularCategoryFragm
 import com.shopping.swagbag.common.ProgressDialogFragment
 import com.shopping.swagbag.common.RecycleViewItemClick
 import com.shopping.swagbag.common.adapter.CategorySliderAdapter
-import com.shopping.swagbag.common.base.BaseFragment
 import com.shopping.swagbag.common.base.GeneralFunction
 import com.shopping.swagbag.databinding.ActivityMainBinding
 import com.shopping.swagbag.databinding.MainToolbarBinding
@@ -52,9 +49,6 @@ import com.shopping.swagbag.utils.SettingViewModel
 class MainActivity : AppCompatActivity(), RecycleViewItemClick{
 
     private lateinit var viewBinding: ActivityMainBinding
-    private lateinit var toolbarBinding: MainToolbarBinding
-    private lateinit var navigationBinding: NavigationDrawerBinding
-    private lateinit var navigationHeaderBinding: NavigationHeaderBinding
     private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var productViewModel: ProductViewModel
     private lateinit var settingViewModel: SettingViewModel
@@ -72,23 +66,41 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        initViews()
-
-        //GeneralFunction.walletItemCount = 15
+        setUPToolbar()
+        setUpBottomNavigation()
+        initializeRepositories()
+        setUpNavigationHeader()
+        setUpNavigation()
+        setMasterCategories()
+        apiCalls()
     }
 
-    private fun initViews() {
-
+    private fun setUpBottomNavigation() {
         with(viewBinding) {
-            // initialize variable
-            toolbarBinding = viewBinding.toolbar
-            navigationBinding = viewBinding.includeNavigation
-            navigationHeaderBinding = navigationBinding.includeHeader
+            //show item count of wishlist and cart
+            //cart badge
+            val cartBadge: BadgeDrawable = btmNavigation.getOrCreateBadge(
+                R.id.btmCart
+            )
+            cartBadge.backgroundColor = R.color.steel_teal
+            if(GeneralFunction.cartItemCount.isNotEmpty()){
+                cartBadge.number = GeneralFunction.cartItemCount.toInt()
+                cartBadge.isVisible = true
+            }else
+                cartBadge.isVisible = false
 
-            //disable the swipe gesture that opens the navigation drawer
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            //wishlist badge
+            val wishlistBadge: BadgeDrawable = btmNavigation.getOrCreateBadge(
+                R.id.btmCart
+            )
+            wishlistBadge.backgroundColor = R.color.steel_teal
+            if(GeneralFunction.wishlistItemCount.isNotEmpty()){
+                wishlistBadge.number = GeneralFunction.wishlistItemCount.toInt()
+                wishlistBadge.isVisible = true
+            }else
+                wishlistBadge.isVisible = false
 
-            // click listeners
+            //handle bottom navigation click listeners
             btmNavigation.setOnItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.btmWishlist -> {
@@ -97,30 +109,30 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
                         val navController = navHostFragment.navController
 
-                        if(appUtils.isUserLoggedIn())
+                        if (appUtils.isUserLoggedIn())
                             navController.navigate(R.id.action_global_wishlistWithProductFragment)
                         else
                             navController.navigate(R.id.action_global_signInFragment)
                     }
 
-                    R.id.btmCart ->{
+                    R.id.btmCart -> {
                         hideToolbarAndBottomNavigation()
                         val navHostFragment =
                             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
                         val navController = navHostFragment.navController
 
-                        if(appUtils.isUserLoggedIn())
+                        if (appUtils.isUserLoggedIn())
                             navController.navigate(R.id.action_global_shoppingBegWithProductFragment)
                         else
                             navController.navigate(R.id.action_global_signInFragment)
                     }
 
-                    R.id.btmCategory ->{
+                    R.id.btmCategory -> {
                         hideToolbarAndBottomNavigation()
                         val navHostFragment =
                             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
                         val navController = navHostFragment.navController
-                            navController.navigate(R.id.action_global_categoryFragment)
+                        navController.navigate(R.id.action_global_categoryFragment)
                     }
 
                     R.id.btmOffers -> {
@@ -128,7 +140,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                         val navHostFragment =
                             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_home) as NavHostFragment
                         val navController = navHostFragment.navController
-                            navController.navigate(R.id.action_global_brandFragment)
+                        navController.navigate(R.id.action_global_brandFragment)
                     }
 
                     R.id.btmAccount -> {
@@ -147,14 +159,6 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                 true
             }
         }
-
-        setUPToolbar()
-
-        initializeRepositories()
-        setUpNavigationHeader()
-        setUpNavigation()
-        setMasterCategories()
-        apiCalls()
     }
 
     private fun initializeRepositories() {
@@ -211,7 +215,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     }
 
     fun setUpNavigationHeader() {
-        with(navigationHeaderBinding) {
+        with(viewBinding.includeNavigation.includeHeader) {
             closeDrawer.setOnClickListener {
                 closeDrawer()
             }
@@ -261,7 +265,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
     }
 
     private fun setUPToolbar() {
-        with(toolbarBinding) {
+        with(viewBinding.toolbar) {
             imgToggle.setOnClickListener {
                 // open drawer when user click on toggle button
                 if (!viewBinding.drawerLayout.isDrawerOpen(GravityCompat.START))
@@ -290,14 +294,16 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
 
     private fun setUpNavigation() {
         val intentData = intent
-        val allCategories = listOf(
+        val allCategories: CategoryModel =
             Gson().fromJson(
                 intentData.getStringExtra("allCategories"),
-                CategoryModel.Result::class.java
+                CategoryModel::class.java
             )
-        )
 
-        with(navigationBinding) {
+        //disable the swipe gesture that opens the navigation drawer
+        viewBinding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+        with(viewBinding.includeNavigation) {
             progressBar.visibility = View.GONE
             // add navigation menu
             val navigationMenu: List<NavigationMenu> = OnNavigationMenu().getNavigationMenu()
@@ -307,7 +313,7 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
                 adapter = NavigationMenuAdapter(
                     this@MainActivity,
                     navigationMenu,
-                    allCategories
+                    allCategories.result
                 )
             }
         }
@@ -396,5 +402,11 @@ class MainActivity : AppCompatActivity(), RecycleViewItemClick{
         super.onItemClickWithView(name, view, position)
         val rv = view as RecyclerView
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val appUtils = AppUtils(this)
+        appUtils.removeHomePageData()
     }
 }

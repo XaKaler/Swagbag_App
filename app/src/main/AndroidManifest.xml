@@ -11,6 +11,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo_main_foreground"
         android:label="@string/app_name"
+        android:clearTaskOnLaunch="true"
         android:roundIcon="@mipmap/ic_logo_main_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.SwagbagShoppingApp"
@@ -19,6 +20,7 @@
         <activity
             android:name=".splash.SplashScreen"
             android:exported="true"
+            android:clearTaskOnLaunch="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +32,7 @@
         <activity
             android:name=".main_activity.MainActivity"
             android:exported="true"
+            android:clearTaskOnLaunch="true"
             android:screenOrientation="portrait">
 
         </activity>
@@ -37,8 +40,7 @@
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
